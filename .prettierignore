@@ -1,0 +1,10 @@
+.env
+build
+node_modules
+.next
+public
+yarn.lock
+.dockerignore
+.husky
+.prettierignore
+Dockerfile*
