@@ -1,0 +1,16 @@
+@import "../../../styles/scss/mixin";
+.icon {
+  color: "green";
+}
+
+.header {
+  margin-bottom: 10px;
+  // display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.subHeader {
+  align-items: center;
+  justify-content: center;
+}

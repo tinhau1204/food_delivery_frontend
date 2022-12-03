@@ -1,0 +1,58 @@
+@import "../../../styles/scss/mixin";
+@import "../../../styles/scss/variables";
+.card {
+  width: 250px;
+  height: 400px;
+  position: relative;
+}
+
+.card:hover {
+  border: none;
+  box-shadow: 5px 5px $primary;
+}
+
+.cornerRibbon {
+  /* Displayed at the top left corner */
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  /* Size */
+  height: 4rem;
+  width: 4rem;
+  /* Hide the part of its children which is displayed outside */
+  overflow: hidden;
+}
+
+.cornerRibbonChild {
+  /* Position */
+  left: 1rem;
+  position: absolute;
+  top: 1rem;
+  /* Size */
+  height: 1.5rem;
+  width: 5.656rem;
+  /* Displayed diagonally */
+  transform: translate(-40px, -5px) rotate(-45deg);
+  /* Background color */
+  // background-color: #d1d5db;
+  /* Centerize the text content */
+  text-align: center;
+}
+
+.cornerRibbonChildHot {
+  background-color: $pink;
+}
+
+.cornerRibbonChildSale {
+  background-color: $aqua;
+}
+
+.cornerRibbonChildNew {
+  background-color: $primary;
+}
+
+.rightSection {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}

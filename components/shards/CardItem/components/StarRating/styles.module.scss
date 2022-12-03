@@ -1,0 +1,19 @@
+@import "../../../../../styles/scss/mixin";
+.starRating {
+  float: left;
+}
+
+.Button {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.on {
+  color: rgb(245, 159, 0);
+}
+
+.off {
+  color: #ccc;
+}

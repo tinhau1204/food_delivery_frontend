@@ -1,0 +1,111 @@
+@import "./variables";
+@mixin flex-common(
+  $justify: normal,
+  $items: normal,
+  $direction: row,
+  $wrap: nowrap
+) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $items;
+  flex-flow: $direction $wrap;
+}
+
+@mixin flex-center {
+  @include flex-common(center, center);
+}
+
+@mixin flex-justify-center {
+  @include flex-common($justify: center);
+}
+
+@mixin flex-center-end {
+  @include flex-common($items: center, $justify: flex-end);
+}
+
+@mixin flex-items-center {
+  @include flex-common($items: center);
+}
+
+@mixin flex-center-between {
+  @include flex-common($justify: space-between, $items: center);
+}
+
+@mixin flex-col {
+  @include flex-common($direction: column);
+}
+
+@mixin flex-row {
+  @include flex-common($direction: row);
+}
+
+@mixin flex-row-center {
+  @include flex-common(center, center, row);
+}
+
+@mixin flex-col-center {
+  @include flex-common(center, center, column);
+}
+
+@mixin grid-center {
+  display: grid;
+  place-items: center;
+}
+
+@mixin min-height($value) {
+  min-height: $value;
+}
+
+@mixin position($type, $top, $right: $top, $bottom: $top, $left: $right) {
+  position: $type;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+@mixin overlay {
+  @include position(fixed, 0);
+}
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin text-style($size, $weight) {
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+}
+
+@mixin text-truncate($line) {
+  display: block;
+  line-clamp: $line;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin center {
+  margin: 0 auto;
+}
+
+@mixin large-device($value) {
+  @media (min-width: $value) {
+    @content;
+  }
+}
+
+@mixin small-device($value) {
+  @media (max-width: $value) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
