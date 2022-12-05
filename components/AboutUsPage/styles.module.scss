@@ -1,0 +1,63 @@
+
+
+.container{
+    margin: 50px 100px;
+    padding: 10px;
+}
+
+.imageContainer{
+    width: 500px;
+    height: 500px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activeButtonGroup{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100px;
+    height: 50px;
+    position: absolute;
+    bottom: 0px;
+
+}
+
+.roundButton{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid white;
+}
+
+.active{
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.introduceContent{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+}
+
+.buttonContainer
+{
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+
+}
+.arrowButton
+{
+    margin: 10px;
+}
+
+.contentProvide{
+    display: flex;
+
+}
