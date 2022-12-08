@@ -59,6 +59,8 @@ export default function LoginPage() {
         icon: <TiTick color="white" />,
       });
 
+      console.log("data login", data);
+
       dispatch(login({ ...data.message }));
 
       router.push("/");
@@ -67,10 +69,11 @@ export default function LoginPage() {
     if (error) {
       showNotification({
         title: "Login error",
-        message: error.message,
+        message: error.error,
         icon: <MdOutlineClose color="white" />,
         color: "red",
       });
+      console.log("error", error.error);
     }
 
     setLoading(false);

@@ -40,7 +40,7 @@ import { useEffect } from "react";
 
 function Header() {
   const [isDrop, setIsDrop] = useState(false);
-  const { user } = useSelector(getUser());
+  const { user } = useSelector(getUser);
 
   useEffect(() => {
     console.log("user", user);
