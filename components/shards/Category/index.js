@@ -73,7 +73,6 @@ function Category({ onClickCate }) {
           size={5}
           // defaultValue={20}
           labelAlwaysOn
-          onVolumeChange={(val) => console.log(val)}
           // labelTransition={50}
           styles={{
             thumb: { borderWidth: 1, padding: 3, borderColor: "#ccc" },

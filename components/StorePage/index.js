@@ -1,8 +1,9 @@
 import React from "react";
+import CardStore from "../shards/CardStore";
 import styles from "./styles.module.scss";
 
 function StorePage() {
-  return <div>StorePage</div>;
+  return <CardStore />;
 }
 
 export default StorePage;

@@ -44,7 +44,6 @@ const RegisterPage = () => {
 
   const handleSubmit = async (values) => {
     setLoading(false);
-    console.log(typeof values);
     const [data, error] = await assignUser("/account/register", values);
 
     if (data) {

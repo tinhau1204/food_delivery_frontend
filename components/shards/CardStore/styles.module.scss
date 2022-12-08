@@ -1,0 +1,16 @@
+@import "../../../styles/scss/mixin";
+.card {
+  width: 300px;
+  margin: 5px;
+}
+
+.card:hover {
+  border: 1px solid $primary;
+  transform: translateY(-2px);
+}
+
+.name:hover {
+  text-decoration: underline;
+  color: $primary;
+  cursor: pointer;
+}

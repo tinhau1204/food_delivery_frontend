@@ -37,10 +37,11 @@ import { useSelector } from "react-redux";
 import { getCart } from "@/redux/cart";
 import { getUser } from "@/redux/user";
 import { useEffect } from "react";
+import UserMenu from "./components/UserMenu";
 
 function Header() {
   const [isDrop, setIsDrop] = useState(false);
-  const { user } = useSelector(getUser);
+  const user = useSelector(getUser);
 
   useEffect(() => {
     console.log("user", user);
@@ -124,15 +125,8 @@ function Header() {
                 </Link>
               </ActionIcon>
 
-              {user ? (
-                <ActionIcon size="lg" variant="subtle" color="teal">
-                  <Link href="/login" replace>
-                    <Group spacing="xs">
-                      <AiOutlineUser size={20} />
-                      <Text>Hello {user.name}</Text>
-                    </Group>
-                  </Link>
-                </ActionIcon>
+              {user.name !== undefined ? (
+                <UserMenu />
               ) : (
                 <ActionIcon size="lg" variant="subtle" color="teal">
                   <Link href="/login" replace>

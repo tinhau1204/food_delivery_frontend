@@ -49,7 +49,6 @@ export default function LoginPage() {
     setLoading(true);
     console.log("value", values);
     const [data, error] = await assignUser("/account/login", values);
-    console.log(data, error);
 
     if (data) {
       showNotification({
@@ -59,9 +58,7 @@ export default function LoginPage() {
         icon: <TiTick color="white" />,
       });
 
-      console.log("data login", data);
-
-      dispatch(login({ ...data.message }));
+      dispatch(login({ ...data }));
 
       router.push("/");
     }
@@ -73,7 +70,6 @@ export default function LoginPage() {
         icon: <MdOutlineClose color="white" />,
         color: "red",
       });
-      console.log("error", error.error);
     }
 
     setLoading(false);

@@ -24,13 +24,8 @@ import {
 import ReviewDetail from "./ReviewDetail";
 function DetailPage() {
   const [quantity, setQuantity] = useState(1);
-  const [weight, setWeight] = useState(1);
   const [wishlist, setWishlist] = useState(false);
 
-  useEffect(() => {
-    console.log("quantity", quantity);
-    console.log("weight", weight);
-  }, [quantity, weight]);
   return (
     <Stack
       align="center"

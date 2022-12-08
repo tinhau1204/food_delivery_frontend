@@ -14,7 +14,6 @@ import Router, { useRouter } from "next/router";
 
 function BreadCrumb({ name }) {
   const router = useRouter();
-  console.log("pathname", router.pathname);
   const itemPath = [
     { title: "Home", href: "/" },
     { title: "Login", href: "/login" },
@@ -33,7 +32,6 @@ function BreadCrumb({ name }) {
         {item.title}
       </Text>
     ));
-  console.log("items", items);
   return (
     <Paper p="lg" className={styles.wrapper}>
       <Stack

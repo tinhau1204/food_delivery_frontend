@@ -75,15 +75,7 @@ function Cart() {
         }
       </td>
       <td>{"$" + element.price + ".00"}</td>
-      <td>
-        {
-          <QuantityInput value={element.quantity} />
-          // <NumberInput
-          //     value={element.quantity}
-          //     // onChange={() => console.log(element.quantity)}
-          // />
-        }
-      </td>
+      <td>{<QuantityInput value={element.quantity} />}</td>
       <td>{"$" + element.total + ".00"}</td>
       <td>
         {

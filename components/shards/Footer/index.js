@@ -33,7 +33,7 @@ function Footer() {
     >
       <Grid.Col span={3} style={{ flex: 1 }}>
         <Stack align="flex-start">
-          <Avatar size="md" src="" />
+          <Avatar size="md" src="https://i.imgur.com/qw6oWmE.png" />
           <ListIcon
             data={[
               {

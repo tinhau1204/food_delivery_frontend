@@ -11,7 +11,6 @@ import { NotificationsProvider } from "@mantine/notifications";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  console.log("dir", router.pathname);
 
   return (
     <Provider store={store}>

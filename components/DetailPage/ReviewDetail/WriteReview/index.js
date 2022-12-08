@@ -14,15 +14,12 @@ function WriteReview() {
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.comment.value);
   };
+  // transfer this to history
   return (
     <form onSubmit={handleSubmit} style={{ width: 500 }}>
       <Stack>
-        <StarRating
-          name="star"
-          onchange={(item) => console.log("item", item)}
-        />
+        <StarRating name="star" />
         <Textarea
           placeholder="Write Your Comment"
           withAsterisk
