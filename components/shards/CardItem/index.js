@@ -6,8 +6,9 @@ import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import clsx from "classnames";
 import styles from "./styles.module.scss";
 import products from "@/lib/api/products";
+import Link from "next/link";
 
-function CardItem({ type, name, price, sale, preSale, unit, rating }) {
+function CardItem({ type, name, price, sale, preSale, unit, rating, onClick }) {
   const [isSale, setIsSale] = useState(true);
   const [addWishlist, setAddWishlist] = useState(false);
   const cardHeight = 400;
@@ -16,10 +17,10 @@ function CardItem({ type, name, price, sale, preSale, unit, rating }) {
       shadow="sm"
       p="lg"
       radius="md"
-      withBorder
       style={{
         width: 250,
         minHeight: name.length > 27 ? cardHeight + 20 : cardHeight,
+        border: "2px solid #ccc",
       }}
       className={styles.card}
     >
@@ -52,28 +53,31 @@ function CardItem({ type, name, price, sale, preSale, unit, rating }) {
         <Image
           src="https://www.freepnglogos.com/uploads/food-png/food-grass-fed-beef-foodservice-products-grass-run-farms-4.png"
           style={{ padding: 20 }}
+          alt="food"
         />
       </Card.Section>
       <Text size="xs" color="grey">
         Category
       </Text>
-      <Text size="md" weight={700}>
-        {name}
-      </Text>
+      <Link href="/detail" passHref>
+        <Text size="md" weight={700} className={styles.nameNavigate}>
+          {name}
+        </Text>
+      </Link>
       {/* Counting Star for rating */}
       <Group>
         <CountingStar count={parseInt(rating)} />
-        <Text>{String(rating)}</Text>
+        <Text>{"(" + String(rating) + ".0" + ")"}</Text>
       </Group>
       <Text size="xs" color="grey">
         Price per {unit}
       </Text>
 
       <Group position="apart">
-        <Text weight={500}>${String(price)}</Text>
+        <Text weight={500}>${String(price) + ".00"}</Text>
         {sale && (
           <Text size="sm" color="grey" strikethrough>
-            ${String(preSale)}
+            ${String(preSale) + ".00"}
           </Text>
         )}
         <Button
@@ -81,6 +85,7 @@ function CardItem({ type, name, price, sale, preSale, unit, rating }) {
           leftIcon={<BsCartPlus />}
           variant="light"
           color="teal"
+          onClick={onClick}
         >
           Add
         </Button>

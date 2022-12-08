@@ -10,6 +10,23 @@
   cursor: pointer;
 }
 
+.count {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 20px;
+}
+
+.star {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.smallStar {
+  font-size: 15px;
+  margin-right: 5px;
+}
+
 .on {
   color: rgb(245, 159, 0);
 }

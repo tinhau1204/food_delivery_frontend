@@ -12,107 +12,140 @@ import {
   PasswordInput,
   Checkbox,
   Button,
+  Radio,
+  Center,
 } from "@mantine/core";
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
 import { HiLockClosed } from "react-icons/hi";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import loginSchema from "./validate";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { assignUser } from "@/lib";
+import { useDispatch } from "react-redux";
+import { joiResolver, useForm } from "@mantine/form";
+import { TiTick } from "react-icons/ti";
+import { MdOutlineClose } from "react-icons/md";
+import { showNotification } from "@mantine/notifications";
+import { login } from "@/redux/user";
+
 export default function LoginPage() {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
   const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
-  const [eyeVisible, setEyeVisible] = useState(false);
-  // useEffect(() => {
-  //   console.log('username >>', username);
-  //   //console.log('password >>', password);
-  // },[username, password]);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const form = useForm({
+    initialValues: {
+      email: "",
+      password: "",
+      role_id: "",
+    },
+    schema: joiResolver(loginSchema),
+  });
+
+  const handleSubmit = async (values) => {
+    setLoading(true);
+    console.log("value", values);
+    const [data, error] = await assignUser("/account/login", values);
+    console.log(data, error);
+
+    if (data) {
+      showNotification({
+        title: "Login success",
+        message: "Welcome to Jobable 🚀",
+        color: "green",
+        icon: <TiTick color="white" />,
+      });
+
+      dispatch(login({ ...data.message }));
+
+      router.push("/");
+    }
+
+    if (error) {
+      showNotification({
+        title: "Login error",
+        message: error.message,
+        icon: <MdOutlineClose color="white" />,
+        color: "red",
+      });
+    }
+
+    setLoading(false);
+  };
+
   return (
-    <Group>
-      <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
-        <Image
-          src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
-          width="100%"
-          height="100vh"
-          alt="background image"
-          style={{ zIndex: 1 }}
-        ></Image>
-      </Paper>
-      <Group
-        style={{
-          width: 300,
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: 1,
-          zIndex: 2,
-        }}
-      >
-        <Paper
-          shadow="md"
-          p="md"
-          radius="md"
-          withBorder
-          style={{ width: 300, borderColor: "green" }}
-        >
-          <Text weight={700} size="xl" align="center">
-            Login
-          </Text>
-          <Stack>
-            <TextInput
-              placeholder="Username"
-              label="username"
-              icon={
-                <BiUserCircle
-                  size={20}
-                  color={
-                    isFocus.name === "username" && isFocus.isActive
-                      ? "green"
-                      : "#ccc"
-                  }
-                />
-              }
-              required={!username ? true : false}
-              onChange={(e) => setUserName(e.target.value)}
-              value={username}
-              onFocus={() => setIsFocus({ name: "username", isActive: true })}
-              // styles={{input: {boderColor: 'green'}}}
-            />
-            <PasswordInput
-              placeholder="Password"
-              label="password"
-              icon={
-                <HiLockClosed
-                  size={20}
-                  color={
-                    isFocus.name === "password" && isFocus.isActive
-                      ? "green"
-                      : "#ccc"
-                  }
-                />
-              }
-              onChange={(e) => setPassword(e.target.value)}
-              required={!password ? true : false}
-              value={password}
-              onFocus={() => setIsFocus({ name: "password", isActive: true })}
-            />
-            <Checkbox label="Remember me" />
-            <Button variant="outline" color="green">
-              Login
-            </Button>
-            <Text variant="link" component="a" href="#" align="center">
-              Forgot your password?
-            </Text>
-            <Text
-              variant="link"
-              component="a"
-              href="/register"
-              align="left"
-              size="sm"
-            >
-              Create a new account?
-            </Text>
-          </Stack>
+    <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
+      <Group>
+        <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
+          <Image
+            src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
+            width="100%"
+            height="100vh"
+            alt="background image"
+            style={{ zIndex: 1 }}
+          ></Image>
         </Paper>
+        <Group
+          style={{
+            width: 300,
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: 1,
+            zIndex: 2,
+          }}
+        >
+          <Paper
+            shadow="md"
+            p="md"
+            radius="md"
+            withBorder
+            style={{ width: 300, borderColor: "green" }}
+          >
+            <Text weight={700} size="xl" align="center">
+              Login
+            </Text>
+            <Stack>
+              <TextInput
+                placeholder="Email"
+                label="Email"
+                icon={<BiUserCircle size={20} color="#27ca7d" />}
+                required
+                {...form.getInputProps("email")}
+              />
+              <PasswordInput
+                placeholder="Password"
+                label="Password"
+                icon={<HiLockClosed size={20} color="#27ca7d" />}
+                required
+                {...form.getInputProps("password")}
+              />
+              <Center>
+                <Radio.Group
+                  defaultValue="CUS"
+                  size="md"
+                  color="#253d4e"
+                  required
+                  {...form.getInputProps("role_id")}
+                >
+                  <Radio value="CUS" label="Customer" />
+                  <Radio value="SEL" label="Seller" />
+                </Radio.Group>
+              </Center>
+              <Button variant="outline" color="teal" type="submit">
+                Login
+              </Button>
+              <Link href="/register" passHref>
+                <Text variant="link" component="a" align="left" size="sm">
+                  Create a new account?
+                </Text>
+              </Link>
+            </Stack>
+          </Paper>
+        </Group>
       </Group>
-    </Group>
+    </form>
   );
 }

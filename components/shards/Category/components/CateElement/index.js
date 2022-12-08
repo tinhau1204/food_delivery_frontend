@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import styles from "./styles.module.scss";
 
-function CateElement({ data }) {
+function CateElement({ data, onclickcate }) {
   const [isSelected, setIsSelected] = useState("");
   return (
     <Container p={0} style={{ marginTop: 10, marginBottom: 10 }}>
@@ -15,13 +15,16 @@ function CateElement({ data }) {
           key={index}
           style={{ marginBottom: 10 }}
           className={styles.changeStatus}
-          onClick={() => setIsSelected(item.name)}
+          onClick={() => {
+            setIsSelected(item.name);
+            onclickcate(item.name);
+          }}
         >
           <Group position="apart" align="center">
             <Group spacing="xs">
               {item.icon}
               <Text
-                color={isSelected == item.name ? "teal" : ""}
+                color={isSelected == item.name ? "teal" : "#253d4e"}
                 weight={700}
                 className={styles.changeStatusText}
               >

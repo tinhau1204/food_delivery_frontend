@@ -31,25 +31,39 @@ import { useState } from "react";
 import styles from "./styles.module.scss";
 import Menu, { ListIcon } from "./components/Menu";
 import Contact from "./components/Contact";
+import Link from "next/link";
 // import {IoLocationOutline} from 'react-icons/io';
+import { useSelector } from "react-redux";
+import { getCart } from "@/redux/cart";
+import { getUser } from "@/redux/user";
+import { useEffect } from "react";
+
 function Header() {
   const [isDrop, setIsDrop] = useState(false);
+  const { user } = useSelector(getUser());
 
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
   const data = ["All Categories", "food", "drink"];
   // const tabData = [{value:}]
-
+  const { cart } = useSelector(getCart);
   return (
-    <>
+    <Container style={{ maxWidth: 1539 }} p={0}>
       <Paper shadow="xs" className={styles.header}>
         <Grid
-          style={{ minHeight: 100, marginLeft: 100, marginRight: 100 }}
+          style={{ minHeight: 100 }}
           align="center"
+          justify="center"
+          columns={12}
         >
           <Grid.Col span={1}>
-            <Avatar size="md" src="" />
+            <Link href="/">
+              <Avatar size="md" src="" style={{ cursor: "pointer" }} />
+            </Link>
           </Grid.Col>
 
-          <Grid.Col span={3}>
+          <Grid.Col span={2}>
             <TextInput rightSection={<FiSearch />} placeholder="Search..." />
           </Grid.Col>
 
@@ -69,9 +83,9 @@ function Header() {
             />
           </Grid.Col>
           {/* action icon */}
-          <Grid.Col span={4}>
+          <Grid.Col span={3}>
             <Group spacing="xs" grow position="center">
-              <ActionIcon size="xs" variant="transparent">
+              <ActionIcon size="lg" variant="subtle" color="teal">
                 <Group spacing="xs">
                   <Indicator
                     color="green"
@@ -90,30 +104,45 @@ function Header() {
                 </Group>
               </ActionIcon>
 
-              <ActionIcon size="lg" variant="transparent">
-                <Group spacing="xs">
-                  <Indicator
-                    color="green"
-                    withBorder
-                    label="1"
-                    dot={false}
-                    showZero={false}
-                    overflowCount={999}
-                    inline
-                    size={20}
-                  >
-                    <AiOutlineShoppingCart size={20} />
-                  </Indicator>
-                  <Text>Cart</Text>
-                </Group>
+              <ActionIcon size="lg" variant="subtle" color="teal">
+                <Link href="/cart" replace>
+                  <Group spacing="xs">
+                    <Indicator
+                      color="green"
+                      withBorder
+                      label={cart.length}
+                      dot={false}
+                      showZero={false}
+                      overflowCount={999}
+                      inline
+                      size={20}
+                    >
+                      <AiOutlineShoppingCart size={20} />
+                    </Indicator>
+                    <Text>Cart</Text>
+                  </Group>
+                </Link>
               </ActionIcon>
 
-              <ActionIcon size="lg" variant="transparent">
-                <Group spacing="xs">
-                  <AiOutlineUser size={20} />
-                  <Text>Account</Text>
-                </Group>
-              </ActionIcon>
+              {user ? (
+                <ActionIcon size="lg" variant="subtle" color="teal">
+                  <Link href="/login" replace>
+                    <Group spacing="xs">
+                      <AiOutlineUser size={20} />
+                      <Text>Hello {user.name}</Text>
+                    </Group>
+                  </Link>
+                </ActionIcon>
+              ) : (
+                <ActionIcon size="lg" variant="subtle" color="teal">
+                  <Link href="/login" replace>
+                    <Group spacing="xs">
+                      <AiOutlineUser size={20} />
+                      <Text>Account</Text>
+                    </Group>
+                  </Link>
+                </ActionIcon>
+              )}
             </Group>
           </Grid.Col>
         </Grid>
@@ -131,10 +160,7 @@ function Header() {
             data={[
               { title: "Home", path: "/" },
               { title: "About", path: "/about" },
-              { title: "Shop", path: "/shop" },
-              { title: "Blog", path: "/blog" },
-              { title: "Our Team", path: "/ourteam" },
-              { title: "Contact", path: "/contact" },
+              { title: "Shop", path: "/store" },
             ]}
           />
 
@@ -170,7 +196,7 @@ function Header() {
           />
         </Group>
       </Paper>
-    </>
+    </Container>
   );
 }
 

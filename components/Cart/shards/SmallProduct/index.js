@@ -1,0 +1,21 @@
+import React from "react";
+import { Group, Text, Stack, Avatar } from "@mantine/core";
+import styles from "./styles.module.scss";
+function SmallProduct({ image, name, weight, cate }) {
+  return (
+    <Group>
+      <Avatar radius="xs" size="lg" src={image} className={styles.foodImage} />
+      <Stack spacing="none" style={{ flex: 1 }}>
+        <Text weight={600}>{name}</Text>
+        <Text size="xs" color="gray">
+          Category: {cate}
+        </Text>
+        <Text size="xs" color="gray">
+          Weight: {weight + "kg"}
+        </Text>
+      </Stack>
+    </Group>
+  );
+}
+
+export default SmallProduct;

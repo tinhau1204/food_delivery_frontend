@@ -7,28 +7,45 @@ import {
   Stack,
   BreadCrumbs,
   Anchor,
+  Title,
 } from "@mantine/core";
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 
-function BreadCrumb() {
-  const items = [{ title: "Home", href: "/" }].map((item, index) => (
-    <Anchor href={item.href} key={index} color="teal">
-      {item.title}
-    </Anchor>
-  ));
+function BreadCrumb({ name }) {
+  const router = useRouter();
+  console.log("pathname", router.pathname);
+  const itemPath = [
+    { title: "Home", href: "/" },
+    { title: "Login", href: "/login" },
+    { title: "Register", href: "/register" },
+    { title: "About Us", href: "/about" },
+    { title: "Food Store", href: "/store" },
+    { title: "Cart", href: "/cart" },
+    { title: "Check Out", href: "/checkout" },
+    { title: "Food Detail", href: "/detail" },
+  ];
 
+  const items = itemPath
+    .filter((item, index) => item.href === router.pathname)
+    .map((item, index) => (
+      <Text key={index} underline color="teal">
+        {item.title}
+      </Text>
+    ));
+  console.log("items", items);
   return (
-    <BackgroundImage
-      src="https://www.wallpaperflare.com/static/60/963/816/minimalism-food-illustrations-blue-wallpaper-preview.jpg"
-      style={{ height: 200, width: "100%" }}
-    >
-      <Stack style={{ marginLeft: 100, height: "100%" }} justify="center">
-        <Text size="xl" weight={700}>
-          Vegetables
-        </Text>
-        {items}
+    <Paper p="lg" className={styles.wrapper}>
+      <Stack
+        style={{
+          height: "100%",
+          paddingLeft: router.pathname === "/checkout" ? 230 : 110,
+        }}
+        justify="center"
+      >
+        <Title color="#27ca7d">{items}</Title>
       </Stack>
-    </BackgroundImage>
+    </Paper>
   );
 }
 

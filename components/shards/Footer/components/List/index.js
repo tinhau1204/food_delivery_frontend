@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 export default function List({ data }) {
   return (
-    <Container px={0}>
+    <Container px={0} style={{ marginLeft: 0 }}>
       {data.map((item, index) => (
         <Container key={index} px={0}>
           <Group spacing="xs">
@@ -27,25 +27,23 @@ export default function List({ data }) {
 
 export function HorizontalList({ data }) {
   return (
-    <Stack>
+    <Stack align="flex-start" justify="flex-start">
       {data.map((item, index) => (
-        <Container key={index}>
+        <div key={index}>
           {index === 0 ? (
             <Center>
-              <Text weight={700} color="#050A30">
+              <Text weight={700} color="#0a6b4e">
                 {item.title}
               </Text>
             </Center>
           ) : (
-            <Center>
-              <Link href={item.path} passHref>
-                <Text component="a" color="#ccc">
-                  {item.title}
-                </Text>
-              </Link>
-            </Center>
+            <Link href={item.path} passHref>
+              <Text component="a" color="#253d4e">
+                {item.title}
+              </Text>
+            </Link>
           )}
-        </Container>
+        </div>
       ))}
     </Stack>
   );

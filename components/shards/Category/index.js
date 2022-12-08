@@ -15,22 +15,15 @@ import CateElement from "./components/CateElement";
 import { GiChickenOven } from "react-icons/gi";
 import ListCheckbox from "./components/ListCheckbox";
 
-function Category() {
-  //   const marks = [
-  //   { value: 20, label: '20%' },
-  //   { value: 50, label: '50%' },
-  //   { value: 70, label: '70%' },
-  //   { value: 100, label: '100%'},
-  // ];
-
+function Category({ onClickCate }) {
   const [sliderMin, setSliderMin] = useState(20);
   const [sliderMax, setSliderMax] = useState(100);
   useEffect(() => console.log("setSlider", sliderMin), [sliderMin]);
   return (
-    <Container style={{ width: 300 }}>
+    <Container style={{ width: 300, marginLeft: 100, marginRight: 100 }}>
       {/* Category */}
       <Group align="center" position="apart">
-        <Text weight={700} size={20}>
+        <Text weight={700} size={20} color="#253d4e">
           Category
         </Text>
         <MdKeyboardArrowRight size={20} />
@@ -59,6 +52,7 @@ function Category() {
             quantity: 10,
           },
         ]}
+        onclickcate={(val) => onClickCate(val)}
       />
 
       {/* Slider */}

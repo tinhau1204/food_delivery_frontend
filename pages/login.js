@@ -5,26 +5,12 @@ import CardItem from "../components/shards/CardItem";
 import Category from "../components/shards/Category";
 import BreadCrumb from "../components/shards/BreadCrumb";
 import products from "@/lib/api/products";
+import { Grid, Group } from "@mantine/core";
+import BillingDetails from "@/components/BillingDetails";
 const login = () => {
   return (
     <>
-      <Header />
-      <BreadCrumb />
-      {/* <LoginPage /> */}
-      <Category />
-      {products.map((item, index) => (
-        <CardItem
-          key={index}
-          type={item.type}
-          name={item.name}
-          price={item.price}
-          sale={item.sale}
-          preSale={item.preSale}
-          unit={item.unit}
-          rating={item.rating}
-        />
-      ))}
-      <Footer />
+      <LoginPage />
     </>
   );
 };

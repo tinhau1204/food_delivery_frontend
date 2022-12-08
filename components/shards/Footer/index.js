@@ -21,11 +21,17 @@ import {
 import { GiAlarmClock } from "react-icons/gi";
 import { ImWhatsapp } from "react-icons/im";
 import List, { HorizontalList } from "./components/List";
+import styles from "./styles.module.scss";
 function Footer() {
   const primaryColor = "#008080";
   return (
-    <Container>
-      <Group>
+    <Grid
+      columns={12}
+      justify="space-evenly"
+      align="flex-start"
+      className={styles.footer}
+    >
+      <Grid.Col span={3} style={{ flex: 1 }}>
         <Stack align="flex-start">
           <Avatar size="md" src="" />
           <ListIcon
@@ -77,32 +83,32 @@ function Footer() {
             ]}
           />
         </Stack>
-
+      </Grid.Col>
+      <Grid.Col span={3} style={{ flex: 1 }}>
         <HorizontalList
           data={[
             { title: "Company" },
             { title: "About Us", path: "/about" },
-            { title: "Service", path: "/service" },
+            { title: "Service", path: "/" },
             { title: "Case Studies", path: "/case" },
             { title: "Blog", path: "/blog" },
             { title: "Contact", path: "/contact" },
           ]}
         />
+      </Grid.Col>
 
+      <Grid.Col span={2} style={{ flex: 1 }}>
         <HorizontalList
           data={[
             { title: "Account" },
             { title: "Sign in", path: "/login" },
             { title: "View Cart", path: "/cart" },
             { title: "My Wishlist", path: "/wishlist" },
-            { title: "Track My Order", path: "/oder" },
-            { title: "Compare products", path: "/compare" },
+            { title: "Track My Order", path: "/order" },
           ]}
         />
-      </Group>
-      {/* <Space h="xl"/> */}
-      <Divider my="xl" />
-    </Container>
+      </Grid.Col>
+    </Grid>
   );
 }
 

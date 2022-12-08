@@ -15,7 +15,6 @@ export default function Menu({ data }) {
           <Link href={item.path} passHref>
             <Text
               className={clsx(styles.text)}
-              component="a"
               weight={600}
               color={item.path === pathname && "teal"}
             >
@@ -40,6 +39,7 @@ export function ListIcon({ data }) {
             href={item.path}
             passHref
             target="_blank"
+            color="#253d4e"
           >
             {/* <Link href={item.path} passHref> */}
             {item.icon}

@@ -1,1 +1,13 @@
-@import "../../styles/scss/mixin";
+@import "../../../styles/scss/mixin";
+.footer {
+  background-image: linear-gradient(
+      180deg,
+      rgba(#149d6b, 0.8) 30%,
+      rgba((#73c8a9), 0.5) 80%,
+      rgba((#73c8a9), 0.3)
+    ),
+    url();
+  background-repeat: no-repeat;
+  background-size: auto, cover;
+  padding: 40px 0 50px;
+}

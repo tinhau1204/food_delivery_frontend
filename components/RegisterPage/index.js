@@ -29,12 +29,11 @@ const RegisterPage = () => {
   const form = useForm({
     initialValues: {
       email: "",
-      firstName: "",
-      lastName: "",
+      name: "",
       password: "",
-      confirmPassword: "",
-      role: "student",
-      phoneNumber: "",
+      // confirmPassword: "",
+      role_id: "CUS",
+      timestamp: Date.now().toString(),
     },
     schema: joiResolver(registerSchema),
   });
@@ -45,7 +44,8 @@ const RegisterPage = () => {
 
   const handleSubmit = async (values) => {
     setLoading(false);
-    const [data, error] = await assignUser("/user/register", values);
+    console.log(typeof values);
+    const [data, error] = await assignUser("/account/register", values);
 
     if (data) {
       showNotification({
@@ -87,49 +87,32 @@ const RegisterPage = () => {
           breakpoints={[{ maxWidth: "sm", cols: 1 }]}
         >
           <TextInput
-            label="First name"
+            label="Name"
             size="md"
             icon={<MdPerson />}
-            placeholder="First name"
+            placeholder="Name"
             required
-            {...form.getInputProps("firstName")}
-          />
-          <TextInput
-            label="Last name"
-            size="md"
-            icon={<MdPerson />}
-            placeholder="Last name"
-            required
-            {...form.getInputProps("lastName")}
+            {...form.getInputProps("name")}
           />
           <PasswordStrength {...form.getInputProps("password")} />
-          <PasswordInput
+          {/* <PasswordInput
             label="Confirm password"
             size="md"
             icon={<HiLockClosed />}
             placeholder="Confirm password"
             required
             {...form.getInputProps("confirmPassword")}
-          />
+          /> */}
           <Radio.Group
-            defaultValue="Student"
+            defaultValue="Customer"
             label="What is your role?"
             size="md"
             required
-            {...form.getInputProps("role")}
+            {...form.getInputProps("role_id")}
           >
-            <Radio value="Student" label="Customer" />
-            <Radio value="Employer" label="Seller" />
+            <Radio value="CUS" label="Customer" />
+            <Radio value="SEL" label="Seller" />
           </Radio.Group>
-          <TextInput
-            label="Phone number"
-            type="tel"
-            size="md"
-            icon={<MdPhone />}
-            placeholder="Phone number"
-            required
-            {...form.getInputProps("phoneNumber")}
-          />
           <Button size="md" type="submit">
             Register
           </Button>

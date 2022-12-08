@@ -1,0 +1,23 @@
+@import "../../styles/scss/mixin";
+@import "../../styles/scss/variables";
+.container {
+  @include large-device(768px) {
+    height: 100vh;
+  }
+  // margin: auto;
+}
+
+.title {
+  color: $darkblue;
+}
+
+.subTitle {
+  color: $lightgrey;
+}
+
+.stack {
+  width: 600px;
+  @include small-device(768px) {
+    width: 300px;
+  }
+}
