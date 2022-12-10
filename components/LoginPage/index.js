@@ -36,6 +36,13 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  const [data, setdata] = useState({
+    name: "",
+    age: 0,
+    date: "",
+    programming: "",
+  });
+
   const form = useForm({
     initialValues: {
       email: "",

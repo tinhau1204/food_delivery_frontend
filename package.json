@@ -8,6 +8,7 @@
         "start": "next start",
         "lint": "next lint"
     },
+    "proxy": "http://127.0.0.1:4000/",
     "dependencies": {
         "@emotion/react": "^11.10.4",
         "@emotion/server": "^11.10.0",
