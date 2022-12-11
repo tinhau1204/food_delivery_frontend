@@ -21,6 +21,7 @@ import {
 } from "react-icons/ci";
 import { GiAlarmClock } from "react-icons/gi";
 import { ImWhatsapp } from "react-icons/im";
+
 import List, { HorizontalList } from "./components/List";
 import styles from "./styles.module.scss";
 function Footer() {

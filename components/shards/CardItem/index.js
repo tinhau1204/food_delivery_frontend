@@ -8,16 +8,16 @@ import styles from "./styles.module.scss";
 import products from "@/lib/api/products";
 import Link from "next/link";
 
-// "pid"
-//         "ord_amount"
-//         "store_name"
-//         "name"
-//         "description"
-//         "type"
-//         "image"
-//         "price"
-
-function CardItem({ type, name, price, store_name, image, ordered, onClick }) {
+function CardItem({
+  pid,
+  type,
+  name,
+  price,
+  store_name,
+  image,
+  ordered,
+  onClick,
+}) {
   const [isSale, setIsSale] = useState(true);
   const [addWishlist, setAddWishlist] = useState(false);
   const cardHeight = 400;
@@ -64,7 +64,7 @@ function CardItem({ type, name, price, store_name, image, ordered, onClick }) {
       <Text size="xs" color="grey">
         {type}
       </Text>
-      <Link href="/detail" passHref>
+      <Link href={"/detail" + "?id=" + pid} passHref>
         <Text size="md" weight={700} className={styles.nameNavigate}>
           {name}
         </Text>

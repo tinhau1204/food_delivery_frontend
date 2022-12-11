@@ -3,7 +3,7 @@ import { Avatar, Divider, Group, Stack, Text, Title } from "@mantine/core";
 import React from "react";
 import WriteReview from "../WriteReview";
 import styles from "./styles.module.scss";
-
+import { getStoreCommments } from "@/lib/api/storecomments";
 function UserReview({ data }) {
   return (
     <>

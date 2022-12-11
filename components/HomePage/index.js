@@ -78,6 +78,7 @@ function HomePage() {
               dataProduct.map((item, index) => (
                 <Grid.Col key={item.pid} span={4}>
                   <CardItem
+                    pid={item.pid}
                     ordered={item.ord_amount}
                     store_name={item.store_name}
                     description={item.description}
