@@ -12,21 +12,29 @@ import { AiOutlineArrowRight } from "react-icons/ai";
 import BreadCrumb from "../shards/BreadCrumb";
 
 function HomePage() {
+  let [dataProduct, setDataproduct] = useState([]);
+
+  let check = dataProduct.length;
+
   useEffect(() => {
+    //setLoading(true);
+
     const getProduct = async () => {
-      const [data, error] = await getAllProducts("/menu/products");
-      console.log("data product", data);
+      const [data, error] = await getAllProducts("/menu/get-all-products");
+
+      console.log("??Product", data);
+
+      if (data) {
+        console.log("data product", data);
+        setDataproduct(data);
+        //setLoading(false);
+      }
     };
+    console.log("-------Running 2--------");
+
     getProduct();
   }, []);
 
-  // const getProduct = async () => {
-  //   const [data, error] = await getAllProducts('/menu/products');
-
-  //   if (data) {
-  //     console.log(data);
-  //   }
-  // }
   const [item, setItem] = useState({});
   const [cateName, setCateName] = useState("");
   const dispatch = useDispatch();
@@ -51,8 +59,8 @@ function HomePage() {
     renderFilter();
   }, [cateName]);
 
-  return (
-    <>
+  if (check > 0)
+    return (
       <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
         <Group align="flex-start">
           <Stack align="center">
@@ -66,25 +74,29 @@ function HomePage() {
             <Category onClickCate={(val) => setCateName(val.toLowerCase())} />
           </Stack>
           <Grid style={{ flex: 1 }} columns={12}>
-            {products.map((item, index) => (
-              <Grid.Col key={item.id} span={4}>
-                <CardItem
-                  type={item.type}
-                  name={item.name}
-                  price={item.price}
-                  sale={item.sale}
-                  preSale={item.preSale}
-                  unit={item.unit}
-                  rating={item.rating}
-                  onClick={() => handleAddToCart(item)}
-                />
-              </Grid.Col>
-            ))}
+            {check > 0 &&
+              dataProduct.map((item, index) => (
+                <Grid.Col key={item.pid} span={4}>
+                  <CardItem
+                    ordered={item.ord_amount}
+                    store_name={item.store_name}
+                    description={item.description}
+                    type={item.type}
+                    name={item.name}
+                    image={item.image}
+                    price={item.price}
+                    //sale={item.sale}
+                    //preSale={item.preSale}
+                    //unit={item.unit}
+                    //rating={item.rating}
+                    onClick={() => handleAddToCart(item)}
+                  />
+                </Grid.Col>
+              ))}
           </Grid>
         </Group>
       </Paper>
-    </>
-  );
+    );
 }
 
 export default HomePage;

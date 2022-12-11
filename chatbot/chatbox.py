@@ -39,23 +39,21 @@ def get_response(inp):
     with open('label_encoder.pickle', 'rb') as enc:
         lbl_encoder = pickle.load(enc)
 
-    # parameters
-    max_len = 20
-
     # jsony = request.json
     # dataValue = jsony['msg']
     # responseMessage = ''
 
     result = model.predict(pad_sequences(Tokenizer.texts_to_sequences(tokenizer, [inp]),
-                                         truncating='post', maxlen=max_len))
+                                         truncating='post', maxlen=20))
     tag = LabelEncoder.inverse_transform(lbl_encoder, [np.argmax(result)])
-    for i in data['intents']:
-        print(i.reverse())
-        if i['tag'] == tag:
+
+    print("\n Res's Tag: ", tag)
+    for i in (data['intents']):
+        # print(i['tag'])
+        if (i['tag'] == tag):
+            # print("\nSource: ", i['tag'], "\nMatched: ", tag)
             responseMessage = np.random.choice(i['responses'])
             return responseMessage
-        # elif i['tag'] != tag:
-        #     return "I do not understand..."
 
 
 def chat():
@@ -89,7 +87,6 @@ def chat():
                       np.random.choice(i['responses']))
             # else:
             #     return "I do not understand..."
-
 
         # print(Fore.GREEN + "ChatBot:" + Style.RESET_ALL,random.choice(responses))
 if __name__ == "__main__":

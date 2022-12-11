@@ -8,7 +8,16 @@ import styles from "./styles.module.scss";
 import products from "@/lib/api/products";
 import Link from "next/link";
 
-function CardItem({ type, name, price, sale, preSale, unit, rating, onClick }) {
+// "pid"
+//         "ord_amount"
+//         "store_name"
+//         "name"
+//         "description"
+//         "type"
+//         "image"
+//         "price"
+
+function CardItem({ type, name, price, store_name, image, ordered, onClick }) {
   const [isSale, setIsSale] = useState(true);
   const [addWishlist, setAddWishlist] = useState(false);
   const cardHeight = 400;
@@ -50,14 +59,10 @@ function CardItem({ type, name, price, sale, preSale, unit, rating, onClick }) {
         {addWishlist ? <AiFillHeart size={25} /> : <AiOutlineHeart size={25} />}
       </ActionIcon>
       <Card.Section>
-        <Image
-          src="https://www.freepnglogos.com/uploads/food-png/food-grass-fed-beef-foodservice-products-grass-run-farms-4.png"
-          style={{ padding: 20 }}
-          alt="food"
-        />
+        <Image src={"images/pancake.png"} style={{ padding: 10 }} alt="image" />
       </Card.Section>
       <Text size="xs" color="grey">
-        Category
+        {type}
       </Text>
       <Link href="/detail" passHref>
         <Text size="md" weight={700} className={styles.nameNavigate}>
@@ -65,21 +70,23 @@ function CardItem({ type, name, price, sale, preSale, unit, rating, onClick }) {
         </Text>
       </Link>
       {/* Counting Star for rating */}
-      <Group>
+      {/* <Group>
         <CountingStar count={parseInt(rating)} />
         <Text>{"(" + String(rating) + ".0" + ")"}</Text>
-      </Group>
+      </Group> */}
       <Text size="xs" color="grey">
-        Price per {unit}
+        {store_name}
       </Text>
-
+      <Text size="xs" color="red">
+        Ordered: {ordered}
+      </Text>
       <Group position="apart">
         <Text weight={500}>${String(price) + ".00"}</Text>
-        {sale && (
+        {/* {sale && (
           <Text size="sm" color="grey" strikethrough>
             ${String(preSale) + ".00"}
           </Text>
-        )}
+        )} */}
         <Button
           className={styles.buttonAdd}
           leftIcon={<BsCartPlus />}
