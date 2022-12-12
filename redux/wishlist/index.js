@@ -9,21 +9,18 @@ export const wishlist = createSlice({
   initialState,
   reducers: {
     addToWishlist: (state, action) => {
-      state.wishlist = [...state.wishlist, action.payload];
+      if (state.wishlist.find((value) => value.pid === action.payload.pid)) {
+        state.wishlist = state.wishlist.filter(
+          (item) => item.pid !== action.payload.pid,
+        );
+      } else {
+        state.wishlist = [...state.wishlist, action.payload];
+      }
     },
-    removeFromWishlist: (state, action) => {
-      state = state.wishlist.filter((item) => item.id !== action.payload.id);
-    },
-    // updateCart: (state, action) =>{
-    //     var index = state.cart.findIndex(item => item.id === action.payload.id)
-    //     const cart = state.cart;
-    //     cart[index] = action.payload;
-    //     state.cart = cart;
-    // },
   },
 });
 
 export const getWishlist = (state) => state.wishlist;
 
-export const { addToWishlist, removeFromWishlist } = wishlist.actions;
+export const { addToWishlist } = wishlist.actions;
 export default wishlist.reducer;

@@ -12,10 +12,12 @@ export const cart = createSlice({
       state.cart = [...state.cart, action.payload];
     },
     removeFromCart: (state, action) => {
-      state = state.cart.filter((item) => item.id !== action.payload.id);
+      state.cart = state.cart.filter((item) => item.pid !== action.payload.pid);
     },
     updateCart: (state, action) => {
-      var index = state.cart.findIndex((item) => item.id === action.payload.id);
+      var index = state.cart.findIndex(
+        (item) => item.pid === action.payload.pid,
+      );
       const cart = state.cart;
       cart[index] = action.payload;
       state.cart = cart;

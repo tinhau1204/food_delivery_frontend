@@ -8,29 +8,47 @@ import {
   BreadCrumbs,
   Anchor,
   Title,
+  Group,
 } from "@mantine/core";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
+import {
+  FaHome,
+  FaUserFriends,
+  FaStore,
+  FaShoppingCart,
+  FaCashRegister,
+  FaDollarSign,
+  FaHeart,
+} from "react-icons/fa";
 
 function BreadCrumb({ name }) {
   const router = useRouter();
   const itemPath = [
-    { title: "Home", href: "/" },
+    { title: "Home", href: "/", icon: <FaHome size={40} /> },
     { title: "Login", href: "/login" },
     { title: "Register", href: "/register" },
-    { title: "About Us", href: "/about" },
-    { title: "Food Store", href: "/store" },
-    { title: "Cart", href: "/cart" },
-    { title: "Check Out", href: "/checkout" },
-    { title: "Food Detail", href: "/detail" },
+    { title: "About Us", href: "/about", icon: <FaUserFriends size={40} /> },
+    { title: "Food Store", href: "/store", icon: <FaStore size={40} /> },
+    { title: "Cart", href: "/cart", icon: <FaShoppingCart size={40} /> },
+    {
+      title: "Check Out",
+      href: "/checkout",
+      icon: <FaCashRegister size={40} />,
+    },
+    { title: "Food Detail", href: "/detail", icon: <FaDollarSign size={40} /> },
+    { title: "WishList", href: "/wishlist", icon: <FaHeart size={40} /> },
   ];
 
   const items = itemPath
     .filter((item, index) => item.href === router.pathname)
     .map((item, index) => (
-      <Text key={index} underline color="teal">
-        {item.title}
-      </Text>
+      <Group key={index} align="center">
+        {item.icon}
+        <Text key={index} color="white">
+          {item.title}
+        </Text>
+      </Group>
     ));
   return (
     <Paper p="lg" className={styles.wrapper}>

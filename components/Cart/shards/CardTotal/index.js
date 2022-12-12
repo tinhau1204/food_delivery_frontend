@@ -7,14 +7,14 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 
-function CardTotal() {
+function CardTotal({ subTotal, discount, shipping, tax, total }) {
   return (
     <Paper p="md" withBorder style={{ marginTop: 20, width: 300 }}>
       <Group position="apart">
         <Text size="lg" weight={700} color="#253d4e">
           Subtoal:{" "}
         </Text>
-        <Text color="#253d4e">{"$" + "72" + ".00"}</Text>
+        <Text color="#253d4e">{"$" + (subTotal ?? 0) + ".00"}</Text>
       </Group>
       <Divider my="sm" variant="dashed" />
       <Group position="apart">
@@ -36,14 +36,16 @@ function CardTotal() {
         <Text size="lg" weight={700} color="#253d4e">
           Estimated Tax:{" "}
         </Text>
-        <Text color="#253d4e">{"$" + "5" + ".00"}</Text>
+        <Text color="#253d4e">{"$" + tax + ".00"}</Text>
       </Group>
       <Divider my="sm" />
       <Group position="apart">
         <Text size="lg" weight={700} color="#253d4e">
           Total:{" "}
         </Text>
-        <Text color="#253d4e">{"$" + "78" + ".00"}</Text>
+        <Text color="#253d4e">
+          {"$" + (Number(tax) + Number(subTotal)) + ".00"}
+        </Text>
       </Group>
       <Button
         leftIcon={<AiOutlineShoppingCart />}

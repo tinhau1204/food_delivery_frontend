@@ -11,9 +11,11 @@ import { BiArrowFromLeft, BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 import BreadCrumb from "../shards/BreadCrumb";
+import useSWR from "swr";
 
 function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
+  // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
 
   useEffect(() => {
@@ -34,8 +36,8 @@ function HomePage() {
   const dispatch = useDispatch();
   const { cart } = useSelector(getCart);
   const handleAddToCart = (product) => {
-    if (cart.some((item) => item.id === product.id)) {
-      var oldItem = cart.find((item) => item.id === product.id);
+    if (cart.some((item) => item.pid === product.pid)) {
+      var oldItem = cart.find((item) => item.pid === product.pid);
       var newItem = { ...oldItem, amount: oldItem.amount + 1 };
       dispatch(updateCart(newItem));
     } else {
@@ -44,16 +46,14 @@ function HomePage() {
     }
   };
 
-  useEffect(() => {
-    const renderFilter = () => {
-      const filterProduct = dataProduct.filter(
-        (item) => item.cate === cateName,
-      );
-      console.log(filterProduct);
-    };
+  // useEffect(() => {
+  //   const renderFilter = () => {
+  //     const filterProduct = products.filter((item) => item.cate === cateName);
+  //     console.log(filterProduct);
+  //   };
 
-    renderFilter();
-  }, [cateName]);
+  //   renderFilter();
+  // }, [cateName]);
 
   return (
     <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
