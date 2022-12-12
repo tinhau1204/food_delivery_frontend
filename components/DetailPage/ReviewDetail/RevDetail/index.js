@@ -1,44 +1,54 @@
 import { Container, Group, Stack, Title } from "@mantine/core";
-import React from "react";
+import { React, useState, useEffect } from "react";
 import useSWR from "swr";
 import UserReview from "../UserReview";
 import WriteReview from "../WriteReview";
+import { getStoreCommments } from "@/lib/api/storecomments";
 
-function RevDetail() {
+function RevDetail({ sid }) {
+  let [comments, setComments] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getComment = async (value) => {
+      const [data, error] = await getStoreCommments("/store/comments", value);
+
+      if (data) {
+        setComments(data);
+        setLoading(false);
+        console.log(data);
+      } else {
+        console.log(error);
+      }
+    };
+
+    const json = { store_id: sid };
+    getComment(json);
+  }, []);
+
   return (
     <Container
       p={0}
       style={{ marginLeft: 0, marginRight: 0, maxWidth: "100%" }}
     >
-      <Group align="flex-start">
-        <Stack justify="flex-start" align="flex-start" style={{ flex: 1 }}>
-          <Title size={20} color="#253d4e">
-            Customer questions & answer
-          </Title>
-          <UserReview
-            data={[
-              {
-                product_id: 1,
-                timestamp: "December 4, 2022 at 3:12 pm",
-                comment: "That is a good thing",
-                star: 3.9,
-              },
-              {
-                product_id: 1,
-                timestamp: "December 4, 2022 at 3:12 pm",
-                comment: "That is a good thing",
-                star: 3.9,
-              },
-            ]}
-          />
-        </Stack>
-        <Stack>
-          <Title size={20} color="#253d4e">
-            Add a review
-          </Title>
-          <WriteReview />
-        </Stack>
-      </Group>
+      {!loading ? (
+        <Group align="flex-start">
+          <Stack justify="flex-start" align="flex-start" style={{ flex: 1 }}>
+            <Title size={20} color="#253d4e">
+              Customer questions & answer
+            </Title>
+            <UserReview data={comments} />
+          </Stack>
+          <Stack>
+            <Title size={20} color="#253d4e">
+              Add a review
+            </Title>
+            <WriteReview />
+          </Stack>
+        </Group>
+      ) : (
+        <div>Loading</div>
+      )}
     </Container>
   );
 }

@@ -14,7 +14,6 @@ import BreadCrumb from "../shards/BreadCrumb";
 
 function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
-
   let check = dataProduct.length;
 
   useEffect(() => {

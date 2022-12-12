@@ -4,11 +4,11 @@ import React from "react";
 function DesDetail({ des }) {
   return (
     <Container p={0} style={{ marginLeft: 0 }}>
-      <Title color="#253d4e" size={20}>
-        General infomation about figs
+      <Title color="#253d4e" size={22}>
+        General infomation
       </Title>
-      <Text color="gray" size="sm">
-        {des}Lorem ipsum dolor sit amet, consectetur adip
+      <Text color="gray" size={18}>
+        {des}
       </Text>
     </Container>
   );

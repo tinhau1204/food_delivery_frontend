@@ -13,13 +13,16 @@ function UserReview({ data }) {
             <Stack spacing="none">
               <Avatar radius="xl" size="lg" src="" />
               <Title size="lg" color="#253d4e">
-                Marina
+                {item.name}
               </Title>
             </Stack>
             <Stack spacing="none">
               <Text color="#253d4e" size="sm">
                 {item.timestamp}
               </Text>
+              {/* <Text color="##0796fc" size="sm">
+                {item.updated}
+              </Text> */}
               <Text color="gray" size="sm">
                 {item.comment}
               </Text>

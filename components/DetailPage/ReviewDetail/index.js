@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { Tabs, Badge } from "@mantine/core";
 import DesDetail from "./DesDetail";
 import RevDetail from "./RevDetail";
-function ReviewDetail() {
+function ReviewDetail({ description, storeid }) {
   return (
     <Tabs
       defaultValue="description"
@@ -30,10 +30,10 @@ function ReviewDetail() {
         </Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="description" pt="xs">
-        <DesDetail />
+        <DesDetail des={description} />
       </Tabs.Panel>
       <Tabs.Panel value="reviews" pt="xs">
-        <RevDetail />
+        <RevDetail sid={storeid} />
       </Tabs.Panel>
     </Tabs>
   );

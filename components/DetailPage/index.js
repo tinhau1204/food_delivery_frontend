@@ -12,7 +12,6 @@ import {
   Title,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { getStoreCommments } from "@/lib/api/storecomments";
 import { getProductDetail } from "@/lib/api/productdetail";
 import styles from "./styles.module.scss";
 import { CountingStar } from "../shards/CardItem/components/StarRating";
@@ -31,25 +30,12 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
 
-  let [comments, setComments] = useState(null);
-
   let param = null;
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   useEffect(() => {
     const get_param = new URLSearchParams(window.location.search).get("id");
     param = get_param;
-    console.log(param);
-
-    const getComment = async (value) => {
-      const [data, error] = await getStoreCommments("/store/comments", value);
-
-      if (data) {
-        setComments(data);
-        console.log(data);
-      } else {
-        console.log(error);
-      }
-    };
 
     const getProduct = async () => {
       const [data, error] = await getProductDetail("/menu/product/" + param);
@@ -57,9 +43,6 @@ function DetailPage() {
       if (data) {
         // console.log("Product detail", data);
         // console.log(data.info.name);
-        const sid = data.store.sid;
-        const json = { store_id: sid };
-        getComment(json);
         setDataDetail(data);
         setLoading(false);
       } else {
@@ -102,7 +85,8 @@ function DetailPage() {
           >
             <Image
               radius="md"
-              src="/images/pancake.png"
+              src={img_load + productDetail.info.image}
+              height="100%"
               alt="Detail Food Image"
             />
           </div>
@@ -167,7 +151,10 @@ function DetailPage() {
             </Group>
           </Stack>
         </Group>
-        <ReviewDetail />
+        <ReviewDetail
+          description={productDetail.info.des}
+          storeid={productDetail.store.sid}
+        />
       </Stack>
     );
 }

@@ -20,6 +20,7 @@ function CardItem({
 }) {
   const [isSale, setIsSale] = useState(true);
   const [addWishlist, setAddWishlist] = useState(false);
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
   const cardHeight = 400;
   return (
     <Card
@@ -59,7 +60,7 @@ function CardItem({
         {addWishlist ? <AiFillHeart size={25} /> : <AiOutlineHeart size={25} />}
       </ActionIcon>
       <Card.Section>
-        <Image src={"images/pancake.png"} style={{ padding: 10 }} alt="image" />
+        <Image src={img_load + image} style={{ padding: 22 }} alt="image" />
       </Card.Section>
       <Text size="xs" color="grey">
         {type}
