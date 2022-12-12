@@ -51,12 +51,11 @@ function HomePage() {
   };
 
   useEffect(() => {
-    const renderFilter = () => {
-      const filterProduct = products.filter((item) => item.cate === cateName);
-      console.log(filterProduct);
-    };
-
-    renderFilter();
+    // const renderFilter = () => {
+    //   const filterProduct = products.filter((item) => item.cate === cateName);
+    //   console.log(filterProduct);
+    // };
+    // renderFilter();
   }, [cateName]);
 
   if (check > 0)
