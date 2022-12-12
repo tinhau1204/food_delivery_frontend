@@ -87,26 +87,28 @@ function Header() {
           <Grid.Col span={3}>
             <Group spacing="xs" grow position="center">
               <ActionIcon size="lg" variant="subtle" color="teal">
-                <Group spacing="xs">
-                  <Indicator
-                    color="green"
-                    withBorder
-                    label="1"
-                    dot={false}
-                    showZero={false}
-                    overflowCount={999}
-                    inline
-                    size={20}
-                    radius="xl"
-                  >
-                    <AiOutlineHeart size={20} />
-                  </Indicator>
-                  <Text>Wishlist</Text>
-                </Group>
+                <Link href="/wishlist" passHref>
+                  <Group spacing="xs">
+                    <Indicator
+                      color="green"
+                      withBorder
+                      label="1"
+                      dot={false}
+                      showZero={false}
+                      overflowCount={999}
+                      inline
+                      size={20}
+                      radius="xl"
+                    >
+                      <AiOutlineHeart size={20} />
+                    </Indicator>
+                    <Text>Wishlist</Text>
+                  </Group>
+                </Link>
               </ActionIcon>
 
               <ActionIcon size="lg" variant="subtle" color="teal">
-                <Link href="/cart" replace>
+                <Link href="/cart" passHref>
                   <Group spacing="xs">
                     <Indicator
                       color="green"

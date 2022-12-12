@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, Image, ActionIcon, Text, Group, Button } from "@mantine/core";
 import StarRating, { CountingStar } from "./components/StarRating";
 import { BsCartPlus } from "react-icons/bs";
@@ -7,7 +7,8 @@ import clsx from "classnames";
 import styles from "./styles.module.scss";
 import products from "@/lib/api/products";
 import Link from "next/link";
-
+import { useDispatch, useSelector } from "react-redux";
+import { getWishlist, addToWishlist } from "@/redux/wishlist";
 function CardItem({
   pid,
   type,
@@ -18,9 +19,18 @@ function CardItem({
   ordered,
   onClick,
 }) {
-  const [isSale, setIsSale] = useState(true);
   const [addWishlist, setAddWishlist] = useState(false);
   const cardHeight = 400;
+  const { wishlist } = useSelector(getWishlist);
+  const dispatch = useDispatch();
+
+  const toggleWishlist = () => {
+    setAddWishlist(!addWishlist);
+    dispatch(
+      addToWishlist({ pid, type, name, price, store_name, image, ordered }),
+    );
+  };
+
   return (
     <Card
       shadow="sm"
@@ -51,7 +61,7 @@ function CardItem({
       </div>
 
       <ActionIcon
-        onClick={() => setAddWishlist(!addWishlist)}
+        onClick={toggleWishlist}
         variant="transparent"
         className={styles.rightSection}
         color={addWishlist ? "red" : "gray"}

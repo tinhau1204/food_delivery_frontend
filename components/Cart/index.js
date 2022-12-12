@@ -9,77 +9,60 @@ import {
   Stack,
   Container,
 } from "@mantine/core";
-import React from "react";
+import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import SmallProduct from "./shards/SmallProduct";
 import QuantityInput from "./shards/QuantityInput";
 import { useDispatch, useSelector } from "react-redux";
-import { getCart } from "@/redux/cart";
+import { getCart, updateCart, removeFromCart } from "@/redux/cart";
 import EmptyProduct from "./shards/EmptyProduct";
 import CardTotal from "./shards/CardTotal";
 function Cart() {
-  const elements = [
-    {
-      id: 1,
-      image: "",
-      name: "Grabuz Ukraine",
-      cate: "Vegetables",
-      weight: "1",
-      price: 24,
-      quantity: 1,
-      total: 24,
-    },
-    {
-      id: 2,
-      image: "",
-      name: "Grabuz Ukraine",
-      cate: "Vegetables",
-      weight: "1",
-      price: 24,
-      quantity: 1,
-      total: 24,
-    },
-    {
-      id: 3,
-      image: "",
-      name: "Grabuz Ukraine",
-      cate: "Vegetables",
-      weight: "1",
-      price: 24,
-      quantity: 1,
-      total: 24,
-    },
-    {
-      id: 4,
-      image: "",
-      name: "Grabuz Ukraine",
-      cate: "Vegetables",
-      weight: "1",
-      price: 24,
-      quantity: 1,
-      total: 24,
-    },
-  ];
+  const [quantity, setQuantity] = useState({ amount: null, pid: null });
+
   const { cart } = useSelector(getCart);
+  const dispatch = useDispatch();
+
+  const remove = (item) => {
+    const removeItem = dispatch(removeFromCart(item));
+    return removeItem;
+  };
+
   console.log("cart", cart);
-  const rows = elements.map((element) => (
-    <tr key={element.id}>
+  const rows = cart.map((element) => (
+    <tr key={element.pid}>
       <td>
         {
           <SmallProduct
             image={element.image}
             name={element.name}
-            cate={element.cate}
-            weight={element.weight}
+            type={element.type}
+            store_name={element.store_name}
           />
         }
       </td>
-      <td>{"$" + element.price + ".00"}</td>
-      <td>{<QuantityInput value={element.quantity} />}</td>
-      <td>{"$" + element.total + ".00"}</td>
+      <td>{`$ ${element.price} .00`}</td>
       <td>
         {
-          <ActionIcon color="red" variant="transparent">
+          <QuantityInput
+            value={element.amount}
+            onchangeValue={(e) => {
+              dispatch(updateCart({ ...element, amount: e }));
+            }}
+          />
+        }
+      </td>
+      <td>{"$" + element.amount * element.price + ".00"}</td>
+      <td>
+        {
+          <ActionIcon
+            color="red"
+            variant="transparent"
+            onClick={() => {
+              dispatch(remove(element));
+              console.log(element);
+            }}
+          >
             <BsTrash size={20} />
           </ActionIcon>
         }
@@ -116,7 +99,13 @@ function Cart() {
                 {rows}
               </tbody>
             </Table>
-            <CardTotal />
+            <CardTotal
+              subTotal={cart.reduce(
+                (total, item) => (total += item.amount * item.price),
+                0,
+              )}
+              tax={0}
+            />
           </Group>
         </>
       ) : (
