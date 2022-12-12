@@ -45,7 +45,6 @@ function HomePage() {
       dispatch(addToCart(newItem));
     }
   };
-
   // useEffect(() => {
   //   const renderFilter = () => {
   //     const filterProduct = products.filter((item) => item.cate === cateName);
