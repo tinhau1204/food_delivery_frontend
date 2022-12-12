@@ -187,8 +187,8 @@ function Header() {
           <Divider size="sm" orientation="vertical" />
 
           <Contact
-            phoneNumber={"(046) 555-0120"}
-            dateTime={"Mon - Fri: 9:00-20:00"}
+            phoneNumber={"(xxx) xxx-xxxx"}
+            dateTime={"Mon - Sat: 7:00-20:00"}
           />
         </Group>
       </Paper>

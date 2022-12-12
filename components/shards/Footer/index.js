@@ -98,22 +98,22 @@ function Footer() {
                 {
                   icon: <CiPhone size={18} color={primaryColor} />,
                   space: 10,
-                  title: "(684) 555-0120",
+                  title: "(xxx) xxx-xxxx",
                 },
                 {
                   icon: <CiMail size={18} color={primaryColor} />,
                   space: 10,
-                  title: "name@gmail.com",
+                  title: "hcmute@student.edu.vn",
                 },
                 {
                   icon: <CiLocationOn size={18} color={primaryColor} />,
                   space: 10,
-                  title: "6391 Elgin St. Celina, Delaware 10299",
+                  title: "01 Vo Van Ngan",
                 },
                 {
                   icon: <GiAlarmClock size={18} color={primaryColor} />,
                   space: 10,
-                  title: "10:00 - 18:00, Mon - Sat",
+                  title: "7:00 - 18:00, Mon - Sat",
                 },
               ]}
             />

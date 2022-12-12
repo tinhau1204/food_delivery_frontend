@@ -36,6 +36,11 @@ function BreadCrumb({ name }) {
       href: "/checkout",
       icon: <FaCashRegister size={40} />,
     },
+    {
+      title: "Store detail",
+      href: "/store/detail",
+      icon: <FaStore size={40} />,
+    },
     { title: "Food Detail", href: "/detail", icon: <FaDollarSign size={40} /> },
     { title: "WishList", href: "/wishlist", icon: <FaHeart size={40} /> },
   ];

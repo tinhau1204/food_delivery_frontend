@@ -4,7 +4,14 @@ import { Card, Image, Text, Badge, Button, Group, Stack } from "@mantine/core";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 
-function CardStore({ name, owner_id, address, description, image, type_id }) {
+function CardStore({
+  name,
+  address,
+  description,
+  image,
+  type_name,
+  active_date,
+}) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   return (
@@ -13,12 +20,14 @@ function CardStore({ name, owner_id, address, description, image, type_id }) {
         <Image src={img_load + image} height={160} alt={`${name} image`} />
       </Card.Section>
       <Group position="apart" mt="md" mb="xs">
-        <Text weight={600} color="#253d4e" className={styles.name}>
+        <Text
+          weight={600}
+          color="#29c75b"
+          fontWeight="bold"
+          className={styles.name}
+        >
           {name}
         </Text>
-        <Badge color="pink" variant="light">
-          {type_id}
-        </Badge>
       </Group>
       <Stack>
         <Text size="xs" color="#253d4e">
@@ -28,17 +37,41 @@ function CardStore({ name, owner_id, address, description, image, type_id }) {
           {description}
         </Text>
       </Stack>
+      <Group position="apart">
+        <Badge color="pink" variant="light" mt={50}>
+          {type_name}
+        </Badge>
+        <Button
+          size="xs"
+          mt={50}
+          styles={(theme) => ({
+            root: {
+              color: "#0c5418",
+              backgroundColor: "#teal",
+              border: 0,
+              height: 42,
+              paddingRight: 20,
 
-      <Button
-        variant="light"
-        color="teal"
-        fullWidth
-        mt="md"
-        radius="sm"
-        rightIcon={<BiRightArrowAlt size={20} />}
-      >
-        Detail
-      </Button>
+              "&:hover": {
+                backgroundColor: theme.fn.darken("#27ca7d", 0.05),
+              },
+            },
+          })}
+          variant="light"
+          color="teal"
+          radius="sm"
+          rightIcon={
+            <BiRightArrowAlt
+              size={20}
+              style={{
+                color: "#121212",
+              }}
+            />
+          }
+        >
+          Detail
+        </Button>
+      </Group>
     </Card>
   );
 }

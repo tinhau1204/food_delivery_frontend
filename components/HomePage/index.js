@@ -35,6 +35,7 @@ function HomePage() {
   const [cateName, setCateName] = useState("");
   const dispatch = useDispatch();
   const { cart } = useSelector(getCart);
+
   const handleAddToCart = (product) => {
     if (cart.some((item) => item.pid === product.pid)) {
       var oldItem = cart.find((item) => item.pid === product.pid);
