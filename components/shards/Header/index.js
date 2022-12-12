@@ -73,7 +73,7 @@ function Header() {
               data={data}
               itemProp={{ color: "green" }}
               // labelProps={style: {color: 'green'}}
-              wrapperProps={{ border: "1px", boxShadow: "5px 8px" }}
+              wrapperProps={{ border: "1px", boxshadow: "5px 8px" }}
               icon={<GrLocation size={14} className={styles.icon} />}
               rightSection={
                 isDrop ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />

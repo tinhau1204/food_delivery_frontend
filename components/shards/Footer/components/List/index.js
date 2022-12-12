@@ -37,7 +37,7 @@ export function HorizontalList({ data }) {
               </Text>
             </Center>
           ) : (
-            <Link href={item.path} passHref>
+            <Link href={item.path} passhref>
               <Text component="a" color="#253d4e">
                 {item.title}
               </Text>

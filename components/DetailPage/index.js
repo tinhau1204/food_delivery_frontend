@@ -12,6 +12,7 @@ import {
   Title,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
+import { getStoreCommments } from "@/lib/api/storecomments";
 import { getProductDetail } from "@/lib/api/productdetail";
 import styles from "./styles.module.scss";
 import { CountingStar } from "../shards/CardItem/components/StarRating";
@@ -30,22 +31,35 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
 
-  let check = null;
-  let param_value = null;
+  let [comments, setComments] = useState(null);
+
+  let param = null;
 
   useEffect(() => {
     const get_param = new URLSearchParams(window.location.search).get("id");
-    param_value = get_param;
-    console.log(param_value);
+    param = get_param;
+    console.log(param);
 
-    const getProduct = async () => {
-      const [data, error] = await getProductDetail(
-        "/menu/product/" + param_value,
-      );
+    const getComment = async (value) => {
+      const [data, error] = await getStoreCommments("/store/comments", value);
 
       if (data) {
-        console.log("Product detail", data);
-        console.log(data.info.name);
+        setComments(data);
+        console.log(data);
+      } else {
+        console.log(error);
+      }
+    };
+
+    const getProduct = async () => {
+      const [data, error] = await getProductDetail("/menu/product/" + param);
+
+      if (data) {
+        // console.log("Product detail", data);
+        // console.log(data.info.name);
+        const sid = data.store.sid;
+        const json = { store_id: sid };
+        getComment(json);
         setDataDetail(data);
         setLoading(false);
       } else {

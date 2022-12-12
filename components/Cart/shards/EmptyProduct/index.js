@@ -15,7 +15,7 @@ function EmptyProduct() {
           <Text color="gray" size="sm" style={{ textAlign: "center" }}>
             Go to shop and add to cart products you&apos;d like to build
           </Text>
-          <Link href="/" passHref>
+          <Link href="/" passhref>
             <Button leftIcon={<BsArrowLeft />} color="teal">
               Return to shop
             </Button>

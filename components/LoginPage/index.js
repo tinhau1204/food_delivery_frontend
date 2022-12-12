@@ -143,7 +143,7 @@ export default function LoginPage() {
               <Button variant="outline" color="teal" type="submit">
                 Login
               </Button>
-              <Link href="/register" passHref>
+              <Link href="/register" passhref>
                 <Text variant="link" component="a" align="left" size="sm">
                   Create a new account?
                 </Text>

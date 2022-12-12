@@ -64,7 +64,7 @@ function CardItem({
       <Text size="xs" color="grey">
         {type}
       </Text>
-      <Link href={"/detail" + "?id=" + pid} passHref>
+      <Link href={"/detail" + "?id=" + pid} passhref>
         <Text size="md" weight={700} className={styles.nameNavigate}>
           {name}
         </Text>

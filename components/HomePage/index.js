@@ -9,6 +9,7 @@ import Category from "../shards/Category";
 import { Container, Grid, Group, Paper, Stack, TextInput } from "@mantine/core";
 import { BiArrowFromLeft, BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
+
 import BreadCrumb from "../shards/BreadCrumb";
 
 function HomePage() {
@@ -17,20 +18,14 @@ function HomePage() {
   let check = dataProduct.length;
 
   useEffect(() => {
-    //setLoading(true);
-
     const getProduct = async () => {
       const [data, error] = await getAllProducts("/menu/get-all-products");
-
-      console.log("??Product", data);
 
       if (data) {
         console.log("data product", data);
         setDataproduct(data);
-        //setLoading(false);
       }
     };
-    console.log("-------Running 2--------");
 
     getProduct();
   }, []);
@@ -52,52 +47,49 @@ function HomePage() {
 
   useEffect(() => {
     const renderFilter = () => {
-      const filterProduct = products.filter((item) => item.cate === cateName);
+      const filterProduct = dataProduct.filter(
+        (item) => item.cate === cateName,
+      );
       console.log(filterProduct);
     };
 
     renderFilter();
   }, [cateName]);
 
-  if (check > 0)
-    return (
-      <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
-        <Group align="flex-start">
-          <Stack align="center">
-            <TextInput
-              placeholder="Search"
-              icon={<BiSearch />}
-              rightSection={<AiOutlineArrowRight color="teal" />}
-              size="sm"
-              style={{ width: 280 }}
-            />
-            <Category onClickCate={(val) => setCateName(val.toLowerCase())} />
-          </Stack>
-          <Grid style={{ flex: 1 }} columns={12}>
-            {check > 0 &&
-              dataProduct.map((item, index) => (
-                <Grid.Col key={item.pid} span={4}>
-                  <CardItem
-                    pid={item.pid}
-                    ordered={item.ord_amount}
-                    store_name={item.store_name}
-                    description={item.description}
-                    type={item.type}
-                    name={item.name}
-                    image={item.image}
-                    price={item.price}
-                    //sale={item.sale}
-                    //preSale={item.preSale}
-                    //unit={item.unit}
-                    //rating={item.rating}
-                    onClick={() => handleAddToCart(item)}
-                  />
-                </Grid.Col>
-              ))}
-          </Grid>
-        </Group>
-      </Paper>
-    );
+  return (
+    <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
+      <Group align="flex-start">
+        <Stack align="center">
+          <TextInput
+            placeholder="Search"
+            icon={<BiSearch />}
+            rightSection={<AiOutlineArrowRight color="teal" />}
+            size="sm"
+            style={{ width: 280 }}
+          />
+          <Category onClickCate={(val) => setCateName(val.toLowerCase())} />
+        </Stack>
+        <Grid style={{ flex: 1 }} columns={12}>
+          {check > 0 &&
+            dataProduct.map((item, index) => (
+              <Grid.Col key={item.pid} span={4}>
+                <CardItem
+                  pid={item.pid}
+                  ordered={item.ord_amount}
+                  store_name={item.store_name}
+                  description={item.description}
+                  type={item.type}
+                  name={item.name}
+                  image={item.image}
+                  price={item.price}
+                  onClick={() => handleAddToCart(item)}
+                />
+              </Grid.Col>
+            ))}
+        </Grid>
+      </Group>
+    </Paper>
+  );
 }
 
 export default HomePage;
