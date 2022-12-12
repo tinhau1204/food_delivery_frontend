@@ -3,33 +3,28 @@ import styles from "./styles.module.scss";
 import { Card, Image, Text, Badge, Button, Group, Stack } from "@mantine/core";
 import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
+
 function CardStore({ name, owner_id, address, description, image, type_id }) {
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
+
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder className={styles.card}>
       <Card.Section>
-        <Image
-          src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
-          height={160}
-          alt={`${name} image`}
-        />
+        <Image src={img_load + image} height={160} alt={`${name} image`} />
       </Card.Section>
-
       <Group position="apart" mt="md" mb="xs">
         <Text weight={600} color="#253d4e" className={styles.name}>
-          Norway Fjord Adventures{name}
+          {name}
         </Text>
         <Badge color="pink" variant="light">
-          HOT
+          {type_id}
         </Badge>
       </Group>
       <Stack>
         <Text size="xs" color="#253d4e">
-          Address: so 1 Vo Van Ngan {address}{" "}
+          {address}
         </Text>
-
         <Text size="sm" color="dimmed" style={{ overflow: "auto" }}>
-          With Fjord Tours you can explore more of the magical fjord landscapes
-          with tours and activities on and around the fjords of Norway
           {description}
         </Text>
       </Stack>
