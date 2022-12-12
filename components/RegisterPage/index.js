@@ -10,6 +10,7 @@ import {
   Stack,
   Radio,
   SimpleGrid,
+  Text,
 } from "@mantine/core";
 import { joiResolver, useForm } from "@mantine/form";
 import { useRouter } from "next/router";
@@ -21,18 +22,32 @@ import { TiTick } from "react-icons/ti";
 import { HiLockClosed } from "react-icons/hi";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
+import { HiOutlineIdentification } from "react-icons/hi";
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
+  function makeid(length) {
+    var result = "";
+    var characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  console.log(typeof makeid(10));
 
   const form = useForm({
     initialValues: {
       email: "",
       name: "",
       password: "",
-      // confirmPassword: "",
       role_id: "CUS",
+      id: makeid(10),
       timestamp: Date.now().toString(),
     },
     schema: joiResolver(registerSchema),
@@ -43,8 +58,10 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (values) => {
+    console.log("value Submit", values);
     setLoading(false);
     const [data, error] = await assignUser("/account/register", values);
+    console.log("data register", data);
 
     if (data) {
       showNotification({
@@ -72,6 +89,14 @@ const RegisterPage = () => {
     <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
       <Stack spacing="xl" className={styles.stack}>
         <Title>🚀 Register</Title>
+        <TextInput
+          size="md"
+          placeholder="ID"
+          defaultValue={makeid(10)}
+          hidden
+          // disabled
+          {...form.getInputProps("id")}
+        />
         <TextInput
           label="Email"
           size="md"

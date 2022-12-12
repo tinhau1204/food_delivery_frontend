@@ -16,6 +16,7 @@ const registerSchema = Joi.object({
   //   .label("Confirm password")
   //   .messages({ "any.only": "{{#label}} did not match" }),
   timestamp: Joi.string(),
+  id: Joi.string(),
 });
 
 export default registerSchema;
