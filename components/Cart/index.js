@@ -61,7 +61,6 @@ function Cart() {
             variant="transparent"
             onClick={() => {
               dispatch(remove(element));
-              console.log(element);
             }}
           >
             <BsTrash size={20} />
@@ -106,11 +105,11 @@ function Cart() {
                 0,
               )}
               tax={0}
-              onClick={console.log}
+              onClick={() => setOpen(true)}
             />
           </Group>
 
-          <BillingDetails opened={open} />
+          <BillingDetails opened={open} closed={() => setOpen(false)} />
         </>
       ) : (
         <EmptyProduct />

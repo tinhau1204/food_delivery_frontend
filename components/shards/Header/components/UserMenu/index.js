@@ -7,13 +7,13 @@ import { useRouter } from "next/router";
 import { getUser, logout } from "@/redux/user";
 import { BiPaperclip, BiPlus } from "react-icons/bi";
 
-export default function UserMenu() {
+export default function UserMenu({ isUser, name, onLogout }) {
   const user = useSelector(getUser);
   const dispatch = useDispatch();
   const router = useRouter();
-
   const handleLogout = () => {
-    dispatch(logout());
+    document.cookie = `Name=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
+    onLogout();
     router.push("/");
   };
 
@@ -32,32 +32,25 @@ export default function UserMenu() {
   return (
     <Menu placement="end">
       <Menu.Target>
-        <User />
+        <User name={name} />
       </Menu.Target>
-      <Menu.Dropdown>
-        {user.role == "CUS" ? (
+      {isUser == "CUS" && (
+        <Menu.Dropdown>
           <>
-            {/* <Menu.Item icon={<FaCogs />} onClick={handleToInformation}>
-                            Profile
-                        </Menu.Item>
-                        <Menu.Item
-                            icon={<BiPaperclip />}
-                            onClick={handleToApplication}
-                        >
-                            Application
-                        </Menu.Item> */}
             <Menu.Item icon={<BiPlus />} onClick={handleToOrderHistory}>
               Order History
             </Menu.Item>
+            <Menu.Divider />
+            <Menu.Item
+              color="red"
+              onClick={handleLogout}
+              icon={<FaSignOutAlt />}
+            >
+              Logout
+            </Menu.Item>
           </>
-        ) : (
-          <></>
-        )}
-        <Menu.Divider />
-        <Menu.Item color="red" onClick={handleLogout} icon={<FaSignOutAlt />}>
-          Logout
-        </Menu.Item>
-      </Menu.Dropdown>
+        </Menu.Dropdown>
+      )}
     </Menu>
   );
 }

@@ -16,7 +16,6 @@ function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
-
   useEffect(() => {
     //setLoading(true);
 

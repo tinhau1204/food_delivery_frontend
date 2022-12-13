@@ -21,7 +21,7 @@ import { TiTick } from "react-icons/ti";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import CardTotal from "./shards/CardTotal";
-function BillingDetails({ opened }) {
+function BillingDetails({ opened, closed }) {
   const [loading, setLoading] = useState(false);
   const [totalItem, setTotalItem] = useState("");
   // const [opened, setOpened] = useState(false);
@@ -65,7 +65,7 @@ function BillingDetails({ opened }) {
     setLoading(false);
   };
   return (
-    <Modal opened={opened} onClose={opened} size="auto">
+    <Modal opened={opened} onClose={() => closed()} size="auto">
       <Group position="center" align="flex-start" pt={20}>
         <form
           className={styles.container}

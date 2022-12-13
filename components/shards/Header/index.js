@@ -27,7 +27,7 @@ import {
 import { GrLocation, GrApps } from "react-icons/gr";
 import { CiFacebook, CiTwitter, CiInstagram, CiYoutube } from "react-icons/ci";
 import { ImWhatsapp } from "react-icons/im";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Menu, { ListIcon } from "./components/Menu";
 import Contact from "./components/Contact";
@@ -37,16 +37,30 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "@/redux/cart";
 import { getWishlist } from "@/redux/wishlist";
 import { getUser } from "@/redux/user";
-import { useEffect } from "react";
 import UserMenu from "./components/UserMenu";
+import router from "next/router";
 
 function Header() {
   const [isDrop, setIsDrop] = useState(false);
+  const [isUser, setUser] = useState({});
   const user = useSelector(getUser);
+  const checkDate = new Date(Date.now());
+  console.log(checkDate);
+  useEffect(() => {
+    let cookieInfo = document.cookie.split("=")[1];
+    if (cookieInfo !== undefined) {
+      const checkUser = JSON.parse(cookieInfo);
+      setUser(checkUser);
+    } else {
+      alert("you must login first!");
+      router.push("/login");
+    }
+  }, [setUser]);
 
   useEffect(() => {
-    console.log("user", user);
-  }, [user]);
+    console.log();
+  });
+
   const data = ["All Categories", "food", "drink"];
   // const tabData = [{value:}]
   const { cart } = useSelector(getCart);
@@ -129,8 +143,12 @@ function Header() {
                 </Link>
               </ActionIcon>
 
-              {user.name !== undefined ? (
-                <UserMenu />
+              {isUser ? (
+                <UserMenu
+                  isUser={isUser.role}
+                  name={isUser.name}
+                  onLogout={() => setUser(undefined)}
+                />
               ) : (
                 <ActionIcon size="lg" variant="subtle" color="teal">
                   <Link href="/login" replace>

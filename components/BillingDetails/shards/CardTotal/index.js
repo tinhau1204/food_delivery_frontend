@@ -12,58 +12,35 @@ import styles from "./styles.module.scss";
 import SmallProduct from "./SmallProduct";
 import SmallStatic from "./SmallStatic";
 import { useEffect } from "react";
+import { getCart, updateCart, removeFromCart } from "@/redux/cart";
+import { useDispatch, useSelector } from "react-redux";
 function CardTotal({ countItem }) {
-  const itemBuy = [
-    {
-      image: "https://freepngimg.com/thumb/carrot/1-carrot-png-image.png",
-      name: "Carrot",
-      weight: "1",
-      price: 24,
-    },
-    {
-      image:
-        "https://freepngimg.com/thumb/cucumber/11-cucumber-png-image-picture-download.png",
-      name: "Cucumber",
-      weight: "3",
-      price: 24,
-    },
-    {
-      image: "https://freepngimg.com/thumb/carrot/1-carrot-png-image.png",
-      name: "Carrot",
-      weight: "1",
-      price: 24,
-    },
-    {
-      image: "https://freepngimg.com/thumb/carrot/1-carrot-png-image.png",
-      name: "Carrot",
-      weight: "1",
-      price: 24,
-    },
-    {
-      image: "https://freepngimg.com/thumb/carrot/1-carrot-png-image.png",
-      name: "Carrot",
-      weight: "1",
-      price: 24,
-    },
-  ];
+  const { cart } = useSelector(getCart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    countItem(itemBuy.length);
-  }, [countItem, itemBuy]);
+    countItem(cart.length);
+  }, [countItem, cart]);
   return (
     <Paper withBorder pt={10} pb={10}>
       <ScrollArea style={{ height: 250 }} type="auto">
-        {itemBuy.map((item, index) => (
+        {cart.map((item, index) => (
           <SmallProduct
-            key={index}
+            key={item.id}
             image={item.image}
             name={item.name}
-            weight={item.weight}
             price={item.price}
+            type={item.type}
+            amount={item.amount}
           />
         ))}
       </ScrollArea>
-      <SmallStatic />
+      <SmallStatic
+      // subtotal={}
+      // shipping={}
+      // tax={}
+      // total={}
+      />
     </Paper>
   );
 }

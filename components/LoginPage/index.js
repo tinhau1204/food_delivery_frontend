@@ -68,8 +68,9 @@ export default function LoginPage() {
       dispatch(login({ ...data }));
       var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
       console.log(expireTime);
-      //sessionStorage.setItem('user',JSON.stringify(values));
-      document.cookie = `Name=${data.name};Expires=${expireTime};path=/login;`;
+      document.cookie = `Name=${JSON.stringify(
+        data,
+      )};Expires=${expireTime};path=/;`;
       router.push("/");
     }
 
