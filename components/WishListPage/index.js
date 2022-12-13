@@ -15,6 +15,7 @@ import SmallItem from "./shard/SmallItem";
 import { getWishlist, addToWishlist, removeWishlist } from "@/redux/wishlist";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
 import { useSelector, useDispatch } from "react-redux";
+import EmptyList from "./shard/EmptyList";
 function WishListPage() {
   const { wishlist } = useSelector(getWishlist);
   const { cart } = useSelector(getCart);
@@ -77,10 +78,10 @@ function WishListPage() {
 
   return (
     <>
-      {wishlist.length > 0 ? (
-        <Stack align="center" p="xl">
-          <FaRegHeart size={40} color="#253d4e" />
-          <Title color="#253d4e">My Wishlist</Title>
+      <Stack align="center" p="xl">
+        <FaRegHeart size={40} color="#253d4e" />
+        <Title color="#253d4e">My Wishlist</Title>
+        {wishlist.length > 0 ? (
           <Table style={{ maxWidth: "85%" }}>
             <thead>
               <tr>
@@ -93,12 +94,12 @@ function WishListPage() {
             </thead>
             <tbody>{rows}</tbody>
           </Table>
-        </Stack>
-      ) : (
-        <Paper>
-          <Text>Empty Wishlist</Text>
-        </Paper>
-      )}
+        ) : (
+          <Paper>
+            <EmptyList />
+          </Paper>
+        )}
+      </Stack>
     </>
   );
 }
