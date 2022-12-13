@@ -86,31 +86,33 @@ function DetailPage() {
             <Image
               radius="md"
               src={img_load + productDetail.info.image}
-              height="100%"
               alt="Detail Food Image"
+              width="100%"
+              height="100%"
+              styles={{
+                figure: { width: "100%", height: "100%" },
+                imageWrapper: { width: "100%", height: "100%" },
+                objectFit: "cover",
+              }}
             />
           </div>
           <Stack spacing="xs">
-            <Title color="teal" size={16}>
-              {productDetail.info.type}
-            </Title>
-            <Title color="#253d4e" size={20}>
+            <Title color="#253d4e" size={26}>
               {productDetail.info.name}
             </Title>
-            {/* <Group>
-              <CountingStar count={4} />
-              <Text>{"(" + "4.0" + ")"}</Text>
-            </Group> */}
-            <Title color="#253d4e" size={16}>
-              {" "}
-            </Title>
-            <Title color="dark" size={26}>
-              {productDetail.info.price + " $"}
-            </Title>
-            <Text color="gray" style={{ maxWidth: 550 }}>
-              {"[ " + productDetail.info.des + " ]"}
-            </Text>
-            <List
+            <Group>
+              <Text color="gray">Type:</Text>
+              <Title color="teal" size={14}>
+                {productDetail.info.type}
+              </Title>
+            </Group>
+            <Group mt={10} mb={15}>
+              <Text color="gray">Price:</Text>
+              <Title color="#253d4e" size={26}>
+                {productDetail.info.price + " $"}
+              </Title>
+            </Group>
+            {/* <List
               type="unordered"
               icon={<BsDot size={20} color="teal" />}
               size="sm"
@@ -119,7 +121,7 @@ function DetailPage() {
               <List.Item>test 1</List.Item>
               <List.Item>test 1</List.Item>
               <List.Item>test 1</List.Item>
-            </List>
+            </List> */}
             <SelectDetail
               onclickquantity={(item) => setQuantity(item)}
               // onclickweight={(item) => setWeight(item)}
@@ -149,10 +151,25 @@ function DetailPage() {
                 Add to Cart
               </Button>
             </Group>
+            <Text
+              color="black"
+              size={18}
+              mt={10}
+              style={{ fontWeight: "bold" }}
+            >
+              Description
+            </Text>
+            <Text
+              color="gray"
+              size={14}
+              style={{ maxWidth: 340, overflowWrap: "break-word" }}
+            >
+              {productDetail.info.des}{" "}
+            </Text>
           </Stack>
         </Group>
         <ReviewDetail
-          description={productDetail.info.des}
+          store={productDetail.store}
           storeid={productDetail.store.sid}
         />
       </Stack>

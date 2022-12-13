@@ -69,8 +69,34 @@ function CardItem({
       >
         {addWishlist ? <AiFillHeart size={25} /> : <AiOutlineHeart size={25} />}
       </ActionIcon>
-      <Card.Section>
-        <Image src={img_load + image} style={{ padding: 22 }} alt="image" />
+      <Card.Section
+        style={{
+          width: 200,
+          height: 200,
+          padding: "1.7rem 1.2rem",
+          marginBottom: "3rem",
+        }}
+      >
+        <div
+          style={{
+            width: 208,
+            height: 208,
+            border: "1px solid #ccc",
+            borderRadius: 3,
+          }}
+        >
+          <Image
+            src={img_load + image}
+            alt="image"
+            width="100%"
+            height="100%"
+            styles={{
+              figure: { width: "100%", height: "100%" },
+              imageWrapper: { width: "100%", height: "100%" },
+              objectFit: "cover",
+            }}
+          />
+        </div>
       </Card.Section>
       <Text size="xs" color="grey">
         {type}

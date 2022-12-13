@@ -34,17 +34,14 @@ function RevDetail({ sid }) {
       {!loading ? (
         <Group align="flex-start">
           <Stack justify="flex-start" align="flex-start" style={{ flex: 1 }}>
-            <Title size={20} color="#253d4e">
-              Customer questions & answer
-            </Title>
             <UserReview data={comments} />
           </Stack>
-          <Stack>
+          {/* <Stack>
             <Title size={20} color="#253d4e">
               Add a review
             </Title>
             <WriteReview />
-          </Stack>
+          </Stack> */}
         </Group>
       ) : (
         <div>Loading</div>

@@ -28,16 +28,6 @@ function WriteReview() {
           name="comment"
           onChange={(e) => setComment(e.currentTarget.value)}
         />
-        <TextInput
-          placeholder="Name"
-          withAsterisk
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
-        <TextInput
-          placeholder="E-mail"
-          withAsterisk
-          onChange={(e) => setEmail(e.currentTarget.value)}
-        />
         <Button color="teal" type="submit">
           Submit Review
         </Button>
