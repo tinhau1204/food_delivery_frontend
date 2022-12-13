@@ -1,12 +1,8 @@
 import {
   ActionIcon,
   Button,
-  Center,
-  Container,
   Group,
   Image,
-  List,
-  Select,
   Stack,
   Text,
   Title,
@@ -112,16 +108,6 @@ function DetailPage() {
                 {productDetail.info.price + " $"}
               </Title>
             </Group>
-            {/* <List
-              type="unordered"
-              icon={<BsDot size={20} color="teal" />}
-              size="sm"
-              style={{ color: "gray" }}
-            >
-              <List.Item>test 1</List.Item>
-              <List.Item>test 1</List.Item>
-              <List.Item>test 1</List.Item>
-            </List> */}
             <SelectDetail
               onclickquantity={(item) => setQuantity(item)}
               // onclickweight={(item) => setWeight(item)}
@@ -154,7 +140,7 @@ function DetailPage() {
             <Text
               color="black"
               size={18}
-              mt={10}
+              mt={20}
               style={{ fontWeight: "bold" }}
             >
               Description

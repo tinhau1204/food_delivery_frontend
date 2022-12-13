@@ -10,6 +10,8 @@ import {
   SimpleGrid,
 } from "@mantine/core";
 import React from "react";
+//import StoreDetailPage from "@/components/StoreDetailPage";
+import Link from "next/link";
 
 function DesDetail({ storeinfo }) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
@@ -27,7 +29,7 @@ function DesDetail({ storeinfo }) {
       >
         <Stack
           style={{
-            maxWidth: 220,
+            maxWidth: 240,
             marginTop: 10,
             marginLeft: 20,
             marginRight: -20,
@@ -50,7 +52,7 @@ function DesDetail({ storeinfo }) {
         </Stack>
         <Group>
           <Stack
-            spacing={5}
+            spacing={4}
             align="flex-start"
             justify="flex-start"
             mt={10}
@@ -63,24 +65,38 @@ function DesDetail({ storeinfo }) {
               color="pink"
               variant="light"
               style={{
-                fontSize: 12,
+                fontSize: 10,
               }}
             >
               {storeinfo.type_name}
             </Badge>
-            <Text color="gray" size={14} mt={10} mb={5}>
-              Address: &nbsp;&nbsp;{storeinfo.address}
-            </Text>
-            <Button
-              mb={1}
-              variant="outline"
-              textAlign="center"
-              style={{
-                width: "100%",
-              }}
-            >
-              Visit
-            </Button>
+            <Group mt={10}>
+              <Text color="gray" size={14}>
+                Address:
+              </Text>
+              <Text
+                color="black"
+                size={12}
+                style={{
+                  maxWidth: 240,
+                  overflowWrap: "break-word",
+                }}
+              >
+                {storeinfo.address}
+              </Text>
+            </Group>
+            <Link href={"/store/detail?id=" + storeinfo.sid}>
+              <Button
+                mb={1}
+                variant="outline"
+                textAlign="center"
+                style={{
+                  width: "100%",
+                }}
+              >
+                Visit
+              </Button>
+            </Link>
           </Stack>
         </Group>
       </Group>

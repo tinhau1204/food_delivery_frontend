@@ -33,7 +33,7 @@ function SmallProduct({ image, name, weight, price }) {
         </Grid.Col>
         <Grid.Col span={2}>
           <Text color="#334959" style={{ lineHeight: "100%" }}>
-            {"$" + Number(weight) * Number(price) + ".00"}
+            {"$" + Number(weight) * Number(price)}
           </Text>
         </Grid.Col>
       </Grid>

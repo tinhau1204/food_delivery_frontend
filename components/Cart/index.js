@@ -41,7 +41,7 @@ function Cart() {
           />
         }
       </td>
-      <td>{`$ ${element.price} .00`}</td>
+      <td>{`$ ${element.price} `}</td>
       <td>
         {
           <QuantityInput
@@ -52,7 +52,7 @@ function Cart() {
           />
         }
       </td>
-      <td>{"$" + element.amount * element.price + ".00"}</td>
+      <td>{"$" + element.amount * element.price}</td>
       <td>
         {
           <ActionIcon

@@ -14,14 +14,14 @@ function CardTotal({ subTotal, discount, shipping, tax, total }) {
         <Text size="lg" weight={700} color="#253d4e">
           Subtoal:{" "}
         </Text>
-        <Text color="#253d4e">{"$" + (subTotal ?? 0) + ".00"}</Text>
+        <Text color="#253d4e">{"$" + (subTotal ?? 0)}</Text>
       </Group>
       <Divider my="sm" variant="dashed" />
       <Group position="apart">
         <Text size="lg" weight={700} color="#253d4e">
           Discount:{" "}
         </Text>
-        <Text color="#253d4e">{"-$" + "0" + ".00"}</Text>
+        <Text color="#253d4e">{"-$" + "0"}</Text>
       </Group>
       <Divider my="sm" variant="dashed" />
       <Group position="apart">
@@ -36,16 +36,14 @@ function CardTotal({ subTotal, discount, shipping, tax, total }) {
         <Text size="lg" weight={700} color="#253d4e">
           Estimated Tax:{" "}
         </Text>
-        <Text color="#253d4e">{"$" + tax + ".00"}</Text>
+        <Text color="#253d4e">{"$" + tax}</Text>
       </Group>
       <Divider my="sm" />
       <Group position="apart">
         <Text size="lg" weight={700} color="#253d4e">
           Total:{" "}
         </Text>
-        <Text color="#253d4e">
-          {"$" + (Number(tax) + Number(subTotal)) + ".00"}
-        </Text>
+        <Text color="#253d4e">{"$" + (Number(tax) + Number(subTotal))}</Text>
       </Group>
       <Button
         leftIcon={<AiOutlineShoppingCart />}

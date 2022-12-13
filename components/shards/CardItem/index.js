@@ -106,11 +106,6 @@ function CardItem({
           {name}
         </Text>
       </Link>
-      {/* Counting Star for rating */}
-      {/* <Group>
-        <CountingStar count={parseInt(rating)} />
-        <Text>{"(" + String(rating) + ".0" + ")"}</Text>
-      </Group> */}
       <Text size="xs" color="grey">
         {store_name}
       </Text>
@@ -118,12 +113,7 @@ function CardItem({
         Ordered: {ordered}
       </Text>
       <Group position="apart">
-        <Text weight={500}>${String(price) + ".00"}</Text>
-        {/* {sale && (
-          <Text size="sm" color="grey" strikethrough>
-            ${String(preSale) + ".00"}
-          </Text>
-        )} */}
+        <Text weight={500}>${String(price)}</Text>
         <Button
           className={styles.buttonAdd}
           leftIcon={<BsCartPlus />}

@@ -34,7 +34,7 @@ function WishListPage() {
           />
         }
       </td>
-      <td>{`$ ${element.price} .00`}</td>
+      <td>{`$ ${element.price}`}</td>
       <td>In Stock</td>
       <td style={{ verticalAlign: "middle !important" }}>
         {<Button color="teal">Add to cart</Button>}

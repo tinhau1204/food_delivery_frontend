@@ -19,6 +19,7 @@ import {
   FaShoppingCart,
   FaCashRegister,
   FaDollarSign,
+  FaImage,
   FaHeart,
 } from "react-icons/fa";
 
@@ -43,6 +44,7 @@ function BreadCrumb({ name }) {
     },
     { title: "Food Detail", href: "/detail", icon: <FaDollarSign size={40} /> },
     { title: "WishList", href: "/wishlist", icon: <FaHeart size={40} /> },
+    { title: "Upload Image", href: "/uploadimg", icon: <FaImage size={40} /> },
   ];
 
   const items = itemPath
