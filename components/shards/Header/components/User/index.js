@@ -2,11 +2,9 @@ import { forwardRef } from "react";
 import { UnstyledButton, Group, Avatar, Text } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { getUser } from "@/redux/user";
-const User = ({ ...buttonProps }, ref) => {
-  let user = useSelector(getUser);
-
-  user = {
-    displayName: `${user.name}`,
+const User = ({ name, ref, ...buttonProps }) => {
+  let user = {
+    displayName: name,
     photoURL:
       "https://images.glints.com/unsafe/140x140/glints-dashboard.s3.amazonaws.com/profile-picture-default/13.jpg",
   };

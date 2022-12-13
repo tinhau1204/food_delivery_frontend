@@ -17,7 +17,6 @@ function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
-
   useEffect(() => {
     const getProduct = async () => {
       const [data, error] = await getAllProducts("/menu/get-all-products");

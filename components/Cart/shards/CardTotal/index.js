@@ -7,7 +7,7 @@ import {
   AiOutlineUser,
 } from "react-icons/ai";
 
-function CardTotal({ subTotal, discount, shipping, tax, total }) {
+function CardTotal({ subTotal, discount, shipping, tax, total, onClick }) {
   return (
     <Paper p="md" withBorder style={{ marginTop: 20, width: 300 }}>
       <Group position="apart">
@@ -49,8 +49,9 @@ function CardTotal({ subTotal, discount, shipping, tax, total }) {
         leftIcon={<AiOutlineShoppingCart />}
         color="teal"
         style={{ width: "100%", marginTop: 10 }}
+        onClick={onClick}
       >
-        <Link href="/checkout">Checkout</Link>
+        Checkout
       </Button>
     </Paper>
   );

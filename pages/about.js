@@ -1,10 +1,9 @@
-import AboutPage from "@/components/AboutPage";
+import AboutUsPage from "@/components/AboutUsPage";
 import React from "react";
-import BreadCrumb from "@/components/shards/BreadCrumb";
 function about() {
   return (
     <>
-      <AboutPage />
+      <AboutUsPage />
     </>
   );
 }

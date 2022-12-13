@@ -9,7 +9,7 @@ import {
   Center,
   Grid,
 } from "@mantine/core";
-function SmallStatic() {
+function SmallStatic({ subtotal, shipping, tax, total }) {
   return (
     <Container px="md" style={{ width: 400 }}>
       {/* Sub total */}
@@ -24,7 +24,8 @@ function SmallStatic() {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + "4800" + ".00"}
+            {/* SubTotal */}
+            {"$" + subtotal + ".00"}
           </Text>
         </Grid.Col>
       </Grid>
@@ -41,7 +42,7 @@ function SmallStatic() {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + "4800" + ".00"}
+            {"$" + shipping + ".00"}
           </Text>
         </Grid.Col>
       </Grid>
@@ -58,7 +59,7 @@ function SmallStatic() {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + "4800" + ".00"}
+            {"$" + tax + ".00"}
           </Text>
         </Grid.Col>
       </Grid>
@@ -75,7 +76,7 @@ function SmallStatic() {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + "4800" + ".00"}
+            {"$" + total + ".00"}
           </Text>
         </Grid.Col>
       </Grid>

@@ -1,0 +1,11 @@
+@import "../../../styles/scss/mixin";
+.card {
+  height: 250px;
+  width: 400px;
+  padding: 5px;
+}
+
+.card:hover {
+  border-radius: 10px;
+  box-shadow: 5px 10px 8px 10px #ccc;
+}
