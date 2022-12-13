@@ -1,0 +1,15 @@
+@import "../../styles/scss/mixin";
+.container {
+  @include flex-col-center;
+  @include large-device(768px) {
+    height: 100vh;
+  }
+  // margin: auto;
+}
+
+.stack {
+  width: 600px;
+  @include small-device(768px) {
+    width: 300px;
+  }
+}

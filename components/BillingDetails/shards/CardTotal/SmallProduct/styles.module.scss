@@ -1,0 +1,9 @@
+@import "../../../../../styles/scss/mixin";
+@import "../../../../../styles/scss/variables";
+.foodImage {
+  border: 1px solid $lightgrey;
+  border-radius: 3px;
+  ::content {
+    object-fit: contain;
+  }
+}
