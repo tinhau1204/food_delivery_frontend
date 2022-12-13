@@ -25,7 +25,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
             {/* SubTotal */}
-            {"$" + subtotal + ".00"}
+            {"$" + subtotal}
           </Text>
         </Grid.Col>
       </Grid>
@@ -42,7 +42,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + shipping + ".00"}
+            {"$" + shipping}
           </Text>
         </Grid.Col>
       </Grid>
@@ -59,7 +59,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + tax + ".00"}
+            {"$" + tax}
           </Text>
         </Grid.Col>
       </Grid>
@@ -76,7 +76,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
             color="#334959"
             style={{ lineHeight: "100%", textAlign: "end" }}
           >
-            {"$" + total + ".00"}
+            {"$" + total}
           </Text>
         </Grid.Col>
       </Grid>

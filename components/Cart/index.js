@@ -23,6 +23,7 @@ function Cart() {
   const [open, setOpen] = useState(false);
   const { cart } = useSelector(getCart);
   const dispatch = useDispatch();
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   const remove = (item) => {
     const removeItem = dispatch(removeFromCart(item));
@@ -35,7 +36,7 @@ function Cart() {
       <td>
         {
           <SmallProduct
-            image={element.image}
+            image={img_load + element.image}
             name={element.name}
             type={element.type}
             store_name={element.store_name}

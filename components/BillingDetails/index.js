@@ -35,13 +35,23 @@ function BillingDetails({ opened, closed }) {
       email: "",
       phoneNumber: "",
       zipcode: "",
+      //   "order_id": order_id,
+      // "account_id": account_id,
+      // "store_id": store_id,
+      // "product_id": product_id,
+      // "quantity": quantity,
+      // "payment_method": payment_method,
+      // "ship_fee": ship_fee,
+      // "price": price,
+      // "address": address,
+      // "timestamp": timestamp
     },
     schema: joiResolver(checkoutSchema),
   });
 
   const handleSubmit = async (values) => {
     setLoading(false);
-    const [data, error] = await assignUser("/user/register", values);
+    const [data, error] = await assignUser("/order/create", values);
 
     if (data) {
       showNotification({

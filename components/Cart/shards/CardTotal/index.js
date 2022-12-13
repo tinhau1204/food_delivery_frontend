@@ -12,7 +12,7 @@ function CardTotal({ subTotal, discount, shipping, tax, total, onClick }) {
     <Paper p="md" withBorder style={{ marginTop: 20, width: 300 }}>
       <Group position="apart">
         <Text size="lg" weight={700} color="#253d4e">
-          Subtoal:{" "}
+          Subtotal:{" "}
         </Text>
         <Text color="#253d4e">{"$" + (subTotal ?? 0)}</Text>
       </Group>

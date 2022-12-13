@@ -36,10 +36,16 @@ function CardTotal({ countItem }) {
         ))}
       </ScrollArea>
       <SmallStatic
-      // subtotal={}
-      // shipping={}
-      // tax={}
-      // total={}
+        subtotal={cart.reduce(
+          (total, item) => (total += item.amount * item.price),
+          0,
+        )}
+        shipping={0}
+        tax={0}
+        total={cart.reduce(
+          (total, item) => (total += item.amount * item.price),
+          0,
+        )}
       />
     </Paper>
   );

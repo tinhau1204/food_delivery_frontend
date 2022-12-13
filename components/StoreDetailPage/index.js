@@ -47,11 +47,6 @@ function StoreDetailPage() {
         setStoreDetail(data);
         //console.log(storedetail.products.length);
         setLoading(false);
-
-        removeElememnts(".mantine-UnstyledButton-root.mantine-Button-root");
-        removeElememnts(
-          ".mantine-UnstyledButton-root.mantine-ActionIcon-root.styles_rightSection__jzjqv",
-        );
       } else {
         console.log(error);
       }
