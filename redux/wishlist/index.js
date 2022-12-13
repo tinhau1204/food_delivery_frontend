@@ -17,10 +17,15 @@ export const wishlist = createSlice({
         state.wishlist = [...state.wishlist, action.payload];
       }
     },
+    removeWishlist: (state, action) => {
+      state.wishlist = state.wishlist.filter(
+        (value) => value.pid !== action.payload.pid,
+      );
+    },
   },
 });
 
 export const getWishlist = (state) => state.wishlist;
 
-export const { addToWishlist } = wishlist.actions;
+export const { addToWishlist, removeWishlist } = wishlist.actions;
 export default wishlist.reducer;

@@ -56,7 +56,7 @@ export default function LoginPage() {
     setLoading(true);
     console.log("value", values);
     const [data, error] = await assignUser("/account/login", values);
-
+    console.log(data);
     if (data) {
       showNotification({
         title: "Login success",
@@ -66,7 +66,10 @@ export default function LoginPage() {
       });
 
       dispatch(login({ ...data }));
-
+      var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
+      console.log(expireTime);
+      //sessionStorage.setItem('user',JSON.stringify(values));
+      document.cookie = `Name=${data.name};Expires=${expireTime};path=/login;`;
       router.push("/");
     }
 

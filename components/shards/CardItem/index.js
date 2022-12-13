@@ -64,9 +64,13 @@ function CardItem({
         onClick={toggleWishlist}
         variant="transparent"
         className={styles.rightSection}
-        color={addWishlist ? "red" : "gray"}
+        color={wishlist.find((item) => item.pid === pid) ? "red" : "gray"}
       >
-        {addWishlist ? <AiFillHeart size={25} /> : <AiOutlineHeart size={25} />}
+        {wishlist.find((item) => item.pid === pid) ? (
+          <AiFillHeart size={25} />
+        ) : (
+          <AiOutlineHeart size={25} />
+        )}
       </ActionIcon>
       <Card.Section>
         <Image src={"images/pancake.png"} style={{ padding: 10 }} alt="image" />

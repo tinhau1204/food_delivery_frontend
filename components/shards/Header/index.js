@@ -33,8 +33,9 @@ import Menu, { ListIcon } from "./components/Menu";
 import Contact from "./components/Contact";
 import Link from "next/link";
 // import {IoLocationOutline} from 'react-icons/io';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "@/redux/cart";
+import { getWishlist } from "@/redux/wishlist";
 import { getUser } from "@/redux/user";
 import { useEffect } from "react";
 import UserMenu from "./components/UserMenu";
@@ -49,6 +50,7 @@ function Header() {
   const data = ["All Categories", "food", "drink"];
   // const tabData = [{value:}]
   const { cart } = useSelector(getCart);
+  const { wishlist } = useSelector(getWishlist);
   return (
     <Container style={{ maxWidth: 1539 }} p={0}>
       <Paper shadow="xs" className={styles.header}>
@@ -92,7 +94,7 @@ function Header() {
                     <Indicator
                       color="green"
                       withBorder
-                      label="1"
+                      label={wishlist.length}
                       dot={false}
                       showZero={false}
                       overflowCount={999}
