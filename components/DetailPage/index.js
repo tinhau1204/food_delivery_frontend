@@ -18,26 +18,45 @@ import {
   AiOutlineHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { getCart, addToCart, updateCart } from "@/redux/cart";
+import { getWishlist, addToWishlist } from "@/redux/wishlist";
+import { useDispatch, useSelector } from "react-redux";
 import ReviewDetail from "./ReviewDetail";
+import { useRouter } from "next/router";
 function DetailPage() {
   const [quantity, setQuantity] = useState(1);
-  const [wishlist, setWishlist] = useState(false);
-
+  const [inWishlist, setInWishlist] = useState(false);
+  const { cart } = useSelector(getCart);
+  const { wishlist } = useSelector(getWishlist);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
+  const { id } = router.query;
+  console.log("id page", id);
+  console.log("wishlist", wishlist);
+  console.log("cart", cart);
+  console.log("productDetail", productDetail);
 
-  let param = null;
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
-  useEffect(() => {
-    const get_param = new URLSearchParams(window.location.search).get("id");
-    param = get_param;
+  const handleAddToCart = (product) => {
+    if (cart.some((item) => item.pid === product.pid)) {
+      var oldItem = cart.find((item) => item.pid === product.pid);
+      var newItem = { ...oldItem, amount: oldItem.amount + quantity };
+      dispatch(updateCart(newItem));
+    } else {
+      var newItem = { ...product, amount: quantity };
+      dispatch(addToCart(newItem));
+    }
+  };
 
+  useEffect(() => {
     const getProduct = async () => {
-      const [data, error] = await getProductDetail("/menu/product/" + param);
+      const [data, error] = await getProductDetail("/menu/product/" + id);
 
       if (data) {
-        // console.log("Product detail", data);
+        console.log("Product detail", data);
         // console.log(data.info.name);
         setDataDetail(data);
         setLoading(false);
@@ -48,6 +67,11 @@ function DetailPage() {
 
     getProduct();
   }, []);
+
+  console.log(
+    "check",
+    wishlist.includes((item) => item.pid === Number(id)),
+  );
 
   if (loading)
     return (
@@ -117,22 +141,36 @@ function DetailPage() {
                 size="xl"
                 variant="outline"
                 color="teal"
-                onClick={() => setWishlist(!wishlist)}
+                onClick={() => {
+                  dispatch(
+                    addToWishlist({
+                      ...productDetail.info,
+                      pid: productDetail.id,
+                    }),
+                  );
+                }}
               >
-                {wishlist ? (
+                {wishlist.some((item) => item.pid == Number(id)) ? (
                   <AiFillHeart size={24} color="#f74b81" />
                 ) : (
                   <AiOutlineHeart size={24} color="#253d4e" />
                 )}
               </ActionIcon>
-              <Button color="teal" size="md">
+              {/* <Button color="teal" size="md">
                 Buy Now
-              </Button>
+              </Button> */}
               <Button
                 color="teal"
                 variant="light"
                 size="md"
                 leftIcon={<AiOutlineShoppingCart />}
+                onClick={() =>
+                  handleAddToCart({
+                    ...productDetail.info,
+                    pid: productDetail.id,
+                    amount: quantity,
+                  })
+                }
               >
                 Add to Cart
               </Button>
