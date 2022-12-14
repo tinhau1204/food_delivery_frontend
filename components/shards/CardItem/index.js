@@ -17,6 +17,7 @@ function CardItem({
   store_name,
   image,
   ordered,
+  hidden,
   onClick,
 }) {
   const [addWishlist, setAddWishlist] = useState(false);
@@ -44,35 +45,42 @@ function CardItem({
       }}
       className={styles.card}
     >
-      <div className={styles.cornerRibbon}>
-        <div
-          className={clsx(
-            {
-              [styles.cornerRibbonChildHot]: type == "hot",
-              [styles.cornerRibbonChildSale]: type == "sale",
-              [styles.cornerRibbonChildNew]: type == "new",
-            },
-            styles.cornerRibbonChild,
-          )}
-        >
-          <Text color="white">
-            {type == "hot" ? "Hot" : type == "sale" ? "Sale" : "New"}
-          </Text>
+      {!hidden ? (
+        <div className={styles.cornerRibbon}>
+          <div
+            className={clsx(
+              {
+                [styles.cornerRibbonChildHot]: type == "hot",
+                [styles.cornerRibbonChildSale]: type == "sale",
+                [styles.cornerRibbonChildNew]: type == "new",
+              },
+              styles.cornerRibbonChild,
+            )}
+          >
+            <Text color="white">
+              {type == "hot" ? "Hot" : type == "sale" ? "Sale" : "New"}
+            </Text>
+          </div>
         </div>
-      </div>
-
-      <ActionIcon
-        onClick={toggleWishlist}
-        variant="transparent"
-        className={styles.rightSection}
-        color={wishlist.find((item) => item.pid === pid) ? "red" : "gray"}
-      >
-        {wishlist.find((item) => item.pid === pid) ? (
-          <AiFillHeart size={25} />
-        ) : (
-          <AiOutlineHeart size={25} />
-        )}
-      </ActionIcon>
+      ) : (
+        <></>
+      )}
+      {!hidden ? (
+        <ActionIcon
+          onClick={toggleWishlist}
+          variant="transparent"
+          className={styles.rightSection}
+          color={wishlist.find((item) => item.pid === pid) ? "red" : "gray"}
+        >
+          {wishlist.find((item) => item.pid === pid) ? (
+            <AiFillHeart size={25} />
+          ) : (
+            <AiOutlineHeart size={25} />
+          )}
+        </ActionIcon>
+      ) : (
+        <></>
+      )}
       <Card.Section
         style={{
           width: 200,
@@ -118,15 +126,19 @@ function CardItem({
       </Text>
       <Group position="apart">
         <Text weight={500}>${String(price)}</Text>
-        <Button
-          className={styles.buttonAdd}
-          leftIcon={<BsCartPlus />}
-          variant="light"
-          color="teal"
-          onClick={onClick}
-        >
-          Add
-        </Button>
+        {!hidden ? (
+          <Button
+            className={styles.buttonAdd}
+            leftIcon={<BsCartPlus />}
+            variant="light"
+            color="teal"
+            onClick={onClick}
+          >
+            Add
+          </Button>
+        ) : (
+          <></>
+        )}
       </Group>
     </Card>
   );

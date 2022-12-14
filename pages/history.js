@@ -97,10 +97,9 @@ export default function Orders() {
   const [price, setPrice] = useState("");
   const [ship, setShip] = useState("");
   const [timestamp, setTimestamp] = useState("");
+  // const [userId, setUserId] = useState("");
   const [detail, setDetail] = useState([]);
   const theme = useMantineTheme();
-  const user = useSelector(getUser);
-  const user_id = user.userId;
 
   async function getAllOrders(status) {
     let status_id;
@@ -123,8 +122,10 @@ export default function Orders() {
     }
 
     try {
+      const session = JSON.parse(document.cookie.split("=")[1]);
+      let account_id = session.userId;
       const [data, error] = await getHistory(
-        `/order/get-history?user_id=${user_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
+        `/order/get-history?user_id=${account_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
       );
       setTotalOrders(data.total);
       setTotalPages(data.pages);
@@ -166,7 +167,7 @@ export default function Orders() {
 
     try {
       const dataCancel = {
-        account_id: user_id,
+        account_id: userId,
         order_id: order_id,
         status_id: status_id,
       };

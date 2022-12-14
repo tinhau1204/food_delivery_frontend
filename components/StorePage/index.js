@@ -35,6 +35,7 @@ function StorePage() {
           stores.map((item, index) => (
             <Grid.Col key={item.id} span={3}>
               <CardStore
+                id={item.id}
                 name={item.name}
                 address={item.address}
                 description={item.description}

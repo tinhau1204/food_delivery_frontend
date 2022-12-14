@@ -106,6 +106,7 @@ function Cart() {
                 0,
               )}
               tax={0}
+              cartlist={cart}
               onClick={() => setOpen(true)}
             />
           </Group>
