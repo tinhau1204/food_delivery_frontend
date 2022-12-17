@@ -144,7 +144,6 @@ export default function Orders() {
         "order/get-order/" + order_id,
       );
       console.log(data);
-
       setAddress(data.address);
       setPayment(data.payment_method);
       setPrice(data.price);

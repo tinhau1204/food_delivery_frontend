@@ -1,5 +1,5 @@
 import { Button, Divider, Group, Paper, Text } from "@mantine/core";
-import Link from "next/link";
+//import Link from "next/link";
 import { React, useEffect, useState } from "react";
 import {
   AiOutlineHeart,
@@ -53,20 +53,33 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
     });
   }, [currency, showSpinner]);
 
-  const generateOrderInfo = (account_id, cart, amount) => {
+  const generateOrderInfo = (account_id, cart, amount, address) => {
+    let formatData = [];
+
     const randomid = genRandomString();
+
     let order_info = {
       order_id: randomid,
       account_id: account_id,
-      store_id: cart[0].sid,
-      product_id: cart[0].pid,
-      quantity: cart[0].amount.toString(),
       ship_fee: "0",
-      price: amount.toString(),
-      payment_method: "paypal",
-      address: "test",
+      payment_method: "Paypal",
+      address: address,
+      order_detail: "",
       timestamp: Date.now().toString(),
     };
+
+    cart.forEach((Value) => {
+      let returnJson = {
+        product_id: Value.pid,
+        store_id: Value.sid,
+        price: Value.price,
+        quantity: Value.amount,
+      };
+
+      formatData.push(returnJson);
+    });
+    console.log(formatData);
+    order_info["order_detail"] = formatData;
 
     return order_info;
   };
@@ -92,14 +105,23 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
               ],
             })
             .then((orderId) => {
-              // console.log(cartdata);
               return orderId;
             });
         }}
         onApprove={function (data, actions) {
-          return actions.order.capture().then(function () {
+          return actions.order.capture().then(function (details) {
+            const address = details.purchase_units[0].shipping.address;
+            const full_address =
+              address.address_line_1 +
+              address.admin_area_1 +
+              address.admin_area_2;
             if (data) {
-              let asd = generateOrderInfo(accountId, cartdata, amount);
+              let asd = generateOrderInfo(
+                accountId,
+                cartdata,
+                amount,
+                full_address,
+              );
               console.log("Info:", asd);
               console.log("Done");
               createOrderWithPaypal(asd);
@@ -177,9 +199,15 @@ function CardTotal({
         >
           Checkout
         </Button>
-        <div style={{ maxWidth: "750px", marginTop: "20px" }}>
+        <div
+          style={{
+            maxWidth: "750px",
+            marginTop: "20px",
+          }}
+        >
           <PayPalScriptProvider
             options={{
+              "disable-funding": "card",
               "client-id": CLIENT_ID,
               components: "buttons",
               currency: "USD",

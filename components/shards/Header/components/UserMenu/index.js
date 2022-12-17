@@ -1,5 +1,5 @@
 import User from "../User";
-import { Menu } from "@mantine/core";
+import { Menu, Button } from "@mantine/core";
 import { FaCogs, FaSignOutAlt } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,9 +30,23 @@ export default function UserMenu({ isUser, name, onLogout }) {
   };
 
   return (
-    <Menu placement="end">
+    <Menu position="bottom-end">
       <Menu.Target>
-        <User name={name} />
+        <div
+          variant="subtle"
+          size="md"
+          styles={() => ({
+            margin: 5,
+            width: "fit-content",
+            border: "0.5px solid #27ca7d",
+            borderRadius: 5,
+            "&:hover": {
+              backgroundColor: "white",
+            },
+          })}
+        >
+          <User name={name} />
+        </div>
       </Menu.Target>
       {isUser == "CUS" && (
         <Menu.Dropdown>

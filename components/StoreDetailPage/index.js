@@ -183,7 +183,7 @@ function StoreDetailPage() {
                 name={item.name}
                 image={item.image}
                 price={item.price}
-                hidden="true"
+                hidden={true}
               />
             </Grid.Col>
           ))}

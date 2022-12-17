@@ -45,7 +45,7 @@ function CardItem({
       }}
       className={styles.card}
     >
-      {!hidden ? (
+      {!hidden && (
         <div className={styles.cornerRibbon}>
           <div
             className={clsx(
@@ -62,11 +62,10 @@ function CardItem({
             </Text>
           </div>
         </div>
-      ) : (
-        <></>
       )}
-      {!hidden ? (
+      {!hidden && (
         <ActionIcon
+          style={{ position: "absolute" }}
           onClick={toggleWishlist}
           variant="transparent"
           className={styles.rightSection}
@@ -78,8 +77,6 @@ function CardItem({
             <AiOutlineHeart size={25} />
           )}
         </ActionIcon>
-      ) : (
-        <></>
       )}
       <Card.Section
         style={{
