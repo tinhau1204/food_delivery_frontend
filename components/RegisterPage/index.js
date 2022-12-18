@@ -128,13 +128,24 @@ const RegisterPage = () => {
             {...form.getInputProps("confirmPassword")}
           /> */}
           <Radio.Group
-            defaultValue="Customer"
+            name="favoriteFramework"
+            label="Select your favorite framework/library"
+            description="This is anonymous"
+            withAsterisk
+          >
+            <Radio value="react" label="React" />
+            <Radio value="svelte" label="Svelte" />
+            <Radio value="ng" label="Angular" />
+            <Radio value="vue" label="Vue" />
+          </Radio.Group>
+          <Radio.Group
+            //defaultValue={"CUS"}
             label="What is your role?"
             size="md"
             required
             {...form.getInputProps("role_id")}
           >
-            <Radio value="CUS" label="Customer" />
+            <Radio value="CUS" label="Customer" checked="true" />
             <Radio value="SEL" label="Seller" />
           </Radio.Group>
           <Button size="md" type="submit">

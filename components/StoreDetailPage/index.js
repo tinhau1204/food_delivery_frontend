@@ -35,6 +35,11 @@ function StoreDetailPage() {
     });
   }
 
+  // {removeElememnts(".mantine-UnstyledButton-root.mantine-Button-root")}
+  // {removeElememnts(
+  //   ".mantine-UnstyledButton-root.mantine-ActionIcon-root.styles_rightSection__jzjqv",
+  // )}
+
   useEffect(() => {
     const get_param = new URLSearchParams(window.location.search).get("id");
     param = get_param;
@@ -58,8 +63,6 @@ function StoreDetailPage() {
   if (!loading)
     return (
       <>
-        <div className="store_detail"></div>
-        <div className="product_list"></div>
         <Group
           mb={30}
           style={{
@@ -164,18 +167,15 @@ function StoreDetailPage() {
             border: "0.5px solid #ccc",
             backgroundColor: "#ccc",
             margin: "auto",
-            marginBlock: 30,
+            marginBlock: 50,
             borderRadius: 5,
-            height: "0.6rem",
-            width: "90%",
+            height: "0.2rem",
+            width: "100%",
           }}
         ></Group>
-        <Grid
-          style={{ flex: 1, margin: "auto", marginBottom: 50 }}
-          columns={16}
-        >
+        <Grid pl={200} style={{ flex: 1, marginBottom: 50 }} columns={18}>
           {storedetail.products.map((item, index) => (
-            <Grid.Col key={item.pid} span={3}>
+            <Grid.Col key={item.pid} span={4}>
               <CardItem
                 pid={item.id}
                 description={item.description}
@@ -183,13 +183,10 @@ function StoreDetailPage() {
                 name={item.name}
                 image={item.image}
                 price={item.price}
+                hidden={true}
               />
             </Grid.Col>
           ))}
-          {removeElememnts(".mantine-UnstyledButton-root.mantine-Button-root")}
-          {removeElememnts(
-            ".mantine-UnstyledButton-root.mantine-ActionIcon-root.styles_rightSection__jzjqv",
-          )}
         </Grid>
       </>
     );

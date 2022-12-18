@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import {
   Paper,
   Image,
-  BackgroundImage,
+  //BackgroundImage,
   TextInput,
   Text,
-  Container,
+  //Container,
   Group,
   Stack,
-  ActionIcon,
+  //ActionIcon,
   PasswordInput,
-  Checkbox,
+  //Checkbox,
   Button,
   Radio,
   Center,
@@ -18,7 +18,7 @@ import {
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
 import { HiLockClosed } from "react-icons/hi";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+//import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import loginSchema from "./validate";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,6 +32,7 @@ import { login } from "@/redux/user";
 
 export default function LoginPage() {
   const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
+  const [checked, setChecked] = useState(true);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -47,7 +48,7 @@ export default function LoginPage() {
     initialValues: {
       email: "",
       password: "",
-      role_id: "",
+      role_id: "CUS",
     },
     schema: joiResolver(loginSchema),
   });
@@ -56,18 +57,18 @@ export default function LoginPage() {
     setLoading(true);
     console.log("value", values);
     const [data, error] = await assignUser("/account/login", values);
-    console.log(data);
+    //console.log(data);
     if (data) {
       showNotification({
         title: "Login success",
-        message: "Welcome to Jobable 🚀",
+        message: "Welcome to Food Delivery 🚀",
         color: "green",
         icon: <TiTick color="white" />,
       });
 
       dispatch(login({ ...data }));
       var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
-      console.log(expireTime);
+      //console.log(expireTime);
       document.cookie = `Name=${JSON.stringify(
         data,
       )};Expires=${expireTime};path=/;`;
@@ -134,7 +135,7 @@ export default function LoginPage() {
               />
               <Center>
                 <Radio.Group
-                  defaultValue="CUS"
+                  name="role_selection"
                   size="md"
                   color="#253d4e"
                   required
@@ -144,6 +145,7 @@ export default function LoginPage() {
                   <Radio value="SEL" label="Seller" />
                 </Radio.Group>
               </Center>
+
               <Button variant="outline" color="teal" type="submit">
                 Login
               </Button>

@@ -45,7 +45,7 @@ function Header() {
   const [isUser, setUser] = useState({});
   const user = useSelector(getUser);
   const checkDate = new Date(Date.now());
-  console.log(checkDate);
+  //console.log(checkDate);
   useEffect(() => {
     let cookieInfo = document.cookie.split("=")[1];
     if (cookieInfo !== undefined) {
@@ -129,12 +129,12 @@ function Header() {
                     <Indicator
                       color="green"
                       withBorder
-                      label={cart.length}
+                      label={cart.length + ""}
                       dot={false}
                       showZero={false}
                       overflowCount={999}
                       inline
-                      size={20}
+                      size={22}
                     >
                       <AiOutlineShoppingCart size={20} />
                     </Indicator>

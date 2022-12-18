@@ -5,6 +5,7 @@ import { BiRightArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 
 function CardStore({
+  id,
   name,
   address,
   description,
@@ -41,36 +42,38 @@ function CardStore({
         <Badge color="pink" variant="light" mt={50}>
           {type_name}
         </Badge>
-        <Button
-          size="xs"
-          mt={50}
-          styles={(theme) => ({
-            root: {
-              color: "#0c5418",
-              backgroundColor: "#teal",
-              border: 0,
-              height: 42,
-              paddingRight: 20,
+        <Link href={"/store/detail?id=" + id}>
+          <Button
+            size="xs"
+            mt={50}
+            styles={(theme) => ({
+              root: {
+                color: "#0c5418",
+                backgroundColor: "#teal",
+                border: 0,
+                height: 42,
+                paddingRight: 20,
 
-              "&:hover": {
-                backgroundColor: theme.fn.darken("#27ca7d", 0.05),
+                "&:hover": {
+                  backgroundColor: theme.fn.darken("#27ca7d", 0.05),
+                },
               },
-            },
-          })}
-          variant="light"
-          color="teal"
-          radius="sm"
-          rightIcon={
-            <BiRightArrowAlt
-              size={20}
-              style={{
-                color: "#121212",
-              }}
-            />
-          }
-        >
-          Detail
-        </Button>
+            })}
+            variant="light"
+            color="teal"
+            radius="sm"
+            rightIcon={
+              <BiRightArrowAlt
+                size={20}
+                style={{
+                  color: "#121212",
+                }}
+              />
+            }
+          >
+            Detail
+          </Button>
+        </Link>
       </Group>
     </Card>
   );

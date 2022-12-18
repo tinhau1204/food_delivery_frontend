@@ -16,7 +16,7 @@ function RevDetail({ sid }) {
       if (data) {
         setComments(data);
         setLoading(false);
-        console.log(data);
+        //console.log(data);
       } else {
         console.log(error);
       }

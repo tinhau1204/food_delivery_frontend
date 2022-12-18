@@ -1,13 +1,13 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import products, { getAllProducts } from "@/lib/api/products";
+import { getAllProducts } from "@/lib/api/products";
 import CardItem from "../shards/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
-import styles from "./styles.module.scss";
+//import styles from "./styles.module.scss";
 import Category from "../shards/Category";
-import { Container, Grid, Group, Paper, Stack, TextInput } from "@mantine/core";
-import { BiArrowFromLeft, BiSearch } from "react-icons/bi";
+import { Grid, Group, Paper, Stack, TextInput } from "@mantine/core";
+import { BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
 import BreadCrumb from "../shards/BreadCrumb";
@@ -22,7 +22,7 @@ function HomePage() {
       const [data, error] = await getAllProducts("/menu/get-all-products");
 
       if (data) {
-        console.log("data product", data);
+        //console.log("data product", data);
         setDataproduct(data);
       }
     };
@@ -80,6 +80,7 @@ function HomePage() {
                   name={item.name}
                   image={item.image}
                   price={item.price}
+                  hidden={false}
                   onClick={() => handleAddToCart(item)}
                 />
               </Grid.Col>

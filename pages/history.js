@@ -6,6 +6,7 @@ import {
   Text,
   Group,
   ScrollArea,
+  Stack,
   Paper,
   Skeleton,
   Button,
@@ -17,8 +18,9 @@ import arrowleft from "../public/arrowleft.svg";
 import arrowright from "../public/arrowright.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { getUser } from "@/redux/user";
+import Link from "next/link";
+//import { useSelector } from "react-redux";
+//import { getUser } from "@/redux/user";
 import {
   IconCheck,
   IconTruckDelivery,
@@ -97,10 +99,9 @@ export default function Orders() {
   const [price, setPrice] = useState("");
   const [ship, setShip] = useState("");
   const [timestamp, setTimestamp] = useState("");
+  // const [userId, setUserId] = useState("");
   const [detail, setDetail] = useState([]);
   const theme = useMantineTheme();
-  const user = useSelector(getUser);
-  const user_id = user.userId;
 
   async function getAllOrders(status) {
     let status_id;
@@ -123,14 +124,18 @@ export default function Orders() {
     }
 
     try {
+      const session = JSON.parse(document.cookie.split("=")[1]);
+      let account_id = session.userId;
       const [data, error] = await getHistory(
-        `/order/get-history?user_id=${user_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
+        `/order/get-history?user_id=${account_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
       );
       setTotalOrders(data.total);
       setTotalPages(data.pages);
       setHasNext(data.hasNext);
       setHasPrevious(data.hasPrevious);
       setOrders(data.items);
+      console.log(data);
+      console.log(data.items);
     } catch (err) {
       console.log(err);
     }
@@ -143,10 +148,9 @@ export default function Orders() {
         "order/get-order/" + order_id,
       );
       console.log(data);
-
       setAddress(data.address);
       setPayment(data.payment_method);
-      setPrice(data.price);
+      //setPrice(data.price);
       setShip(data.ship_fee);
       setTimestamp(data.timestamp);
       setDetail(data.order_detail);
@@ -166,7 +170,7 @@ export default function Orders() {
 
     try {
       const dataCancel = {
-        account_id: user_id,
+        account_id: userId,
         order_id: order_id,
         status_id: status_id,
       };
@@ -225,8 +229,7 @@ export default function Orders() {
               {row.id}
             </Anchor>
           </td>
-          <td>{row.store}</td>
-          <td>{Intl.NumberFormat().format(Number(row.price))}</td>
+          <td>{Intl.NumberFormat().format(Number(row.totalprice))}</td>
           <td>
             {moment(row.timestamp).format("MM/DD/YYYY h:mm a")}{" "}
             <Text c="dimmed">({moment(row.timestamp).fromNow()})</Text>
@@ -468,12 +471,11 @@ export default function Orders() {
               </Paper>
             </Group>
             <Paper withBorder>
-              <Table sx={{ minWidth: 800 }} verticalSpacing="xs">
+              <Table sx={{ minWidth: 800 }} verticalSpacing={10}>
                 <thead className={classes.thead}>
                   <tr>
                     <th>ID</th>
-                    <th>Store</th>
-                    <th>Total Price (USD)</th>
+                    <th>Total(USD)</th>
                     <th>Timestamp</th>
                     <th>Payment method</th>
                     <th>{tab == "not received" ? "Action" : ""}</th>
@@ -657,34 +659,41 @@ export default function Orders() {
               <Text fw={700}>Address: </Text>
               <Text>{address}</Text>
             </Group>
-            <Group mt={10}>
-              <Text fw={700}>Order detail: </Text>
-              {detail.map((item) => {
-                return (
-                  <Paper key={item.product_id}>
-                    <Paper>
-                      <Group>
-                        <Text fw={700}>product: </Text>
-                        <Text>{item.product}</Text>
-                      </Group>
-                      <Group>
-                        <Text fw={700}>quantity: </Text>
-                        <Text>{item.quantity}</Text>
-                      </Group>
+            <Group mt={10} mb={10}>
+              <Text fw={700}>Products: </Text>
+              <Stack
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: 3,
+                  width: "fit-content",
+                  overflowWrap: "break-word",
+                }}
+              >
+                {detail.map((item) => {
+                  return (
+                    <Paper key={item.product_id}>
+                      <Stack
+                        style={{
+                          padding: "8px",
+                        }}
+                      >
+                        <Group spacing={25}>
+                          <Link href={"/detail?id=" + item.product_id}>
+                            <Text color={"#27ca7d"}>{item.product_name}</Text>
+                          </Link>
+                          <Link href={"/store/detail?id=" + item.store_id}>
+                            <Text color={"#e99424"}>{item.store_name}</Text>
+                          </Link>
+                          <Text color={"#27ca7d"}>{item.quantity}</Text>
+                          <Text color={"#27ca7d"}>{item.price + "$"} </Text>
+                        </Group>
+                      </Stack>
                     </Paper>
-                  </Paper>
-                );
-              })}
+                  );
+                })}
+              </Stack>
             </Group>
-            <Group mt={10}>
-              <Text fw={700}>Payment method: </Text>
-              <Text>{payment}</Text>
-            </Group>
-            <Group mt={10}>
-              <Text fw={700}>Total Price: </Text>
-              <Text>${price}</Text>
-            </Group>
-            <Group mt={10}>
+            <Group mt={15}>
               <Text fw={700}>Ship fee: </Text>
               <Text>${ship}</Text>
             </Group>

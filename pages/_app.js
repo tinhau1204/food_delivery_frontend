@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
+import React from "react";
 import "../styles/reset.css";
 import Header from "@/components/shards/Header";
 import Footer from "@/components/shards/Footer";

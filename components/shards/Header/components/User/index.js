@@ -11,10 +11,7 @@ const User = ({ name, ref, ...buttonProps }) => {
 
   return (
     <UnstyledButton ref={ref} {...buttonProps}>
-      <Group>
-        <div>
-          <Text color="teal">{user?.displayName ?? ""}</Text>
-        </div>
+      <Group spacing="xs" style={{ width: "max-content" }}>
         {!user?.photoURL ? (
           <Avatar
             radius="lg"
@@ -30,6 +27,9 @@ const User = ({ name, ref, ...buttonProps }) => {
             alt={`${user.displayName} avatar`}
           />
         )}
+        <div>
+          <Text color="teal">{user?.displayName ?? ""}</Text>
+        </div>
       </Group>
     </UnstyledButton>
   );
