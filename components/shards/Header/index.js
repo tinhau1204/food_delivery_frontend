@@ -48,6 +48,8 @@ function Header() {
   //console.log(checkDate);
   useEffect(() => {
     let cookieInfo = document.cookie.split("=")[1];
+    console.log(cookieInfo);
+
     if (cookieInfo !== undefined) {
       const checkUser = JSON.parse(cookieInfo);
       setUser(checkUser);

@@ -679,7 +679,15 @@ export default function Orders() {
                       >
                         <Group spacing={25}>
                           <Link href={"/detail?id=" + item.product_id}>
-                            <Text color={"#27ca7d"}>{item.product_name}</Text>
+                            <Text
+                              color={"#27ca7d"}
+                              style={{
+                                cursor: "pointer",
+                                "&:hover": { textDecoration: "underline" },
+                              }}
+                            >
+                              {item.product_name}
+                            </Text>
                           </Link>
                           <Link href={"/store/detail?id=" + item.store_id}>
                             <Text color={"#e99424"}>{item.store_name}</Text>

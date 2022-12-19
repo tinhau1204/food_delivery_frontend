@@ -43,12 +43,12 @@ function Category({ onClickCate }) {
           },
           {
             icon: <GiChickenOven size={35} color="#27ca7d" />,
-            name: "Vegetable",
+            name: "Hamburger",
             quantity: 10,
           },
           {
             icon: <GiChickenOven size={35} color="#27ca7d" />,
-            name: "Carrot",
+            name: "Bread",
             quantity: 10,
           },
         ]}

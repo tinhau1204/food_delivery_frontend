@@ -15,6 +15,7 @@ import useSWR from "swr";
 
 function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
+  const [filterProduct, setFilterProduct] = useState([]);
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
   useEffect(() => {
@@ -45,15 +46,18 @@ function HomePage() {
       dispatch(addToCart(newItem));
     }
   };
-  // useEffect(() => {
-  //   const renderFilter = () => {
-  //     const filterProduct = products.filter((item) => item.cate === cateName);
-  //     console.log(filterProduct);
-  //   };
 
-  //   renderFilter();
-  // }, [cateName]);
-
+  const handleFilter = (value) => {
+    const filter = dataProduct.filter((item) =>
+      value.toLowerCase() == "food"
+        ? item.type != "drink"
+        : item.type == value.toLowerCase(),
+    );
+    setFilterProduct(filter);
+    console.log(filter);
+  };
+  console.log("cateName", cateName);
+  console.log("dataProduct", dataProduct);
   return (
     <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
       <Group align="flex-start">
@@ -65,26 +69,42 @@ function HomePage() {
             size="sm"
             style={{ width: 280 }}
           />
-          <Category onClickCate={(val) => setCateName(val.toLowerCase())} />
+          <Category onClickCate={(val) => handleFilter(val)} />
         </Stack>
         <Grid style={{ flex: 1 }} columns={12}>
-          {check > 0 &&
-            dataProduct.map((item, index) => (
-              <Grid.Col key={item.pid} span={4}>
-                <CardItem
-                  pid={item.pid}
-                  ordered={item.ord_amount}
-                  store_name={item.store_name}
-                  description={item.description}
-                  type={item.type}
-                  name={item.name}
-                  image={item.image}
-                  price={item.price}
-                  hidden={false}
-                  onClick={() => handleAddToCart(item)}
-                />
-              </Grid.Col>
-            ))}
+          {check > 0 && filterProduct?.length === 0
+            ? dataProduct.map((item, index) => (
+                <Grid.Col key={item.pid} span={4}>
+                  <CardItem
+                    pid={item.pid}
+                    ordered={item.ord_amount}
+                    store_name={item.store_name}
+                    description={item.description}
+                    type={item.type}
+                    name={item.name}
+                    image={item.image}
+                    price={item.price}
+                    hidden={false}
+                    onClick={() => handleAddToCart(item)}
+                  />
+                </Grid.Col>
+              ))
+            : filterProduct.map((item, index) => (
+                <Grid.Col key={item.pid} span={4}>
+                  <CardItem
+                    pid={item.pid}
+                    ordered={item.ord_amount}
+                    store_name={item.store_name}
+                    description={item.description}
+                    type={item.type}
+                    name={item.name}
+                    image={item.image}
+                    price={item.price}
+                    hidden={false}
+                    onClick={() => handleAddToCart(item)}
+                  />
+                </Grid.Col>
+              ))}
         </Grid>
       </Group>
     </Paper>
