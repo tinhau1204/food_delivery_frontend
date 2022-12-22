@@ -12,13 +12,13 @@ import {
   Button,
   Modal,
   useMantineTheme,
-  SimpleGrid,
+  //SimpleGrid,
 } from "@mantine/core";
 import Image from "next/image";
 import arrowleft from "../public/arrowleft.svg";
 import arrowright from "../public/arrowright.svg";
 import { useEffect, useState } from "react";
-import axios from "axios";
+//import axios from "axios";
 import Link from "next/link";
 //import { useSelector } from "react-redux";
 //import { getUser } from "@/redux/user";
@@ -646,7 +646,7 @@ export default function Orders() {
               weight={700}
               style={{ fontFamily: "Greycliff CF, sans-serif" }}
             >
-              Order Detail
+              Order Bill
             </Text>
           </Paper>
         </Group>
@@ -658,7 +658,7 @@ export default function Orders() {
               </Text>
               <Text color="#253d4e">{orderId}</Text>
             </Group>
-            <Group mt={10}>
+            <Group mt={10} mb={10}>
               <Text weight={700} color="#253d4e">
                 Address:{" "}
               </Text>
@@ -666,26 +666,35 @@ export default function Orders() {
             </Group>
             <Group mt={10} mb={10}>
               <Text weight={700} color="#253d4e">
-                Products:{" "}
+                Ship fee:{" "}
               </Text>
-              <Stack
+              <Text>${" " + ship}</Text>
+            </Group>
+            <Group mt={10} mb={20}>
+              <Text weight={700} color="#253d4e">
+                Detail:
+              </Text>
+            </Group>
+            <Group>
+              <div
                 style={{
                   border: "1px solid #ccc",
                   borderRadius: 5,
-                  width: "fit-content",
-                  overflowWrap: "break-word",
-                  padding: 8,
                 }}
               >
-                {detail.map((item) => {
-                  return (
-                    <Paper key={item.product_id}>
-                      <Stack p={8}>
-                        <SimpleGrid
-                          spacing="lg"
-                          cols={4}
-                          style={{ justifyItems: "center" }}
-                        >
+                <Table horizontalSpacing="sm" verticalSpacing="xs">
+                  <thead>
+                    <tr>
+                      <th>Product name</th>
+                      <th>Store</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {detail.map((item) => (
+                      <tr key={item.product_id}>
+                        <td>
                           <Link href={"/detail?id=" + item.product_id}>
                             <Text
                               color={"#27ca7d"}
@@ -697,23 +706,31 @@ export default function Orders() {
                               {item.product_name}
                             </Text>
                           </Link>
+                        </td>
+                        <td>
                           <Link href={"/store/detail?id=" + item.store_id}>
-                            <Text color={"#e99424"}>{item.store_name}</Text>
+                            <Text
+                              style={{
+                                cursor: "pointer",
+                                "&:hover": { textDecoration: "underline" },
+                              }}
+                              color={"#e99424"}
+                            >
+                              {item.store_name}
+                            </Text>
                           </Link>
-                          <Text color={"#27ca7d"}>{item.quantity}</Text>
-                          <Text color={"#253d4e"}>{item.price + "$"} </Text>
-                        </SimpleGrid>
-                      </Stack>
-                    </Paper>
-                  );
-                })}
-              </Stack>
-            </Group>
-            <Group mt={15}>
-              <Text weight={700} color="#253d4e">
-                Ship fee:{" "}
-              </Text>
-              <Text>${" " + ship}</Text>
+                        </td>
+                        <td>
+                          <Text color={"#27ca7d"}>{item.quantity}</Text>{" "}
+                        </td>
+                        <td>
+                          <Text color={"#253d4e"}>{item.price + "$"} </Text>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
             </Group>
           </Paper>
         </Group>
