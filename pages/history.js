@@ -23,7 +23,7 @@ import Link from "next/link";
 //import { useSelector } from "react-redux";
 //import { getUser } from "@/redux/user";
 import {
-  IconCheck,
+  IconPackgeExport,
   IconTruckDelivery,
   IconCircleX,
   IconChecks,
@@ -135,8 +135,6 @@ export default function Orders() {
       setHasNext(data.hasNext);
       setHasPrevious(data.hasPrevious);
       setOrders(data.items);
-      console.log(data);
-      console.log(data.items);
     } catch (err) {
       console.log(err);
     }
@@ -197,13 +195,13 @@ export default function Orders() {
 
   const rows = orders.map((row) => {
     //const latestDate = new Date(Number(row.last_date));
-    let Icon = IconCheck;
+    let Icon = IconPackgeExport;
     switch (tab) {
       case "not received":
         Icon = IconCircleX;
         break;
       case "received":
-        Icon = IconCheck;
+        Icon = IconPackgeExport;
         break;
       case "shipping":
         Icon = IconTruckDelivery;
