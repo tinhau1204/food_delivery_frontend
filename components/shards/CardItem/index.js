@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Card, Image, ActionIcon, Text, Group, Button } from "@mantine/core";
-import StarRating, { CountingStar } from "./components/StarRating";
+//import StarRating, { CountingStar } from "./components/StarRating";
 import { BsCartPlus } from "react-icons/bs";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import clsx from "classnames";
 import styles from "./styles.module.scss";
-import products from "@/lib/api/products";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishlist, addToWishlist } from "@/redux/wishlist";

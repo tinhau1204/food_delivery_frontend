@@ -67,6 +67,7 @@ function Header() {
   // const tabData = [{value:}]
   const { cart } = useSelector(getCart);
   const { wishlist } = useSelector(getWishlist);
+
   return (
     <Container style={{ maxWidth: 1539 }} p={0}>
       <Paper shadow="xs">
