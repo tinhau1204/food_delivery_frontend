@@ -12,6 +12,7 @@ import {
   Button,
   Modal,
   useMantineTheme,
+  SimpleGrid,
 } from "@mantine/core";
 import Image from "next/image";
 import arrowleft from "../public/arrowleft.svg";
@@ -652,32 +653,39 @@ export default function Orders() {
         <Group position="left" ml={10} mt={20}>
           <Paper>
             <Group>
-              <Text fw={700}>Id: </Text>
-              <Text>{orderId}</Text>
+              <Text weight={700} color="#253d4e">
+                Id:{" "}
+              </Text>
+              <Text color="#253d4e">{orderId}</Text>
             </Group>
             <Group mt={10}>
-              <Text fw={700}>Address: </Text>
-              <Text>{address}</Text>
+              <Text weight={700} color="#253d4e">
+                Address:{" "}
+              </Text>
+              <Text color="#253d4e">{address}</Text>
             </Group>
             <Group mt={10} mb={10}>
-              <Text fw={700}>Products: </Text>
+              <Text weight={700} color="#253d4e">
+                Products:{" "}
+              </Text>
               <Stack
                 style={{
                   border: "1px solid #ccc",
-                  borderRadius: 3,
+                  borderRadius: 5,
                   width: "fit-content",
                   overflowWrap: "break-word",
+                  padding: 8,
                 }}
               >
                 {detail.map((item) => {
                   return (
                     <Paper key={item.product_id}>
-                      <Stack
-                        style={{
-                          padding: "8px",
-                        }}
-                      >
-                        <Group spacing={25}>
+                      <Stack p={8}>
+                        <SimpleGrid
+                          spacing="lg"
+                          cols={4}
+                          style={{ justifyItems: "center" }}
+                        >
                           <Link href={"/detail?id=" + item.product_id}>
                             <Text
                               color={"#27ca7d"}
@@ -693,8 +701,8 @@ export default function Orders() {
                             <Text color={"#e99424"}>{item.store_name}</Text>
                           </Link>
                           <Text color={"#27ca7d"}>{item.quantity}</Text>
-                          <Text color={"#27ca7d"}>{item.price + "$"} </Text>
-                        </Group>
+                          <Text color={"#253d4e"}>{item.price + "$"} </Text>
+                        </SimpleGrid>
                       </Stack>
                     </Paper>
                   );
@@ -702,8 +710,10 @@ export default function Orders() {
               </Stack>
             </Group>
             <Group mt={15}>
-              <Text fw={700}>Ship fee: </Text>
-              <Text>${ship}</Text>
+              <Text weight={700} color="#253d4e">
+                Ship fee:{" "}
+              </Text>
+              <Text>${" " + ship}</Text>
             </Group>
           </Paper>
         </Group>
