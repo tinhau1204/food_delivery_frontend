@@ -10,21 +10,25 @@ import { Grid, Group, Paper, Stack, TextInput } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
-import BreadCrumb from "../shards/BreadCrumb";
-import useSWR from "swr";
+//import BreadCrumb from "../shards/BreadCrumb";
+//import useSWR from "swr";
 
 function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
   useEffect(() => {
+    setLoading(false);
     const getProduct = async () => {
       const [data, error] = await getAllProducts("/menu/get-all-products");
 
       if (data) {
         //console.log("data product", data);
         setDataproduct(data);
+        setLoading(true);
       }
     };
 
@@ -54,10 +58,10 @@ function HomePage() {
         : item.type == value.toLowerCase(),
     );
     setFilterProduct(filter);
-    console.log(filter);
+    //console.log(filter);
   };
-  console.log("cateName", cateName);
-  console.log("dataProduct", dataProduct);
+  //console.log("cateName", cateName);
+  //console.log("dataProduct", dataProduct);
   return (
     <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
       <Group align="flex-start">
@@ -72,7 +76,7 @@ function HomePage() {
           <Category onClickCate={(val) => handleFilter(val)} />
         </Stack>
         <Grid style={{ flex: 1 }} columns={12}>
-          {check > 0 && filterProduct?.length === 0
+          {filterProduct?.length === 0
             ? dataProduct.map((item, index) => (
                 <Grid.Col key={item.pid} span={4}>
                   <CardItem

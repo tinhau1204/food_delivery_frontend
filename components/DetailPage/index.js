@@ -110,6 +110,7 @@ function DetailPage() {
               width="100%"
               height="100%"
               styles={{
+                root: { height: "100%" },
                 figure: { width: "100%", height: "100%" },
                 imageWrapper: { width: "100%", height: "100%" },
                 objectFit: "cover",

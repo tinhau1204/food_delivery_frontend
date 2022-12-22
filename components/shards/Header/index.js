@@ -55,13 +55,13 @@ function Header() {
       setUser(checkUser);
     } else {
       alert("you must login first!");
-      router.push("/login");
+      router.push("/login", undefined, { shallow: true });
     }
   }, [setUser]);
 
-  useEffect(() => {
-    console.log();
-  });
+  // useEffect(() => {
+  //   console.log();
+  // });
 
   const data = ["All Categories", "food", "drink"];
   // const tabData = [{value:}]
@@ -69,9 +69,14 @@ function Header() {
   const { wishlist } = useSelector(getWishlist);
   return (
     <Container style={{ maxWidth: 1539 }} p={0}>
-      <Paper shadow="xs" className={styles.header}>
+      <Paper shadow="xs">
         <Grid
-          style={{ minHeight: 100 }}
+          style={{
+            minHeight: 100,
+            marginBottom: "10px",
+            justifyContent: "center",
+            margin: "auto",
+          }}
           align="center"
           justify="center"
           columns={12}

@@ -60,6 +60,7 @@ export default function LoginPage() {
     //console.log(data);
     if (data) {
       showNotification({
+        autoClose: 4000,
         title: "Login success",
         message: "Welcome to Food Delivery 🚀",
         color: "green",

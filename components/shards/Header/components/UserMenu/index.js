@@ -14,7 +14,7 @@ export default function UserMenu({ isUser, name, onLogout }) {
   const handleLogout = () => {
     document.cookie = `Name=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
     onLogout();
-    router.push("/");
+    router.push("/", undefined, { shallow: true });
   };
 
   // const handleToInformation = () => {
