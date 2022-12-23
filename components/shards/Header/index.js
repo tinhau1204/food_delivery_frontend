@@ -69,7 +69,10 @@ function Header() {
   const { wishlist } = useSelector(getWishlist);
 
   return (
-    <Container style={{ maxWidth: 1539 }} p={0}>
+    <Container
+      style={{ maxWidth: 1539, zIndex: 100, position: "sticky", top: 0 }}
+      p={0}
+    >
       <Paper shadow="xs">
         <Grid
           style={{

@@ -9,6 +9,7 @@ import {
   Anchor,
   Title,
   Group,
+  ActionIcon,
 } from "@mantine/core";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
@@ -22,6 +23,7 @@ import {
   FaImage,
   FaHeart,
 } from "react-icons/fa";
+import { BiArrowBack } from "react-icons/bi";
 
 function BreadCrumb({ name }) {
   const router = useRouter();
@@ -59,15 +61,28 @@ function BreadCrumb({ name }) {
     ));
   return (
     <Paper p="lg" className={styles.wrapper}>
-      <Stack
-        style={{
-          height: "100%",
-          paddingLeft: router.pathname === "/checkout" ? 230 : 110,
-        }}
-        justify="center"
-      >
-        <Title color="#27ca7d">{items}</Title>
-      </Stack>
+      <Group align="center" spacing="none">
+        <ActionIcon
+          variant="transparent"
+          ml={100}
+          onClick={() => router.back()}
+          disabled={router.pathname == "/" && true}
+        >
+          <BiArrowBack
+            size={20}
+            color={router.pathname == "/" ? "ccc" : "#253d4e"}
+          />
+        </ActionIcon>
+        <Stack
+          style={{
+            height: "100%",
+            paddingLeft: router.pathname === "/checkout" ? 230 : 110,
+          }}
+          justify="center"
+        >
+          <Title color="#27ca7d">{items}</Title>
+        </Stack>
+      </Group>
     </Paper>
   );
 }

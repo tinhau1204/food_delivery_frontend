@@ -66,7 +66,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       payment_method: "Paypal",
       address: address,
       order_detail: "",
-      product_count: parseInt(cartdata.length),
+      product_count: parseInt(cart.length),
       timestamp: new Date().toISOString(),
     };
 

@@ -33,6 +33,7 @@ import moment from "moment";
 import { getHistory } from "@/lib/api/order";
 import { getProductDetail } from "@/lib/api/productdetail";
 import { cancelOrder } from "@/lib/api/products";
+import { BiCommentDetail } from "react-icons/bi";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -93,6 +94,7 @@ export default function Orders() {
   const [isFinish, setIsFinish] = useState(false);
   const [loading, setLoading] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [address, setAddress] = useState("");
@@ -208,6 +210,7 @@ export default function Orders() {
         break;
       case "success":
         Icon = IconChecks;
+
         break;
       case "failed":
         Icon = IconSquareRoundedLetterX;
@@ -216,7 +219,7 @@ export default function Orders() {
     return (
       <>
         <tr key={row.id}>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>
             <Anchor
               size="sm"
               onClick={async () => {
@@ -228,13 +231,15 @@ export default function Orders() {
               {row.id}
             </Anchor>
           </td>
-          <td>{Intl.NumberFormat().format(Number(row.totalprice))}</td>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>
+            {Intl.NumberFormat().format(Number(row.totalprice))}
+          </td>
+          <td style={{ verticalAlign: "middle" }}>
             {moment(row.timestamp).format("MM/DD/YYYY h:mm a")}{" "}
             <Text c="dimmed">({moment(row.timestamp).fromNow()})</Text>
           </td>
-          <td>{row.payment_method}</td>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>{row.payment_method}</td>
+          <td style={{ verticalAlign: "middle" }}>
             {tab == "not received" ? (
               <Button
                 variant="default"
@@ -244,6 +249,14 @@ export default function Orders() {
                 }}
               >
                 <Icon size={30} stroke={1.5} />
+              </Button>
+            ) : tab == "success" ? (
+              <Button
+                variant="outline"
+                color="teal"
+                leftIcon={<BiCommentDetail size={20} />}
+              >
+                Add Comment
               </Button>
             ) : (
               <Icon size={22} stroke={1.5} />

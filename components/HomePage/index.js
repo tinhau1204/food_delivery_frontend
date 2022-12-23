@@ -6,7 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
 //import styles from "./styles.module.scss";
 import Category from "../shards/Category";
-import { Grid, Group, Paper, Stack, TextInput } from "@mantine/core";
+import {
+  Grid,
+  Group,
+  Paper,
+  ScrollArea,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
 
@@ -73,7 +80,10 @@ function HomePage() {
             size="sm"
             style={{ width: 280 }}
           />
-          <Category onClickCate={(val) => handleFilter(val)} />
+          <Category
+            onClickCate={(val) => handleFilter(val)}
+            getType={dataProduct}
+          />
         </Stack>
         <Grid style={{ flex: 1 }} columns={12}>
           {filterProduct?.length === 0
