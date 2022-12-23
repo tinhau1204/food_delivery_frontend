@@ -15,6 +15,7 @@ import { createOrder } from "@/lib/api/order";
 import { TiTick } from "react-icons/ti";
 import { showNotification } from "@mantine/notifications";
 import { useRouter } from "next/router";
+import moment from "moment";
 
 function genRandomString() {
   let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -65,7 +66,8 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       payment_method: "Paypal",
       address: address,
       order_detail: "",
-      timestamp: Date.now().toString(),
+      product_count: parseInt(cartdata.length),
+      timestamp: new Date().toISOString(),
     };
 
     cart.forEach((Value) => {
@@ -105,6 +107,10 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
               ],
             })
             .then((orderId) => {
+              // console.log(new Date().toISOString());
+              // console.log(
+              //   moment(new Date().toISOString()).format("MM/DD/YYYY h:mm a"),
+              // );
               return orderId;
             });
         }}
