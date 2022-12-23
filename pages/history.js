@@ -235,6 +235,13 @@ export default function Orders() {
           </td>
           <td>{row.payment_method}</td>
           <td>
+            {tab == "not received" || tab == "received" ? (
+              <Text>{row.progress + " / " + row.product_count}</Text>
+            ) : (
+              <></>
+            )}
+          </td>
+          <td>
             {tab == "not received" ? (
               <Button
                 variant="default"
@@ -477,14 +484,19 @@ export default function Orders() {
                     <th>Total(USD)</th>
                     <th>Timestamp</th>
                     <th>Payment method</th>
-                    <th>{tab == "not received" ? "Action" : ""}</th>
+                    <th>
+                      {tab == "not received" || tab == "received"
+                        ? "Progress"
+                        : ""}
+                    </th>
+                    <th>{tab == "not received" ? "Action" : "Status"}</th>
                   </tr>
                 </thead>
                 <tbody>{isFinish ? rows : <Waiting />}</tbody>
               </Table>
               {orders.length == 0 ? (
                 <Group position="center">
-                  <Text color="#B4B4B4" fw={500} mt={50} mb={50}>
+                  <Text color="#B4B4B4" fw={400} mt={22} mb={23}>
                     Empty
                   </Text>
                 </Group>
