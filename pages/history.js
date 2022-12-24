@@ -1,12 +1,11 @@
 import {
   createStyles,
   Table,
-  Progress,
   Anchor,
   Text,
   Group,
-  ScrollArea,
-  Stack,
+  Radio,
+  Collapse,
   Paper,
   Skeleton,
   Button,
@@ -32,8 +31,10 @@ import {
 import moment from "moment";
 import { getHistory } from "@/lib/api/order";
 import { getProductDetail } from "@/lib/api/productdetail";
+import { getOrderComment } from "@/lib/api/order/comment";
 import { cancelOrder } from "@/lib/api/products";
 import { BiCommentDetail } from "react-icons/bi";
+import WriteReview from "@/components/DetailPage/ReviewDetail/WriteReview";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -82,6 +83,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Orders() {
+  const cookieInfo = JSON.parse(document.cookie.split("=")[1]);
   const { classes } = useStyles();
   const [orders, setOrders] = useState([]);
   const [tab, setTab] = useState("not received");
@@ -104,7 +106,11 @@ export default function Orders() {
   const [timestamp, setTimestamp] = useState("");
   // const [userId, setUserId] = useState("");
   const [detail, setDetail] = useState([]);
+  const [orderComment, setOrderComment] = useState([]);
   const theme = useMantineTheme();
+  const [commentopened, setCommentOpened] = useState(false);
+  const [commentLoad, setCommentLoad] = useState(false);
+  let i = 1;
 
   async function getAllOrders(status) {
     let status_id;
@@ -148,13 +154,25 @@ export default function Orders() {
       const [data, error] = await getProductDetail(
         "order/get-order/" + order_id,
       );
-      console.log(data);
+      //console.log(data);
       setAddress(data.address);
       setPayment(data.payment_method);
       //setPrice(data.price);
       setShip(data.ship_fee);
       setTimestamp(data.timestamp);
       setDetail(data.order_detail);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getComment(order_id) {
+    try {
+      const value = { account_id: cookieInfo.userId, order_id: order_id };
+      const data = await getOrderComment("order/get-comment/", value);
+      setOrderComment(data);
+      setCommentLoad(true);
+      console.log("Test", data);
     } catch (err) {
       console.log(err);
     }
@@ -216,6 +234,7 @@ export default function Orders() {
         Icon = IconSquareRoundedLetterX;
         break;
     }
+
     return (
       <>
         <tr key={row.id}>
@@ -251,13 +270,40 @@ export default function Orders() {
                 <Icon size={30} stroke={1.5} />
               </Button>
             ) : tab == "success" ? (
-              <Button
-                variant="outline"
-                color="teal"
-                leftIcon={<BiCommentDetail size={20} />}
-              >
-                Add Comment
-              </Button>
+              <>
+                <Button
+                  onClick={async () => {
+                    await getComment(row.id);
+                    setCommentOpened(true);
+                  }}
+                  variant="outline"
+                  color="teal"
+                  leftIcon={<BiCommentDetail size={20} />}
+                >
+                  Add Comment
+                </Button>
+                <Modal
+                  opened={commentopened}
+                  onClose={() => setCommentOpened(false)}
+                >
+                  {orderComment.length > 0 ? (
+                    <Radio.Group label="Select a store to comment">
+                      {commentopened &&
+                        orderComment.map(
+                          (item) => {
+                            console.log(item);
+                          },
+
+                          // (<Radio label={item.store_id}></Radio>)
+                        )}
+                    </Radio.Group>
+                  ) : (
+                    <></>
+                  )}
+
+                  <WriteReview orderid={row.id} />
+                </Modal>
+              </>
             ) : (
               <Icon size={22} stroke={1.5} />
             )}

@@ -1,8 +1,8 @@
 import StarRating from "@/components/shards/CardItem/components/StarRating";
-import { Button, Stack, Textarea, TextInput } from "@mantine/core";
+import { Button, Stack, Textarea, TextInput, Text, Group } from "@mantine/core";
 import React, { useState } from "react";
 import styles from "./styles.module.scss";
-function WriteReview() {
+function WriteReview({ orderid }) {
   const [comment, setComment] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,13 +17,17 @@ function WriteReview() {
   };
   // transfer this to history
   return (
-    <form onSubmit={handleSubmit} style={{ width: 500 }}>
+    <form onSubmit={handleSubmit} style={{ width: 350, margin: "auto" }}>
       <Stack>
-        <StarRating name="star" />
+        <Group mb={20}>
+          <Text mr={5}>ID:</Text>
+          <Text color="teal">{orderid}</Text>
+        </Group>
+        <StarRating name="star" size={20} />
         <Textarea
           placeholder="Write Your Comment"
           withAsterisk
-          minRows={5}
+          minRows={4}
           autosize
           name="comment"
           onChange={(e) => setComment(e.currentTarget.value)}

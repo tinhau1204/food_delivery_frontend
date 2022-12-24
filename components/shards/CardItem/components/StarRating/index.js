@@ -7,7 +7,7 @@ export default function StarRating({ onchange }) {
   const [hover, setHover] = useState(0);
   const [count, setCount] = useState(0);
   return (
-    <div styles={styles.starRating}>
+    <div className={styles.starRating}>
       {[...Array(5)].map((star, index) => {
         index += 1;
         return (
