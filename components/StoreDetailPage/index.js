@@ -174,6 +174,7 @@ function StoreDetailPage() {
           }}
         ></Group>
         <Grid pl={200} style={{ flex: 1, marginBottom: 50 }} columns={18}>
+          {console.log(storedetail)}
           {storedetail.products.map((item, index) => (
             <Grid.Col key={item.pid} span={4}>
               <CardItem

@@ -33,7 +33,7 @@ function HomePage() {
       const [data, error] = await getAllProducts("/menu/get-all-products");
 
       if (data) {
-        //console.log("data product", data);
+        console.log("data product", data);
         setDataproduct(data);
         setLoading(true);
       }

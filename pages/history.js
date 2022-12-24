@@ -5,7 +5,7 @@ import {
   Text,
   Group,
   Radio,
-  Collapse,
+  Stack,
   Paper,
   Skeleton,
   Button,
@@ -83,7 +83,10 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Orders() {
-  const cookieInfo = JSON.parse(document.cookie.split("=")[1]);
+  let cookieInfo = "";
+  if (document.cookie) {
+    cookieInfo = JSON.parse(document.cookie.split("=")[1]);
+  }
   const { classes } = useStyles();
   const [orders, setOrders] = useState([]);
   const [tab, setTab] = useState("not received");
@@ -109,8 +112,8 @@ export default function Orders() {
   const [orderComment, setOrderComment] = useState([]);
   const theme = useMantineTheme();
   const [commentopened, setCommentOpened] = useState(false);
-  const [commentLoad, setCommentLoad] = useState(false);
-  let i = 1;
+  const [commentStoreId, setCommentStoreId] = useState("");
+  const [change, setChange] = useState(false);
 
   async function getAllOrders(status) {
     let status_id;
@@ -169,9 +172,8 @@ export default function Orders() {
   async function getComment(order_id) {
     try {
       const value = { account_id: cookieInfo.userId, order_id: order_id };
-      const data = await getOrderComment("order/get-comment/", value);
+      const [data] = await getOrderComment("order/get-comment/", value);
       setOrderComment(data);
-      setCommentLoad(true);
       console.log("Test", data);
     } catch (err) {
       console.log(err);
@@ -287,21 +289,10 @@ export default function Orders() {
                   onClose={() => setCommentOpened(false)}
                 >
                   {orderComment.length > 0 ? (
-                    <Radio.Group label="Select a store to comment">
-                      {commentopened &&
-                        orderComment.map(
-                          (item) => {
-                            console.log(item);
-                          },
-
-                          // (<Radio label={item.store_id}></Radio>)
-                        )}
-                    </Radio.Group>
+                    <WriteReview orderId={row.id} orderComment={orderComment} />
                   ) : (
                     <></>
                   )}
-
-                  <WriteReview orderid={row.id} />
                 </Modal>
               </>
             ) : (
