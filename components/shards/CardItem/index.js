@@ -118,9 +118,15 @@ function CardItem({
       <Text size="xs" color="grey">
         {store_name}
       </Text>
-      <Text size="xs" color="red">
-        Ordered: {ordered}
-      </Text>
+      {ordered != null ? (
+        <Text size="xs" color="red">
+          Ordered: {ordered}
+        </Text>
+      ) : (
+        <Text size="xs" color="red">
+          Ordered: 0
+        </Text>
+      )}
       <Group position="apart">
         <Text weight={500}>${String(price)}</Text>
         {!hidden ? (

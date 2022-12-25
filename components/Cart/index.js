@@ -18,6 +18,7 @@ import { getCart, updateCart, removeFromCart } from "@/redux/cart";
 import EmptyProduct from "./shards/EmptyProduct";
 import CardTotal from "./shards/CardTotal";
 import BillingDetails from "../BillingDetails";
+
 function Cart() {
   const [quantity, setQuantity] = useState({ amount: null, pid: null });
   const [open, setOpen] = useState(false);

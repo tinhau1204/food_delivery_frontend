@@ -16,7 +16,7 @@ import {
 } from "@mantine/core";
 import { BiSearch } from "react-icons/bi";
 import { AiOutlineArrowRight } from "react-icons/ai";
-
+import { checkLoginCookie } from "@/lib/api/cookie";
 //import BreadCrumb from "../shards/BreadCrumb";
 //import useSWR from "swr";
 
@@ -33,7 +33,7 @@ function HomePage() {
       const [data, error] = await getAllProducts("/menu/get-all-products");
 
       if (data) {
-        console.log("data product", data);
+        //console.log("data product", data);
         setDataproduct(data);
         setLoading(true);
       }
@@ -48,13 +48,15 @@ function HomePage() {
   const { cart } = useSelector(getCart);
 
   const handleAddToCart = (product) => {
-    if (cart.some((item) => item.pid === product.pid)) {
-      var oldItem = cart.find((item) => item.pid === product.pid);
-      var newItem = { ...oldItem, amount: oldItem.amount + 1 };
-      dispatch(updateCart(newItem));
-    } else {
-      var newItem = { ...product, amount: 1 };
-      dispatch(addToCart(newItem));
+    if (checkLoginCookie()) {
+      if (cart.some((item) => item.pid === product.pid)) {
+        var oldItem = cart.find((item) => item.pid === product.pid);
+        var newItem = { ...oldItem, amount: oldItem.amount + 1 };
+        dispatch(updateCart(newItem));
+      } else {
+        var newItem = { ...product, amount: 1 };
+        dispatch(addToCart(newItem));
+      }
     }
   };
 

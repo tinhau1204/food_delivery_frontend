@@ -45,7 +45,7 @@ function Header() {
   const [isUser, setUser] = useState({});
   const user = useSelector(getUser);
   const checkDate = new Date(Date.now());
-  //console.log(checkDate);
+
   useEffect(() => {
     let cookieInfo = document.cookie.split("=")[1];
     console.log(cookieInfo);
@@ -53,15 +53,9 @@ function Header() {
     if (cookieInfo !== undefined) {
       const checkUser = JSON.parse(cookieInfo);
       setUser(checkUser);
-    } else {
-      alert("you must login first!");
-      router.push("/login", undefined, { shallow: true });
     }
+    console.log(isUser);
   }, [setUser]);
-
-  // useEffect(() => {
-  //   console.log();
-  // });
 
   const data = ["All Categories", "food", "drink"];
   // const tabData = [{value:}]
@@ -119,7 +113,7 @@ function Header() {
                     <Indicator
                       color="green"
                       withBorder
-                      label={wishlist.length}
+                      label={wishlist.length + ""}
                       dot={false}
                       showZero={false}
                       overflowCount={999}
@@ -154,14 +148,14 @@ function Header() {
                 </Link>
               </ActionIcon>
 
-              {isUser ? (
+              {isUser.length > 0 ? (
                 <UserMenu
                   isUser={isUser.role}
                   name={isUser.name}
                   onLogout={() => setUser(undefined)}
                 />
               ) : (
-                <ActionIcon size="lg" variant="subtle" color="teal">
+                <ActionIcon size="sx" variant="subtle" color="teal">
                   <Link href="/login" replace>
                     <Group spacing="xs">
                       <AiOutlineUser size={20} />
