@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   Grid,
   Paper,
@@ -8,7 +8,10 @@ import {
   Container,
   Group,
   ActionIcon,
+  Image,
   Avatar,
+  Stack,
+  Menu,
   Indicator,
   Select,
   Divider,
@@ -29,7 +32,7 @@ import { CiFacebook, CiTwitter, CiInstagram, CiYoutube } from "react-icons/ci";
 import { ImWhatsapp } from "react-icons/im";
 import { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
-import Menu, { ListIcon } from "./components/Menu";
+import MainMenu, { ListIcon } from "./components/Menu";
 import Contact from "./components/Contact";
 import Link from "next/link";
 // import {IoLocationOutline} from 'react-icons/io';
@@ -38,13 +41,43 @@ import { getCart } from "@/redux/cart";
 import { getWishlist } from "@/redux/wishlist";
 import { getUser } from "@/redux/user";
 import UserMenu from "./components/UserMenu";
-import router from "next/router";
+import { searchProduct } from "@/lib/api/products";
 
 function Header() {
   const [isDrop, setIsDrop] = useState(false);
   const [isUser, setUser] = useState({});
   const user = useSelector(getUser);
   const checkDate = new Date(Date.now());
+
+  const [isVisible, setIsVisible] = useState(true);
+  const [dropMenu, setDropMenu] = useState(false);
+  const [height, setHeight] = useState(0);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchData, setSearchData] = useState([]);
+
+  const data = ["All Categories", "food", "drink"];
+  // const tabData = [{value:}]
+  const { cart } = useSelector(getCart);
+  const { wishlist } = useSelector(getWishlist);
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
+
+  useEffect(() => {
+    window.addEventListener("scroll", listenToScroll);
+    return () => window.removeEventListener("scroll", listenToScroll);
+  }, []);
+
+  const listenToScroll = () => {
+    let heightToHideFrom = 105;
+    const winScroll =
+      document.body.scrollTop || document.documentElement.scrollTop;
+    setHeight(winScroll);
+
+    if (winScroll > heightToHideFrom) {
+      isVisible && setIsVisible(false);
+    } else {
+      setIsVisible(true);
+    }
+  };
 
   useEffect(() => {
     let cookieInfo = document.cookie.split("=")[1];
@@ -54,13 +87,47 @@ function Header() {
       const checkUser = JSON.parse(cookieInfo);
       setUser(checkUser);
     }
-    console.log(isUser);
   }, [setUser]);
 
-  const data = ["All Categories", "food", "drink"];
-  // const tabData = [{value:}]
-  const { cart } = useSelector(getCart);
-  const { wishlist } = useSelector(getWishlist);
+  /////// Search data when press Enter ///////////////
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      const searchObject = {
+        name: searchInput,
+      };
+      getSearchedProduct(searchObject);
+      setDropMenu(true);
+    } else {
+      setDropMenu(false);
+    }
+  };
+
+  const getSearchedProduct = async (value) => {
+    const [data, error] = await searchProduct("/menu/search", value);
+
+    if (data) {
+      setSearchData(data);
+    }
+  };
+  ////////////////////////////////////////////////////////////////
+
+  //// Detect and hide/show if click outside/inside search drop-menu ////
+  const wrapperRef = useRef(null);
+  const [isClickedOutside, setIsClickedOutside] = useState(true);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = (event) => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setIsClickedOutside(false);
+    } else setIsClickedOutside(true);
+  };
+  ////////////////////////////////////////////////////////////////
 
   return (
     <Container
@@ -81,12 +148,82 @@ function Header() {
         >
           <Grid.Col span={1}>
             <Link href="/">
-              <Avatar size="md" src="" style={{ cursor: "pointer" }} />
+              <Image
+                size="md"
+                width={50}
+                fit="content"
+                src="/images/logo.png"
+                style={{ cursor: "pointer" }}
+              ></Image>
             </Link>
           </Grid.Col>
 
           <Grid.Col span={2}>
-            <TextInput rightSection={<FiSearch />} placeholder="Search..." />
+            <TextInput
+              ref={wrapperRef}
+              onKeyDown={handleKeyDown}
+              value={searchInput}
+              onChange={(event) => setSearchInput(event.currentTarget.value)}
+              rightSection={<FiSearch />}
+              placeholder="Search..."
+            />
+            {dropMenu && searchData && isClickedOutside && (
+              <div
+                style={{
+                  border: "2px solid #ccc",
+                  borderRadius: 5,
+                  background: "white",
+                  zIndex: 2,
+                  marginTop: 10,
+                  position: "fixed",
+                  width: 498,
+                }}
+              >
+                <Stack
+                  p={5}
+                  style={{
+                    borderBottom: "0.5px solid #ccc",
+                  }}
+                >
+                  {searchData.length > 0 &&
+                    searchData.map((item) => (
+                      <Group>
+                        <div
+                          style={{
+                            width: 50,
+                            height: 50,
+                            border: "1px solid #ccc",
+                            borderRadius: 3,
+                          }}
+                        >
+                          <Image
+                            src={img_load + item.image}
+                            alt="image"
+                            width="100%"
+                            height="100%"
+                            styles={{
+                              root: { height: "100%" },
+                              figure: { width: "100%", height: "100%" },
+                              imageWrapper: { width: "100%", height: "100%" },
+                              objectFit: "cover",
+                            }}
+                          />
+                        </div>
+                        <Link href={"/detail?id=" + item.id} key={item.id}>
+                          <Text
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            fz="sm"
+                          >
+                            {item.name}
+                          </Text>
+                        </Link>
+                      </Group>
+                    ))}
+                </Stack>
+              </div>
+            )}
           </Grid.Col>
 
           <Grid.Col span={2}>
@@ -148,7 +285,7 @@ function Header() {
                 </Link>
               </ActionIcon>
 
-              {isUser.length > 0 ? (
+              {isUser && Object.keys(isUser).length > 0 ? (
                 <UserMenu
                   isUser={isUser.role}
                   name={isUser.name}
@@ -168,8 +305,15 @@ function Header() {
           </Grid.Col>
         </Grid>
       </Paper>
-
-      <Paper shadow="xs" style={{ minHeight: 50 }}>
+      <Paper
+        shadow="xs"
+        style={{
+          minHeight: 50,
+          opacity: !isVisible ? "0" : "1",
+          transition: "all 0.5s ease",
+          visibility: !isVisible ? "hidden" : "visible",
+        }}
+      >
         <Group spacing="xl" className={styles.subHeader}>
           <NativeSelect
             data={["All Categories", "Food", "Drink"]}
@@ -177,7 +321,7 @@ function Header() {
             rightSection={<MdKeyboardArrowDown />}
           />
 
-          <Menu
+          <MainMenu
             data={[
               { title: "Home", path: "/" },
               { title: "About", path: "/about" },

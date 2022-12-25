@@ -12,7 +12,7 @@ export default function UserMenu({ isUser, name, onLogout }) {
   const dispatch = useDispatch();
   const router = useRouter();
   const handleLogout = () => {
-    document.cookie = `Name=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
+    document.cookie = `User=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
     onLogout();
     router.push("/", undefined, { shallow: true });
   };

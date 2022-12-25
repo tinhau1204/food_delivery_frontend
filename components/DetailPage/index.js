@@ -33,10 +33,10 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
   const { id } = router.query;
-  console.log("id page", id);
-  console.log("wishlist", wishlist);
-  console.log("cart", cart);
-  console.log("productDetail", productDetail);
+  // console.log("id page", id);
+  // console.log("wishlist", wishlist);
+  // console.log("cart", cart);
+  // console.log("productDetail", productDetail);
 
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 

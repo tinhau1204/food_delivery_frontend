@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  Avatar,
-  Group,
-  Stack,
-  Grid,
-  Container,
-  Divider,
-  Space,
-} from "@mantine/core";
+import { Avatar, Stack, Grid } from "@mantine/core";
 import { ListIcon } from "../Header/components/Menu";
 import {
   CiFacebook,
@@ -71,7 +63,7 @@ function Footer() {
       >
         <Grid.Col span={3} style={{ flex: 1 }}>
           <Stack align="flex-start">
-            <Avatar size="md" src="https://i.imgur.com/qw6oWmE.png" />
+            {/* <Avatar size="md" fit="contain" src="/images/logo.png" /> */}
             <ListIcon
               data={[
                 {

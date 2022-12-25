@@ -82,6 +82,14 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+{
+  /* <style>
+  .customizeModal .mantine-Modal-modal{
+    width: 500px,
+  }
+</style> */
+}
+
 export default function Orders() {
   let cookieInfo = "";
   if (document.cookie) {
@@ -287,6 +295,7 @@ export default function Orders() {
                 <Modal
                   opened={commentopened}
                   onClose={() => setCommentOpened(false)}
+                  size={700}
                 >
                   {orderComment.length > 0 ? (
                     <WriteReview orderId={row.id} orderComment={orderComment} />

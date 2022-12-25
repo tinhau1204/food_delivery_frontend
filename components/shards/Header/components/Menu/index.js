@@ -6,7 +6,7 @@ import clsx from "classnames";
 import { useRouter } from "next/router";
 // import useRouter from
 
-export default function Menu({ data }) {
+export default function MainMenu({ data }) {
   const { pathname } = useRouter();
   return (
     <Group>
