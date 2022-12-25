@@ -95,6 +95,7 @@ function Header() {
       const searchObject = {
         name: searchInput,
       };
+      setSearchData([]);
       getSearchedProduct(searchObject);
       setDropMenu(true);
     } else {

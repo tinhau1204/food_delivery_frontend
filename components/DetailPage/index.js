@@ -66,7 +66,7 @@ function DetailPage() {
     };
 
     getProduct();
-  }, []);
+  }, [id]);
 
   console.log(
     "check",
