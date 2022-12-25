@@ -13,6 +13,7 @@ import {
 } from "react-icons/ci";
 import { GiAlarmClock } from "react-icons/gi";
 import { ImWhatsapp } from "react-icons/im";
+import { getBotData } from "@/lib/api/bot";
 
 import List, { HorizontalList } from "./components/List";
 import styles from "./styles.module.scss";
@@ -21,37 +22,37 @@ function Footer() {
 
   const [html, setHTML] = useState({ __html: "" });
 
-  // useEffect(() => {
-  //   async function createMarkup() {
-  //     let response = await fetch(`http://127.0.0.1:4000/chatbot`);
-  //     if (response) {
-  //       const backendHtmlString = await response.text();
+  useEffect(() => {
+    async function createMarkup() {
+      let response = await getBotData(`http://127.0.0.1:4000/chatbot`);
+      if (response) {
+        const backendHtmlString = await response.text();
 
-  //       let formatString = backendHtmlString
-  //         .split("<body>")[1]
-  //         .split("</body>")[0];
+        let formatString = backendHtmlString
+          .split("<body>")[1]
+          .split("</body>")[0];
 
-  //       return { __html: formatString };
-  //     } else {
-  //       return "error";
-  //     }
-  //   }
-  //   const head = document.querySelector("head");
-  //   head.innerHTML += `<link rel="stylesheet" href="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/style.css">`;
+        return { __html: formatString };
+      } else {
+        return "error";
+      }
+    }
+    const head = document.querySelector("head");
+    head.innerHTML += `<link rel="stylesheet" href="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/style.css">`;
 
-  //   let a = document.querySelector(
-  //     `script[src="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/app.js"]`,
-  //   );
-  //   if (!a) {
-  //     const script = document.createElement("script");
-  //     script.async = true;
-  //     script.src = process.env.NEXT_PUBLIC_CHATBOT_API + "/static/app.js";
+    let a = document.querySelector(
+      `script[src="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/app.js"]`,
+    );
+    if (!a) {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = process.env.NEXT_PUBLIC_CHATBOT_API + "/static/app.js";
 
-  //     createMarkup()
-  //       .then(document.body.appendChild(script))
-  //       .then((result) => setHTML(result));
-  //   }
-  // }, []);
+      createMarkup()
+        .then(document.body.appendChild(script))
+        .then((result) => setHTML(result));
+    }
+  });
 
   return (
     <>
@@ -139,7 +140,7 @@ function Footer() {
           />
         </Grid.Col>
       </Grid>
-      {/* {html && <div dangerouslySetInnerHTML={html} />} */}
+      {html && <div dangerouslySetInnerHTML={html} />}
     </>
   );
 }
