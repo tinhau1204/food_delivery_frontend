@@ -4,11 +4,13 @@ import { getAllProducts } from "@/lib/api/products";
 import CardItem from "../shards/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
-//import styles from "./styles.module.scss";
+import styles from "./styles.module.scss";
 import Category from "../shards/Category";
 import {
   Grid,
   Group,
+  Menu,
+  Pagination,
   Paper,
   ScrollArea,
   Stack,
@@ -24,7 +26,13 @@ function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [activePage, setPage] = useState(1);
+  const limitProduct = 9;
+  const totalPage = Math.ceil(
+    (filterProduct.length != 0 ? filterProduct.length : dataProduct.length) /
+      limitProduct,
+  );
+  console.log("totalPage", totalPage);
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
   useEffect(() => {
@@ -46,6 +54,8 @@ function HomePage() {
   const [cateName, setCateName] = useState("");
   const dispatch = useDispatch();
   const { cart } = useSelector(getCart);
+  console.log("data", dataProduct);
+  console.log("page", activePage);
 
   const handleAddToCart = (product) => {
     if (checkLoginCookie()) {
@@ -67,10 +77,7 @@ function HomePage() {
         : item.type == value.toLowerCase(),
     );
     setFilterProduct(filter);
-    //console.log(filter);
   };
-  //console.log("cateName", cateName);
-  //console.log("dataProduct", dataProduct);
   return (
     <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
       <Group align="flex-start">
@@ -89,40 +96,64 @@ function HomePage() {
         </Stack>
         <Grid style={{ flex: 1 }} columns={12}>
           {filterProduct?.length === 0
-            ? dataProduct.map((item, index) => (
-                <Grid.Col key={item.pid} span={4}>
-                  <CardItem
-                    pid={item.pid}
-                    ordered={item.ord_amount}
-                    store_name={item.store_name}
-                    description={item.description}
-                    type={item.type}
-                    name={item.name}
-                    image={item.image}
-                    price={item.price}
-                    hidden={false}
-                    onClick={() => handleAddToCart(item)}
-                  />
-                </Grid.Col>
-              ))
-            : filterProduct.map((item, index) => (
-                <Grid.Col key={item.pid} span={4}>
-                  <CardItem
-                    pid={item.pid}
-                    ordered={item.ord_amount}
-                    store_name={item.store_name}
-                    description={item.description}
-                    type={item.type}
-                    name={item.name}
-                    image={item.image}
-                    price={item.price}
-                    hidden={false}
-                    onClick={() => handleAddToCart(item)}
-                  />
-                </Grid.Col>
-              ))}
+            ? dataProduct
+                .slice(
+                  activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                  activePage * limitProduct,
+                )
+                .map((item, index) => (
+                  <Grid.Col key={item.pid} span={4}>
+                    <CardItem
+                      pid={item.pid}
+                      ordered={item.ord_amount}
+                      store_name={item.store_name}
+                      description={item.description}
+                      type={item.type}
+                      name={item.name}
+                      image={item.image}
+                      price={item.price}
+                      hidden={false}
+                      onClick={() => handleAddToCart(item)}
+                    />
+                  </Grid.Col>
+                ))
+            : filterProduct
+                .slice(
+                  activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                  activePage * limitProduct,
+                )
+                .map((item, index) => (
+                  <Grid.Col key={item.pid} span={4}>
+                    <CardItem
+                      pid={item.pid}
+                      ordered={item.ord_amount}
+                      store_name={item.store_name}
+                      description={item.description}
+                      type={item.type}
+                      name={item.name}
+                      image={item.image}
+                      price={item.price}
+                      hidden={false}
+                      onClick={() => handleAddToCart(item)}
+                    />
+                  </Grid.Col>
+                ))}
         </Grid>
       </Group>
+      <Pagination
+        className={styles.pagination}
+        styles={(theme) => ({
+          item: {
+            "&[data-active]": {
+              backgroundImage: theme.fn.gradient({ from: "green", to: "teal" }),
+            },
+          },
+        })}
+        total={totalPage}
+        radius="xl"
+        page={activePage}
+        onChange={setPage}
+      />
     </Paper>
   );
 }

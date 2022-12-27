@@ -358,7 +358,7 @@ function Header() {
 
           <Contact
             phoneNumber={"(xxx) xxx-xxxx"}
-            dateTime={"Mon - Sat: 7:00-20:00"}
+            dateTime={"Contact for help!"}
           />
         </Group>
       </Paper>
