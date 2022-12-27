@@ -12,6 +12,7 @@ import {
   Avatar,
   Stack,
   Menu,
+  ScrollArea,
   Indicator,
   Select,
   Divider,
@@ -92,12 +93,17 @@ function Header() {
   /////// Search data when press Enter ///////////////
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      const searchObject = {
-        name: searchInput,
-      };
-      setSearchData([]);
-      getSearchedProduct(searchObject);
-      setDropMenu(true);
+      //Check if input valid
+      if (!searchInput.replace(/\s/g, "").length) {
+        getSearchedProduct([]);
+      } else {
+        const searchObject = {
+          name: searchInput,
+        };
+        setSearchData([]);
+        getSearchedProduct(searchObject);
+        setDropMenu(true);
+      }
     } else {
       setDropMenu(false);
     }
@@ -169,7 +175,7 @@ function Header() {
               placeholder="Search..."
             />
             {dropMenu && searchData && isClickedOutside && (
-              <div
+              <ScrollArea
                 style={{
                   border: "2px solid #ccc",
                   borderRadius: 5,
@@ -178,6 +184,7 @@ function Header() {
                   marginTop: 10,
                   position: "fixed",
                   width: 498,
+                  maxHeight: 198,
                 }}
               >
                 <Stack
@@ -223,7 +230,7 @@ function Header() {
                       </Group>
                     ))}
                 </Stack>
-              </div>
+              </ScrollArea>
             )}
           </Grid.Col>
 
