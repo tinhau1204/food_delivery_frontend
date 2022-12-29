@@ -23,6 +23,7 @@ import { HiLockClosed } from "react-icons/hi";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { HiOutlineIdentification } from "react-icons/hi";
+import Link from "next/link";
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
@@ -38,8 +39,6 @@ const RegisterPage = () => {
     }
     return result;
   }
-
-  console.log(typeof makeid(10));
 
   const form = useForm({
     initialValues: {
@@ -58,10 +57,8 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (values) => {
-    console.log("value Submit", values);
     setLoading(false);
     const [data, error] = await assignUser("/account/register", values);
-    console.log("data register", data);
 
     if (data) {
       showNotification({
@@ -127,18 +124,8 @@ const RegisterPage = () => {
             required
             {...form.getInputProps("confirmPassword")}
           /> */}
-          <Radio.Group
-            name="favoriteFramework"
-            label="Select your favorite framework/library"
-            description="This is anonymous"
-            withAsterisk
-          >
-            <Radio value="react" label="React" />
-            <Radio value="svelte" label="Svelte" />
-            <Radio value="ng" label="Angular" />
-            <Radio value="vue" label="Vue" />
-          </Radio.Group>
-          <Radio.Group
+
+          {/* <Radio.Group
             //defaultValue={"CUS"}
             label="What is your role?"
             size="md"
@@ -147,16 +134,22 @@ const RegisterPage = () => {
           >
             <Radio value="CUS" label="Customer" checked="true" />
             <Radio value="SEL" label="Seller" />
-          </Radio.Group>
-          <Button size="md" type="submit">
-            Register
-          </Button>
+          </Radio.Group> */}
           <Center>
             Already have an account?
             <Anchor onClick={handleToLogin} ml="xs">
               Login
             </Anchor>
           </Center>
+          <Center>
+            Cooperate with our team?
+            <Anchor href={"https://food-delivery-seller.vercel.app/"} ml="xs">
+              Seller
+            </Anchor>
+          </Center>
+          <Button size="md" type="submit">
+            Register
+          </Button>
         </SimpleGrid>
         <LoadingOverlay visible={loading} />
       </Stack>

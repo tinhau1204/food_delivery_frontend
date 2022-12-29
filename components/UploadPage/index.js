@@ -29,7 +29,6 @@ function UploadPage() {
             if (value) {
               setFileUrl(URL.createObjectURL(value));
               setFile(value);
-              console.log(value);
             }
           }}
         />

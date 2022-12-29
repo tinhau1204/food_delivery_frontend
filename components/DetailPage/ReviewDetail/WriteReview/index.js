@@ -29,7 +29,6 @@ function WriteReview({ orderId, orderComment }) {
     const index = orderComment.map((e) => e.store_id).indexOf(value);
     const cmtData = orderComment[index].comment;
     setComment(cmtData);
-    console.log(cmtData);
   };
 
   async function editComment(value) {

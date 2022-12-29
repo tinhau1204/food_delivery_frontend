@@ -26,14 +26,9 @@ function WishListPage() {
 
   const handleAddToCart = (product) => {
     if (checkLoginCookie) {
-      console.log(
-        "here ",
-        cart.some((item) => item.pid === product.pid),
-      );
       if (checkLoginCookie()) {
         if (cart.some((item) => item.pid === product.pid)) {
           var oldItem = cart.find((item) => item.pid === product.pid);
-          console.log(oldItem);
           var newItem = { ...oldItem, amount: oldItem.amount + 1 };
           dispatch(updateCart(newItem));
           dispatch(removeWishlist(product));

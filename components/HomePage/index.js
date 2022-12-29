@@ -32,7 +32,6 @@ function HomePage() {
     (filterProduct.length != 0 ? filterProduct.length : dataProduct.length) /
       limitProduct,
   );
-  console.log("totalPage", totalPage);
   // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
   let check = dataProduct.length;
   useEffect(() => {
@@ -41,7 +40,6 @@ function HomePage() {
       const [data, error] = await getAllProducts("/menu/get-all-products");
 
       if (data) {
-        //console.log("data product", data);
         setDataproduct(data);
         setLoading(true);
       }
@@ -54,8 +52,6 @@ function HomePage() {
   const [cateName, setCateName] = useState("");
   const dispatch = useDispatch();
   const { cart } = useSelector(getCart);
-  console.log("data", dataProduct);
-  console.log("page", activePage);
 
   const handleAddToCart = (product) => {
     if (checkLoginCookie()) {

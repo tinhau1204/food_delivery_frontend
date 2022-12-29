@@ -19,7 +19,6 @@ import ListCheckbox from "./components/ListCheckbox";
 function Category({ onClickCate, getType }) {
   const [sliderMin, setSliderMin] = useState(20);
   const [sliderMax, setSliderMax] = useState(100);
-  //useEffect(() => console.log("setSlider", sliderMin), [sliderMin]);
   const filterType = (name) => {
     const filter = getType.filter((val) =>
       name == "Food" ? val.type != "drink" : val.type == name.toLowerCase(),

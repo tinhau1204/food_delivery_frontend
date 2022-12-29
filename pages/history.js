@@ -165,10 +165,8 @@ export default function Orders() {
       const [data, error] = await getProductDetail(
         "order/get-order/" + order_id,
       );
-      //console.log(data);
       setAddress(data.address);
       setPayment(data.payment_method);
-      //setPrice(data.price);
       setShip(data.ship_fee);
       setTimestamp(data.timestamp);
       setDetail(data.order_detail);
@@ -182,7 +180,6 @@ export default function Orders() {
       const value = { account_id: cookieInfo.userId, order_id: order_id };
       const [data] = await getOrderComment("order/get-comment/", value);
       setOrderComment(data);
-      console.log("Test", data);
     } catch (err) {
       console.log(err);
     }

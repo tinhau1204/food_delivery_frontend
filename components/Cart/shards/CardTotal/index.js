@@ -107,10 +107,6 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
               ],
             })
             .then((orderId) => {
-              // console.log(new Date().toISOString());
-              // console.log(
-              //   moment(new Date().toISOString()).format("MM/DD/YYYY h:mm a"),
-              // );
               return orderId;
             });
         }}

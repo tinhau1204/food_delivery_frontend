@@ -14,6 +14,7 @@ import {
   Button,
   Radio,
   Center,
+  Anchor,
 } from "@mantine/core";
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
@@ -55,9 +56,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    console.log("value", values);
     const [data, error] = await assignUser("/account/login", values);
-    //console.log(data);
     if (data) {
       showNotification({
         autoClose: 4000,
@@ -69,7 +68,6 @@ export default function LoginPage() {
 
       dispatch(login({ ...data }));
       var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
-      //console.log(expireTime);
       document.cookie = `User=${JSON.stringify(
         data,
       )};Expires=${expireTime};path=/;`;
@@ -134,7 +132,7 @@ export default function LoginPage() {
                 required
                 {...form.getInputProps("password")}
               />
-              <Center>
+              {/* <Center>
                 <Radio.Group
                   name="role_selection"
                   size="md"
@@ -145,7 +143,7 @@ export default function LoginPage() {
                   <Radio value="CUS" label="Customer" />
                   <Radio value="SEL" label="Seller" />
                 </Radio.Group>
-              </Center>
+              </Center> */}
 
               <Button variant="outline" color="teal" type="submit">
                 Login
@@ -155,6 +153,15 @@ export default function LoginPage() {
                   Create a new account?
                 </Text>
               </Link>
+              <Center>
+                Cooperate with our team?
+                <Anchor
+                  href={"https://food-delivery-seller.vercel.app/"}
+                  ml="xs"
+                >
+                  Seller
+                </Anchor>
+              </Center>
             </Stack>
           </Paper>
         </Group>

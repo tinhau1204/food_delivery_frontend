@@ -48,9 +48,7 @@ function StoreDetailPage() {
       const [data, error] = await getStoreAndProduct("/store/id=" + param);
 
       if (data) {
-        console.log("Store detail", data);
         setStoreDetail(data);
-        //console.log(storedetail.products.length);
         setLoading(false);
       } else {
         console.log(error);
@@ -174,7 +172,6 @@ function StoreDetailPage() {
           }}
         ></Group>
         <Grid pl={200} style={{ flex: 1, marginBottom: 50 }} columns={18}>
-          {console.log(storedetail)}
           {storedetail.products.map((item, index) => (
             <Grid.Col key={item.pid} span={4}>
               <CardItem
