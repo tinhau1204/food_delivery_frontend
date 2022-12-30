@@ -67,6 +67,7 @@ function Header() {
     return () => window.removeEventListener("scroll", listenToScroll);
   }, []);
 
+  //////// Hide half-top when scroll to specific height////
   const listenToScroll = () => {
     let heightToHideFrom = 105;
     const winScroll =
@@ -79,6 +80,7 @@ function Header() {
       setIsVisible(true);
     }
   };
+  /////////////////////////////////////////////////////////
 
   useEffect(() => {
     let cookieInfo = document.cookie.split("=")[1];
@@ -332,7 +334,7 @@ function Header() {
             data={[
               { title: "Home", path: "/" },
               { title: "About", path: "/about" },
-              { title: "Shop", path: "/store" },
+              { title: "Store", path: "/store" },
             ]}
           />
 

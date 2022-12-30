@@ -11,14 +11,14 @@ cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-@app.get("/chatbot")
+@app.get("/")
 def index_get():
     return render_template("base.html")
 
 
 @app.post("/predict")
 def userchat():
-    text = request.get_json().get("message")  # check if text is valid
+    text = request.get_json().get("message")
     response = get_response(text)
     message = {"answer": response}
     return jsonify(message)

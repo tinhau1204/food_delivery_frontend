@@ -43,7 +43,7 @@ body {
 .chatbox--active {
     display: flex;
     transform: translateY(-40px);
-    z-index: 2;
+    z-index: 3;
     opacity: 1;
 
 }
