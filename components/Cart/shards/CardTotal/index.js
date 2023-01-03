@@ -124,29 +124,29 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
         onApprove={function (data, actions) {
           return actions.order.capture().then(function (details) {
             clearCartList();
-            // const address = details.purchase_units[0].shipping.address;
-            // const full_address =
-            //   address.address_line_1 +
-            //   address.admin_area_1 +
-            //   address.admin_area_2;
-            // if (data) {
-            //   let asd = generateOrderInfo(
-            //     accountId,
-            //     cartdata,
-            //     amount,
-            //     full_address,
-            //   );
-            //   console.log("Info:", asd);
-            //   console.log("Done");
-            //   createOrderWithPaypal(asd);
-            //   showNotification({
-            //     title: "Order success",
-            //     message: "Thanks for your purchase",
-            //     color: "green",
-            //     icon: <TiTick color="white" />,
-            //   });
-            //   router.push("/");
-            // }
+            const address = details.purchase_units[0].shipping.address;
+            const full_address =
+              address.address_line_1 +
+              address.admin_area_1 +
+              address.admin_area_2;
+            if (data) {
+              let asd = generateOrderInfo(
+                accountId,
+                cartdata,
+                amount,
+                full_address,
+              );
+              console.log("Info:", asd);
+              console.log("Done");
+              createOrderWithPaypal(asd);
+              showNotification({
+                title: "Order success",
+                message: "Thanks for your purchase",
+                color: "green",
+                icon: <TiTick color="white" />,
+              });
+              router.push("/");
+            }
           });
         }}
       />
