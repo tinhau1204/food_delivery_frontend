@@ -20,14 +20,18 @@ import styles from "./styles.module.scss";
 function Footer() {
   const primaryColor = "#008080";
 
-  // const [html, setHTML] = useState({ __html: "" });
+  const [html, setHTML] = useState({ __html: "" });
+  const chatbot_url = process.env.NEXT_PUBLIC_CHATBOT_API;
 
-  // useEffect(() => {
-  //   async function createMarkup() {
-  //     let response = await getBotData(`http://127.0.0.1:4000/chatbot`);
-  //     if (response) {
-  //       const backendHtmlString = await response.text();
+  useEffect(() => {
+    const getChatBot = () => {
+      fetch(chatbot_url)
+        .then(async (data) => {
           const backendHtmlString = await data.text();
+          let formatString = backendHtmlString
+            .split("<body>")[1]
+            .split("</body>")[0];
+          setHTML({ __html: formatString });
           const head = document.querySelector("head");
           head.innerHTML += `<link rel="stylesheet" href="${chatbot_url}/static/style.css">`;
           let a = document.querySelector(

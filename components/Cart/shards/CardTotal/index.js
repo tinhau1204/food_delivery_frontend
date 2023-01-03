@@ -2,9 +2,9 @@ import { Button, Divider, Group, Paper, Text } from "@mantine/core";
 //import Link from "next/link";
 import { React, useEffect, useState } from "react";
 import {
-  AiOutlineHeart,
+  //AiOutlineHeart,
   AiOutlineShoppingCart,
-  AiOutlineUser,
+  //AiOutlineUser,
 } from "react-icons/ai";
 import {
   PayPalScriptProvider,
@@ -14,8 +14,10 @@ import {
 import { createOrder } from "@/lib/api/order";
 import { TiTick } from "react-icons/ti";
 import { showNotification } from "@mantine/notifications";
+import { getCart, clearCart } from "@/redux/cart";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import moment from "moment";
+//import moment from "moment";
 
 function genRandomString() {
   let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -33,6 +35,15 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
   const [accountId, setAccountid] = useState("");
   const style = { layout: "vertical" };
+
+  //Cart
+  const { cart } = useSelector(getCart);
+  const cartDispatch = useDispatch();
+
+  const clearCartList = () => {
+    cartDispatch(clearCart());
+  };
+  ///
 
   const createOrderWithPaypal = async (values) => {
     const [data, error] = await createOrder("/order/create", values);
@@ -112,29 +123,30 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
         }}
         onApprove={function (data, actions) {
           return actions.order.capture().then(function (details) {
-            const address = details.purchase_units[0].shipping.address;
-            const full_address =
-              address.address_line_1 +
-              address.admin_area_1 +
-              address.admin_area_2;
-            if (data) {
-              let asd = generateOrderInfo(
-                accountId,
-                cartdata,
-                amount,
-                full_address,
-              );
-              console.log("Info:", asd);
-              console.log("Done");
-              createOrderWithPaypal(asd);
-              showNotification({
-                title: "Order success",
-                message: "Thanks for your purchase",
-                color: "green",
-                icon: <TiTick color="white" />,
-              });
-              router.push("/");
-            }
+            clearCartList();
+            // const address = details.purchase_units[0].shipping.address;
+            // const full_address =
+            //   address.address_line_1 +
+            //   address.admin_area_1 +
+            //   address.admin_area_2;
+            // if (data) {
+            //   let asd = generateOrderInfo(
+            //     accountId,
+            //     cartdata,
+            //     amount,
+            //     full_address,
+            //   );
+            //   console.log("Info:", asd);
+            //   console.log("Done");
+            //   createOrderWithPaypal(asd);
+            //   showNotification({
+            //     title: "Order success",
+            //     message: "Thanks for your purchase",
+            //     color: "green",
+            //     icon: <TiTick color="white" />,
+            //   });
+            //   router.push("/");
+            // }
           });
         }}
       />
