@@ -1,14 +1,14 @@
 export const introduceData = [
+  // {
+  //   id: 0,
+  //   content: "Leader of team",
+  //   profile: "Nguyen Hoang Quoc Bao",
+  //   image:
+  //     "https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/268581193_1937409916438034_557087352001693024_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=fxptNEHo0WoAX-4MfgZ&tn=ojgNsE8c27fmYnDy&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfCTqXCUJwBhxxoifu4ml-2ibTVeZEXxHpOV88vRkGZNdg&oe=639CFB13",
+  //   title: "Welcome to Delivery Food Member",
+  // },
   {
     id: 0,
-    content: "Leader of team",
-    profile: "Nguyen Hoang Quoc Bao",
-    image:
-      "https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/268581193_1937409916438034_557087352001693024_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=fxptNEHo0WoAX-4MfgZ&tn=ojgNsE8c27fmYnDy&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfCTqXCUJwBhxxoifu4ml-2ibTVeZEXxHpOV88vRkGZNdg&oe=639CFB13",
-    title: "Welcome to Delivery Food Member",
-  },
-  {
-    id: 1,
     content: "Front-end Dev",
     profile: "Hau Kien Tin",
     image:
@@ -16,19 +16,19 @@ export const introduceData = [
     title: "Welcome to Delivery Food Member",
   },
   {
-    id: 2,
+    id: 1,
     content: "Back-end Dev",
     profile: "Chu Nguyen Hoang Son",
     image:
-      "https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/292140908_1307353323123221_4223192911539486378_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=a4a2d7&_nc_ohc=VM9mdbh5rAgAX8lmdIL&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfC9AoL-ngQrY6Z087w4PKM67hwaAJDDQKEvN97dC4EaiA&oe=639CF1C2",
+      "https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-6/292140908_1307353323123221_4223192911539486378_n.jpg?stp=dst-jpg_s1080x2048&_nc_cat=104&ccb=1-7&_nc_sid=a4a2d7&_nc_ohc=zyNdYR5hPLYAX93iRdT&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfBEFbmnc9z-tTSsIifqGqQRqiHVB8LEwHrIszs_qaQ6Ww&oe=63B8A142",
     title: "Welcome to Delivery Food Member",
   },
   {
-    id: 3,
+    id: 2,
     content: "Tensorflow Dev",
     profile: "Nguyen Quang Tung",
     image:
-      "https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/278057306_3278050592452401_4950103026242908519_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=fpBMN5OD7asAX_L4TL-&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfCR2BU0tg4KkaGQ4f5p6S-Uzn_j4_-6AcGONha_YBpcIA&oe=639DAC0D",
+      "https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/278057306_3278050592452401_4950103026242908519_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BfFuUOk3FhIAX-3cAJj&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfBGAt0zJebgCC1cjUTYdqy6_GQU9tWiTU-N8LdmnrctIQ&oe=63B95B8D",
     title: "Welcome to Delivery Food Member",
   },
 ];
