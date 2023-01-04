@@ -185,7 +185,7 @@ function DetailPage() {
               Description
             </Text>
             <Text
-              color="gray"
+              color="black"
               size={14}
               style={{ maxWidth: 340, overflowWrap: "break-word" }}
             >

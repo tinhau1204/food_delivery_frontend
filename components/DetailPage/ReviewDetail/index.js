@@ -11,8 +11,8 @@ function ReviewDetail({ store, storeid }) {
       style={{ width: "68%", marginBottom: 10 }}
     >
       <Tabs.List>
-        <Tabs.Tab value="description">Store</Tabs.Tab>
-        <Tabs.Tab value="reviews">Reviews</Tabs.Tab>
+        <Tabs.Tab value="description">Store Info</Tabs.Tab>
+        <Tabs.Tab value="reviews">Store Reviews</Tabs.Tab>
       </Tabs.List>
       <Tabs.Panel value="description" pt="xs">
         <DesDetail storeinfo={store} />

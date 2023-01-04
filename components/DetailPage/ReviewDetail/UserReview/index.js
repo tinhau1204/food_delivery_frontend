@@ -43,23 +43,31 @@ function UserReview({ data }) {
               <Group spacing={20}>
                 <Avatar radius="xl" size="lg" src="/images/defaultuser.png" />
                 <Stack spacing={5} mt={10}>
-                  <Group>
+                  <Stack spacing="xs">
                     <Title size="lg" color="#253d4e">
                       {item.name}
                     </Title>
-                    <Text color="#253d4e" size="sm">
-                      {moment(item.timestamp).format("MM/DD/YYYY h:mm a")}{" "}
-                    </Text>
-                  </Group>
-                  <Text color="gray" size="sm">
-                    {item.comment}
-                  </Text>
+                    <Group>
+                      <Text color="grey" size={12}>
+                        {moment(item.timestamp).format("MM/DD/YYYY h:mm a")}
+                      </Text>
+                      <Text color="grey" size={12}>
+                        |
+                      </Text>
+                      <Text color="grey" size={12}>
+                        Product:
+                      </Text>
+                      <Text color="teal" fw={700} size={12}>
+                        {item.products[0].name}
+                      </Text>
+                    </Group>
+                  </Stack>
                   <Group spacing="none">
                     <CountingSmallStar count={item.star} />
-                    {/* <Text size="sm" color="gray">
-                      {"(" + item.star + ") " + "Review"}
-                    </Text> */}
                   </Group>
+                  <Text color="black" size="sm">
+                    {item.comment}
+                  </Text>
                 </Stack>
               </Group>
             </Group>

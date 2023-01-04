@@ -1,8 +1,8 @@
 import { Container, Group, Stack, Title } from "@mantine/core";
 import { React, useState, useEffect } from "react";
-import useSWR from "swr";
+//import useSWR from "swr";
 import UserReview from "../UserReview";
-import WriteReview from "../WriteReview";
+//import WriteReview from "../WriteReview";
 import { getStoreCommments } from "@/lib/api/storecomments";
 
 function RevDetail({ sid }) {
