@@ -667,11 +667,22 @@ export default function Orders() {
         </Group>
         <Group position="center" mb={10}>
           <Button
+            size="lg"
             variant="gradient"
-            gradient={{ from: "teal", to: "blue", deg: 60 }}
-            fullWidth
             loading={loading}
+            gradient={{ from: "teal", to: "blue", deg: 60 }}
             onClick={() => cancelingOrder(orderId)}
+          >
+            OK
+          </Button>
+          <Button
+            size="lg"
+            variant="gradient"
+            gradient={{ from: "grey", to: "white", deg: 60 }}
+            loading={loading}
+            style={{ color: "black" }}
+            ml={10}
+            onClick={() => setOpened(false)}
           >
             Cancel
           </Button>
