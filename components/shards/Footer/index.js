@@ -51,7 +51,7 @@ function Footer() {
     };
 
     getChatBot();
-  });
+  }, []);
 
   return (
     <>
