@@ -5,14 +5,15 @@ import {
   Table,
   ActionIcon,
   NumberInput,
-  Center,
-  Stack,
+  //Center,
+  //Stack,
   Container,
 } from "@mantine/core";
 import React, { useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import SmallProduct from "./shards/SmallProduct";
 import QuantityInput from "./shards/QuantityInput";
+import styles from "./styles.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, updateCart, removeFromCart } from "@/redux/cart";
 import EmptyProduct from "./shards/EmptyProduct";
@@ -31,7 +32,7 @@ function Cart() {
     return removeItem;
   };
 
-  console.log("cart", cart);
+  //console.log("cart", cart);
   const rows = cart.map((element) => (
     <tr key={element.pid}>
       <td>
@@ -44,8 +45,8 @@ function Cart() {
           />
         }
       </td>
-      <td>{`$ ${element.price} `}</td>
-      <td>
+      <td className={styles.centreAlign}>{`$ ${element.price} `}</td>
+      <td className={styles.centreAlign}>
         {
           <QuantityInput
             value={element.amount}
@@ -55,8 +56,10 @@ function Cart() {
           />
         }
       </td>
-      <td>{"$" + element.amount * element.price}</td>
-      <td>
+      <td className={styles.centreAlign}>
+        {"$" + element.amount * element.price}
+      </td>
+      <td className={styles.centreAlign}>
         {
           <ActionIcon
             color="red"
@@ -77,8 +80,8 @@ function Cart() {
       {cart.length !== 0 ? (
         <>
           <Title>Shopping Cart</Title>
-          <Group spacing="xs">
-            <Text>There are</Text>
+          <Group spacing="xs" mt={10}>
+            <Text>{cart.length < 2 ? "There is" : "There are"}</Text>
             <Text color="teal">
               {cart.length} {cart.length < 2 ? "product" : "products"}
             </Text>

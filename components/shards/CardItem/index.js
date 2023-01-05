@@ -118,13 +118,9 @@ function CardItem({
       <Text size="xs" color="grey">
         {store_name}
       </Text>
-      {ordered != null ? (
+      {!hidden && (
         <Text size="xs" color="red">
-          Ordered: {ordered}
-        </Text>
-      ) : (
-        <Text size="xs" color="red">
-          Ordered: 0
+          Ordered: {ordered != null ? ordered : "0"}
         </Text>
       )}
       <Group position="apart">

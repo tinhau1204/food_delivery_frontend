@@ -134,7 +134,7 @@ function Footer() {
               { title: "Sign in", path: "/login" },
               { title: "View Cart", path: "/cart" },
               { title: "My Wishlist", path: "/wishlist" },
-              { title: "Track My Order", path: "/order" },
+              { title: "Track My Order", path: "/history" },
             ]}
           />
         </Grid.Col>

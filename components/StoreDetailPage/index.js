@@ -15,10 +15,10 @@ import {
   Title,
   FileInput,
 } from "@mantine/core";
-import CardStore from "../shards/CardStore";
-
+//import CardStore from "../shards/CardStore";
 import styles from "./styles.module.scss";
 import { Grid } from "@mantine/core";
+import moment from "moment/moment";
 import { getStoreAndProduct } from "@/lib/api/storedetail";
 
 function StoreDetailPage() {
@@ -28,12 +28,12 @@ function StoreDetailPage() {
   let param = null;
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
-  function removeElememnts(selector) {
-    let list = document.querySelectorAll(`${selector}`);
-    list.forEach((e) => {
-      e.remove();
-    });
-  }
+  // function removeElememnts(selector) {
+  //   let list = document.querySelectorAll(`${selector}`);
+  //   list.forEach((e) => {
+  //     e.remove();
+  //   });
+  // }
 
   // {removeElememnts(".mantine-UnstyledButton-root.mantine-Button-root")}
   // {removeElememnts(
@@ -103,9 +103,20 @@ function StoreDetailPage() {
               mt={10}
               mr={20}
             >
-              <Title color="#253d4e" size={18}>
-                {storedetail.store[0].name}
-              </Title>
+              <Group
+              // align="flex-end"
+              // justify="flex-start"
+              // style={{ position: "absolute", top: "0.5rem", right: "0" }}
+              >
+                <Title color="#253d4e" size={18}>
+                  {storedetail.store[0].name}
+                </Title>
+                <Text color="green" size={14}>
+                  {moment(storedetail.store[0].active_date).format(
+                    "MM/DD/YYYY",
+                  )}
+                </Text>
+              </Group>
               <Badge
                 color="pink"
                 mt={20}
@@ -144,18 +155,7 @@ function StoreDetailPage() {
                 size={14}
                 style={{ maxWidth: 340, overflowWrap: "break-word" }}
               >
-                {/* {storedetail.store[0].des} */}
-                82/b khu pho 6 phuong hiep thanh
-              </Text>
-            </Stack>
-            <Stack
-              align="flex-end"
-              justify="flex-start"
-              style={{ position: "absolute", top: "0.5rem", right: "0" }}
-            >
-              <Text color="green" size={14}>
-                {/* {storedetail.store[0].active_date} */}
-                Active: Date
+                {storedetail.store[0].description}
               </Text>
             </Stack>
           </Group>

@@ -29,9 +29,9 @@ function DetailPage() {
   const { cart } = useSelector(getCart);
   const { wishlist } = useSelector(getWishlist);
   const dispatch = useDispatch();
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
+  const router = useRouter();
   const { id } = router.query;
   // console.log("id page", id);
   // console.log("wishlist", wishlist);

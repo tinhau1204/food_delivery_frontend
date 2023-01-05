@@ -52,7 +52,7 @@ function Header() {
 
   const [isVisible, setIsVisible] = useState(true);
   const [dropMenu, setDropMenu] = useState(false);
-  const [height, setHeight] = useState(0);
+  //const [height, setHeight] = useState(0);
   const [searchInput, setSearchInput] = useState("");
   const [searchData, setSearchData] = useState([]);
 
@@ -65,17 +65,17 @@ function Header() {
   useEffect(() => {
     window.addEventListener("scroll", listenToScroll);
     return () => window.removeEventListener("scroll", listenToScroll);
-  }, []);
+  });
 
   //////// Hide half-top when scroll to specific height////
   const listenToScroll = () => {
-    let heightToHideFrom = 105;
-    const winScroll =
-      document.body.scrollTop || document.documentElement.scrollTop;
-    setHeight(winScroll);
+    let heightToHideFrom = 100;
+    const winScroll = document.documentElement.scrollTop;
+    console.log(winScroll);
+    //setHeight(winScroll);
 
     if (winScroll > heightToHideFrom) {
-      isVisible && setIsVisible(false);
+      setIsVisible(false);
     } else {
       setIsVisible(true);
     }
@@ -139,7 +139,7 @@ function Header() {
 
   return (
     <Container
-      style={{ maxWidth: 1539, zIndex: 100, position: "sticky", top: 0 }}
+      style={{ maxWidth: "100%", zIndex: 100, position: "sticky", top: 0 }}
       p={0}
     >
       <Paper shadow="xs">
@@ -318,9 +318,10 @@ function Header() {
         shadow="xs"
         style={{
           minHeight: 50,
-          opacity: !isVisible ? "0" : "1",
-          transition: "all 0.5s ease",
+          height: !isVisible ? 0 : "auto",
+          opacity: !isVisible ? 0 : 1,
           visibility: !isVisible ? "hidden" : "visible",
+          transition: "all 0.3s ease",
         }}
       >
         <Group spacing="xl" className={styles.subHeader}>

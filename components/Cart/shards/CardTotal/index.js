@@ -168,7 +168,7 @@ function CardTotal({
 
   return (
     <>
-      <Paper p="md" withBorder style={{ marginTop: 20, width: 300 }}>
+      <Paper p="md" withBorder style={{ marginTop: 20, width: 300, zIndex: 1 }}>
         <Group position="apart">
           <Text size="lg" weight={700} color="#253d4e">
             Subtotal:{" "}
@@ -204,7 +204,7 @@ function CardTotal({
           </Text>
           <Text color="#253d4e">{"$" + (Number(tax) + Number(subTotal))}</Text>
         </Group>
-        <Button
+        {/* <Button
           disabled
           leftIcon={<AiOutlineShoppingCart />}
           color="teal"
@@ -212,7 +212,7 @@ function CardTotal({
           onClick={onClick}
         >
           Checkout
-        </Button>
+        </Button> */}
         <div
           style={{
             maxWidth: "750px",

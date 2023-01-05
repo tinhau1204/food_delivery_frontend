@@ -6,15 +6,15 @@ import RevDetail from "./RevDetail";
 function ReviewDetail({ store, storeid }) {
   return (
     <Tabs
-      defaultValue="description"
+      defaultValue="storeinfo"
       variant="outline"
       style={{ width: "68%", marginBottom: 10 }}
     >
       <Tabs.List>
-        <Tabs.Tab value="description">Store Info</Tabs.Tab>
+        <Tabs.Tab value="storeinfo">Store Info</Tabs.Tab>
         <Tabs.Tab value="reviews">Store Reviews</Tabs.Tab>
       </Tabs.List>
-      <Tabs.Panel value="description" pt="xs">
+      <Tabs.Panel value="storeinfo" pt="xs">
         <DesDetail storeinfo={store} />
       </Tabs.Panel>
       <Tabs.Panel value="reviews" pt="xs">
