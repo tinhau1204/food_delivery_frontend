@@ -145,7 +145,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
                 color: "green",
                 icon: <TiTick color="white" />,
               });
-              router.push("/");
+              router.push("/paymentsuccess");
             }
           });
         }}

@@ -45,12 +45,15 @@ function MyApp({ Component, pageProps }) {
           <MantineProvider withGlobalStyles withNormalizeCSS>
             <NotificationsProvider>
               {router.pathname !== "/login" &&
-                router.pathname !== "/register" && <Header />}
+                router.pathname !== "/register" &&
+                router.pathname !== "/paymentsuccess" && <Header />}
               {router.pathname !== "/login" &&
-                router.pathname !== "/register" && <BreadCrumb />}
+                router.pathname !== "/register" &&
+                router.pathname !== "/paymentsuccess" && <BreadCrumb />}
               <Component {...pageProps} />
               {router.pathname !== "/login" &&
-                router.pathname !== "/register" && <Footer />}
+                router.pathname !== "/register" &&
+                router.pathname !== "/paymentsuccess" && <Footer />}
             </NotificationsProvider>
           </MantineProvider>
         </Provider>

@@ -11,6 +11,7 @@ import {
   Button,
   Modal,
   useMantineTheme,
+  Tooltip,
   //SimpleGrid,
 } from "@mantine/core";
 import Image from "next/image";
@@ -300,6 +301,14 @@ export default function Orders() {
                     <></>
                   )}
                 </Modal>
+              </>
+            ) : tab == "received" ? (
+              <>
+                <Tooltip label="Waiting for all store to accept">
+                  <Button variant="outline" color="gray">
+                    <Icon size={22} stroke={1.5} />
+                  </Button>
+                </Tooltip>
               </>
             ) : (
               <Icon size={22} stroke={1.5} />
