@@ -28,11 +28,13 @@ import {
   IconCircleX,
   IconChecks,
   IconSquareRoundedLetterX,
+  IconHourglassEmpty,
 } from "@tabler/icons";
 import moment from "moment";
 import { getHistory } from "@/lib/api/order";
 import { getProductDetail } from "@/lib/api/productdetail";
 import { getOrderComment } from "@/lib/api/order/comment";
+import { getOrderReceivedState } from "@/lib/api/orderstate";
 import { cancelOrder } from "@/lib/api/products";
 import { BiCommentDetail } from "react-icons/bi";
 import WriteReview from "@/components/DetailPage/ReviewDetail/WriteReview";
@@ -83,21 +85,16 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-{
-  /* <style>
-  .customizeModal .mantine-Modal-modal{
-    width: 500px,
-  }
-</style> */
-}
-
 export default function Orders() {
-  let cookieInfo = "";
+  let userId = "",
+    cookieInfo = "";
   if (document.cookie) {
     cookieInfo = JSON.parse(document.cookie.split("=")[1]);
+    userId = cookieInfo.userId;
   }
   const { classes } = useStyles();
   const [orders, setOrders] = useState([]);
+  const [orderState, setOrderState] = useState([]);
   const [tab, setTab] = useState("not received");
   const [currentPage, setCurrentPage] = useState(1);
   const [size, setSize] = useState(20);
@@ -108,6 +105,7 @@ export default function Orders() {
   const [isFinish, setIsFinish] = useState(false);
   const [loading, setLoading] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [openedState, setOpenedState] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [orderId, setOrderId] = useState("");
@@ -176,9 +174,27 @@ export default function Orders() {
     }
   }
 
+  async function getOrderState(order_id) {
+    try {
+      const value = {
+        order_id: order_id,
+      };
+      const [data, error] = await getOrderReceivedState("order/state/", value);
+      if (data) {
+        console.log(data);
+        setOrderState(data);
+        setOpenedState(true);
+      } else {
+        setOpenedState(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async function getComment(order_id) {
     try {
-      const value = { account_id: cookieInfo.userId, order_id: order_id };
+      const value = { account_id: userId, order_id: order_id };
       const [data] = await getOrderComment("order/get-comment/", value);
       setOrderComment(data);
     } catch (err) {
@@ -304,8 +320,14 @@ export default function Orders() {
               </>
             ) : tab == "received" ? (
               <>
-                <Tooltip label="Waiting for all store to accept">
-                  <Button variant="outline" color="gray">
+                <Tooltip label={"Waiting for all store to accept "}>
+                  <Button
+                    variant="outline"
+                    color="gray"
+                    onClick={() => {
+                      getOrderState(row.id);
+                    }}
+                  >
                     <Icon size={22} stroke={1.5} />
                   </Button>
                 </Tooltip>
@@ -423,6 +445,7 @@ export default function Orders() {
         </Button>
         <Button
           size="sm"
+          color="green"
           variant={tab == "success" ? "filled" : "default"}
           radius="md"
           className={classes.tab}
@@ -434,6 +457,7 @@ export default function Orders() {
         </Button>
         <Button
           size="sm"
+          color="red"
           variant={tab == "failed" ? "filled" : "default"}
           radius="md"
           className={classes.tab}
@@ -542,7 +566,13 @@ export default function Orders() {
                     <th>Total(USD)</th>
                     <th>Timestamp</th>
                     <th>Payment method</th>
-                    <th>{tab == "not received" ? "Action" : ""}</th>
+                    <th>
+                      {tab == "not received"
+                        ? "Action"
+                        : tab == "received"
+                        ? "Current State"
+                        : ""}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>{isFinish ? rows : <Waiting />}</tbody>
@@ -799,6 +829,96 @@ export default function Orders() {
                         </td>
                         <td>
                           <Text color={"#253d4e"}>{item.price + "$"} </Text>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Group>
+          </Paper>
+        </Group>
+      </Modal>
+      <Modal
+        overlayColor={
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[9]
+            : theme.colors.gray[2]
+        }
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        size="auto"
+        opened={openedState}
+        onClose={() => setOpenedState(false)}
+      >
+        <Group position="center">
+          <Paper>
+            <Text
+              component="span"
+              align="center"
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              size="xl"
+              weight={700}
+              style={{ fontFamily: "Greycliff CF, sans-serif" }}
+            >
+              Order State
+            </Text>
+          </Paper>
+        </Group>
+        <Group position="left" ml={10} mt={20}>
+          <Paper>
+            <Group>
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: 5,
+                }}
+              >
+                <Table horizontalSpacing="sm" verticalSpacing="xs">
+                  <thead>
+                    <tr>
+                      <th>Product name</th>
+                      <th>Store</th>
+                      <th>Accept</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderState.map((item) => (
+                      <tr key={item.name}>
+                        <td>
+                          <Text
+                            color={"#27ca7d"}
+                            style={{
+                              cursor: "pointer",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                        </td>
+                        <td>
+                          <Text
+                            style={{
+                              cursor: "pointer",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                            color={"#e99424"}
+                          >
+                            {item.store}
+                          </Text>
+                        </td>
+                        <td>
+                          {item.proceed == 0 ? (
+                            <IconChecks
+                              size={22}
+                              stroke={1.5}
+                              align="center"
+                              verticalAlign="center"
+                            />
+                          ) : (
+                            <IconHourglassEmpty size={22} stroke={1.5} />
+                          )}
                         </td>
                       </tr>
                     ))}

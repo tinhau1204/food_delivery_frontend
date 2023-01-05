@@ -71,8 +71,6 @@ function Header() {
   const listenToScroll = () => {
     let heightToHideFrom = 100;
     const winScroll = document.documentElement.scrollTop;
-    console.log(winScroll);
-    //setHeight(winScroll);
 
     if (winScroll > heightToHideFrom) {
       setIsVisible(false);
