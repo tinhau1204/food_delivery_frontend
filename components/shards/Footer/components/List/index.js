@@ -29,7 +29,13 @@ export function HorizontalList({ data }) {
   return (
     <Stack align="flex-start" justify="flex-start">
       {data.map((item, index) => (
-        <div key={index}>
+        <div
+          key={index}
+          style={{
+            cursor: "pointer",
+            "&:hover": { textDecoration: "underline" },
+          }}
+        >
           {index === 0 ? (
             <Center>
               <Text weight={700} color="#0a6b4e">
