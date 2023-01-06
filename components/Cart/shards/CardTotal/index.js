@@ -75,6 +75,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       account_id: account_id,
       ship_fee: "0",
       payment_method: "Paypal",
+      product_count: amount,
       address: address,
       order_detail: "",
       product_count: parseInt(cart.length),
@@ -91,7 +92,6 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
 
       formatData.push(returnJson);
     });
-    console.log(formatData);
     order_info["order_detail"] = formatData;
 
     return order_info;

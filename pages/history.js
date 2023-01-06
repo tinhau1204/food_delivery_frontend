@@ -909,7 +909,7 @@ export default function Orders() {
                           </Text>
                         </td>
                         <td>
-                          {item.proceed == 0 ? (
+                          {item.proceed == 1 ? (
                             <IconChecks
                               size={22}
                               stroke={1.5}

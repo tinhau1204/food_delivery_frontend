@@ -315,7 +315,7 @@ function Header() {
       <Paper
         shadow="xs"
         style={{
-          minHeight: 50,
+          paddingBottom: !isVisible ? 0 : 5,
           height: !isVisible ? 0 : "auto",
           opacity: !isVisible ? 0 : 1,
           visibility: !isVisible ? "hidden" : "visible",
