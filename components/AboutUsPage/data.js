@@ -20,7 +20,7 @@ export const introduceData = [
     content: "Back-end Dev",
     profile: "Chu Nguyen Hoang Son",
     image:
-      "https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-6/292140908_1307353323123221_4223192911539486378_n.jpg?stp=dst-jpg_s1080x2048&_nc_cat=104&ccb=1-7&_nc_sid=a4a2d7&_nc_ohc=zyNdYR5hPLYAX93iRdT&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfBEFbmnc9z-tTSsIifqGqQRqiHVB8LEwHrIszs_qaQ6Ww&oe=63B8A142",
+      "https://scontent.fsgn5-3.fna.fbcdn.net/v/t39.30808-6/292140908_1307353323123221_4223192911539486378_n.jpg?stp=dst-jpg_s1080x2048&_nc_cat=104&ccb=1-7&_nc_sid=a4a2d7&_nc_ohc=c5snBBg8TS4AX-Qya6T&_nc_ht=scontent.fsgn5-3.fna&oh=00_AfC_1DLbwoEUmC_Jc0NtCfWx20KzFXGTVrQNLUrMRCMMOQ&oe=63C08A42",
     title: "Welcome to Delivery Food Member",
   },
   {
@@ -28,7 +28,7 @@ export const introduceData = [
     content: "Tensorflow Dev",
     profile: "Nguyen Quang Tung",
     image:
-      "https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/278057306_3278050592452401_4950103026242908519_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=BfFuUOk3FhIAX-3cAJj&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfBGAt0zJebgCC1cjUTYdqy6_GQU9tWiTU-N8LdmnrctIQ&oe=63B95B8D",
+      "https://scontent.fsgn5-15.fna.fbcdn.net/v/t39.30808-6/278057306_3278050592452401_4950103026242908519_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=8LwdadyEv_kAX_n5aDm&_nc_ht=scontent.fsgn5-15.fna&oh=00_AfAwWHHfGx6WPBsZ9EPDwMLTj5LqZiisRH-4GySZvnF9fQ&oe=63C1448D",
     title: "Welcome to Delivery Food Member",
   },
 ];
