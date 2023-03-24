@@ -1,0 +1,12 @@
+@import "../../styles/scss/mixin";
+
+.wrapper {
+    min-height: 100vh;
+    background-size: cover;
+    background-image: url("/images/food-banner.jpg");
+}
+
+.link {
+    color: #006EFA;
+    font-size: 14;
+}

@@ -36,6 +36,7 @@ import styles from "./styles.module.scss";
 import MainMenu, { ListIcon } from "./components/Menu";
 import Contact from "./components/Contact";
 import Link from "next/link";
+import { useRouter } from "next/router";
 // import {IoLocationOutline} from 'react-icons/io';
 import { useSelector, useDispatch } from "react-redux";
 import { getCart } from "@/redux/cart";
@@ -45,6 +46,8 @@ import UserMenu from "./components/UserMenu";
 import { searchProduct } from "@/lib/api/products";
 
 function Header() {
+  const router = useRouter();
+
   const [isDrop, setIsDrop] = useState(false);
   const [isUser, setUser] = useState({});
   const user = useSelector(getUser);
@@ -62,22 +65,22 @@ function Header() {
   const { wishlist } = useSelector(getWishlist);
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
-  useEffect(() => {
-    window.addEventListener("scroll", listenToScroll);
-    return () => window.removeEventListener("scroll", listenToScroll);
-  });
+  // useEffect(() => {
+  //   window.addEventListener("scroll", listenToScroll);
+  //   return () => window.removeEventListener("scroll", listenToScroll);
+  // });
 
   //////// Hide half-top when scroll to specific height////
-  const listenToScroll = () => {
-    let heightToHideFrom = 100;
-    const winScroll = document.documentElement.scrollTop;
+  // const listenToScroll = () => {
+  //   let heightToHideFrom = 100;
+  //   const winScroll = document.documentElement.scrollTop;
 
-    if (winScroll > heightToHideFrom) {
-      setIsVisible(false);
-    } else {
-      setIsVisible(true);
-    }
-  };
+  //   if (winScroll > heightToHideFrom) {
+  //     setIsVisible(false);
+  //   } else {
+  //     setIsVisible(true);
+  //   }
+  // };
   /////////////////////////////////////////////////////////
 
   useEffect(() => {

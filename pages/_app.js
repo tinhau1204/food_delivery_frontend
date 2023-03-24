@@ -15,11 +15,24 @@ import { Loader } from "@mantine/core";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [pageloader, setPageLoader] = useState(true);
+  const path = router.pathname;
+  const [exPath, setExPath] = useState("");
+
+  useEffect(() => {
+    if (path.includes("/mystore")) {
+      const res = path.split("mystore/")[1];
+      if (res === undefined) {
+        setExPath("");
+      } else {
+        setExPath("/" + res);
+      }
+    }
+  }, [path]);
 
   useEffect(() => {
     setTimeout(() => {
       setPageLoader(false);
-    }, 1500);
+    }, 500);
   }, []);
 
   return (
@@ -44,16 +57,19 @@ function MyApp({ Component, pageProps }) {
         <Provider store={store}>
           <MantineProvider withGlobalStyles withNormalizeCSS>
             <NotificationsProvider>
-              {router.pathname !== "/login" &&
-                router.pathname !== "/register" &&
-                router.pathname !== "/paymentsuccess" && <Header />}
-              {router.pathname !== "/login" &&
-                router.pathname !== "/register" &&
-                router.pathname !== "/paymentsuccess" && <BreadCrumb />}
+              {path !== "/login" &&
+                path !== "/mystore" + exPath &&
+                path !== "/register" &&
+                path !== "/paymentsuccess" && <Header />}
+              {path !== "/login" &&
+                path !== "/mystore" + exPath &&
+                path !== "/register" &&
+                path !== "/paymentsuccess" && <BreadCrumb />}
               <Component {...pageProps} />
-              {router.pathname !== "/login" &&
-                router.pathname !== "/register" &&
-                router.pathname !== "/paymentsuccess" && <Footer />}
+              {path !== "/login" &&
+                path !== "/mystore" + exPath &&
+                path !== "/register" &&
+                path !== "/paymentsuccess" && <Footer />}
             </NotificationsProvider>
           </MantineProvider>
         </Provider>

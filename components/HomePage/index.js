@@ -37,7 +37,7 @@ function HomePage() {
   useEffect(() => {
     setLoading(false);
     const getProduct = async () => {
-      const [data, error] = await getAllProducts("/menu/get-all-products");
+      const [data, error] = await getAllProducts();
 
       if (data) {
         setDataproduct(data);
