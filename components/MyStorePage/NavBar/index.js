@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createStyles, Navbar, Group } from "@mantine/core";
+import { Navbar, Group, NavLink, Box, Avatar, Text } from "@mantine/core";
 import {
   IconLayoutGridAdd,
   IconCalendarStats,
@@ -11,91 +11,12 @@ import {
   IconLogout,
 } from "@tabler/icons";
 import { UserButton } from "../UserButton";
+import styles from "./styles.module.scss";
 import Image from "next/image";
 //import image from "../public/Mustifi.svg";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import axios from "axios";
-
-const useStyles = createStyles((theme, _params, getRef) => {
-  const icon = getRef("icon");
-  return {
-    root: {
-      position: "fixed",
-    },
-    header: {
-      paddingBottom: theme.spacing.md,
-      marginBottom: theme.spacing.md * 1.5,
-      borderBottom: `1px solid ${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[4]
-          : theme.colors.gray[2]
-      }`,
-    },
-
-    footer: {
-      paddingTop: theme.spacing.md,
-      marginTop: theme.spacing.md,
-      borderTop: `1px solid ${
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[4]
-          : theme.colors.gray[2]
-      }`,
-    },
-
-    link: {
-      ...theme.fn.focusStyles(),
-      display: "flex",
-      alignItems: "center",
-      textDecoration: "none",
-      fontSize: theme.fontSizes.sm,
-      color:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[1]
-          : theme.colors.gray[7],
-      padding: `${theme.spacing.xs}px ${theme.spacing.sm}px`,
-      borderRadius: theme.radius.sm,
-      fontWeight: 500,
-
-      "&:hover": {
-        backgroundColor:
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[6]
-            : theme.colors.gray[0],
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
-
-        [`& .${icon}`]: {
-          color: theme.colorScheme === "dark" ? theme.white : theme.black,
-        },
-      },
-    },
-
-    linkIcon: {
-      ref: icon,
-      color:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[2]
-          : theme.colors.gray[6],
-      marginRight: theme.spacing.sm,
-    },
-    linkActive: {
-      "&, &:hover": {
-        backgroundColor: theme.fn.variant({
-          variant: "light",
-          color: theme.primaryColor,
-        }).background,
-        color: theme.fn.variant({ variant: "light", color: theme.primaryColor })
-          .color,
-        [`& .${icon}`]: {
-          color: theme.fn.variant({
-            variant: "light",
-            color: theme.primaryColor,
-          }).color,
-        },
-      },
-    },
-  };
-});
 
 const data = [
   { link: "/", label: "Dashboard", icon: IconDashboard },
@@ -117,10 +38,10 @@ const data = [
 ];
 
 export default function NavbarSimple() {
-  const { classes, cx } = useStyles();
   const router = useRouter();
   const [active, setActive] = useState(router.pathname);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
   async function fetchUserData() {
     const userId = sessionStorage.getItem("User");
@@ -128,44 +49,67 @@ export default function NavbarSimple() {
       `${process.env.NEXT_PUBLIC_API}/account/get-account/${userId}`,
     );
     setName(response.data.name);
+    setEmail(response.data.email);
   }
 
   useEffect(() => {
     fetchUserData();
-  }, []);
+  });
 
-  const links = data.map((item) => (
-    <Link
-      className={cx(classes.link, {
-        [classes.linkActive]: item.link === active,
-      })}
-      href={item.link}
-      key={item.label}
-      onClick={(event) => {
-        setActive(item.link);
-      }}
-    >
-      <div>
-        <item.icon className={classes.linkIcon} stroke={1.5} />
-        <span>{item.label}</span>
-      </div>
+  const [navLinkActive, setNavLinkActive] = useState(0);
+
+  const links = data.map((item, index) => (
+    <Link href={item.link}>
+      <NavLink
+        mt={5}
+        mb={5}
+        ref={item.link}
+        key={item.label}
+        active={index === navLinkActive}
+        label={item.label}
+        icon={<item.icon size="1.8rem" stroke={1.5} />}
+        onClick={() => setNavLinkActive(index)}
+      />
     </Link>
   ));
 
-  // useEffect(() => {
-  //   console.log(router);
-  // }, [router]);
-
   return (
-    <Navbar className={classes.root} width={{ sm: 240 }} p="md">
+    <Navbar width={{ sm: 245 }}>
       <Navbar.Section grow>
-        {/* <Group className={classes.header} position="apart">
-          <Image src={image} height={50} width={100} alt={""} />
+        {/* <Group
+          className={styles.header}
+          position="left"
+          mt={5}
+          mr={5}
+          ml={5}
+          mb={5}
+        >
+          <Image
+            src={"/images/logo.png"}
+            height="30%"
+            width="30%"
+            layout="fixed"
+            alt={""}
+          />
+          <Text
+            size={20}
+            color="green"
+            fw={700}
+            sx={{
+              fontFamily: "Varela Round",
+              fontStyle: "normal",
+              fontDisplay: "swap",
+            }}
+          >
+            MY STORE
+          </Text>
         </Group> */}
-        {links}
+        <Box w="inherit" mr="5px" ml="5px">
+          {links}
+        </Box>
       </Navbar.Section>
-      <Navbar.Section className={classes.footer}>
-        <UserButton email={name} />
+      <Navbar.Section>
+        <UserButton email={email} name={name} />
       </Navbar.Section>
     </Navbar>
   );

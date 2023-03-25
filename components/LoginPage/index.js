@@ -23,7 +23,7 @@ import { HiLockClosed } from "react-icons/hi";
 import loginSchema from "./validate";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { assignUser } from "@/lib";
+import { accountLogin } from "@/lib/api/accounts";
 import { useDispatch } from "react-redux";
 import { joiResolver, useForm } from "@mantine/form";
 import { TiTick } from "react-icons/ti";
@@ -56,7 +56,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    const [data, error] = await assignUser("/account/login", values);
+    const [data, error] = await accountLogin(values);
     if (data) {
       showNotification({
         autoClose: 4000,

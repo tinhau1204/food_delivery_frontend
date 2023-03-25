@@ -12,10 +12,10 @@ import React, { useState, useEffect } from "react";
 import styles from "./styles.module.scss";
 import Swal from "sweetalert2";
 import {
-  insertComment,
-  checkComment,
-  updateComment,
-} from "@/lib/api/order/comment";
+  insertOrderComment,
+  checkOrderComment,
+  updateOrderComment,
+} from "@/lib/api/comments";
 
 function WriteReview({ orderId, orderComment }) {
   let cookieInfo = "";
@@ -33,9 +33,9 @@ function WriteReview({ orderId, orderComment }) {
 
   async function editComment(value) {
     try {
-      const [check] = await checkComment("/comment/check", value);
+      const [check] = await checkOrderComment(value);
       if (!check) {
-        const [insert, error] = await insertComment("comment/create", value);
+        const [insert, error] = await insertOrderComment(value);
         if (insert)
           Swal.fire({
             title: "Success",
@@ -54,7 +54,7 @@ function WriteReview({ orderId, orderComment }) {
           });
         }
       } else {
-        const [update, error] = await updateComment("comment/edit", value);
+        const [update, error] = await updateOrderComment(value);
         if (update)
           Swal.fire({
             title: "Success",

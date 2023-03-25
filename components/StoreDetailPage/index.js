@@ -19,7 +19,7 @@ import {
 import styles from "./styles.module.scss";
 import { Grid } from "@mantine/core";
 import moment from "moment/moment";
-import { getStoreAndProduct } from "@/lib/api/storedetail";
+import { getStoreAndProduct } from "@/lib/api/stores";
 
 function StoreDetailPage() {
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function StoreDetailPage() {
     param = get_param;
 
     const getStoreWithProduct = async () => {
-      const [data, error] = await getStoreAndProduct("/store/id=" + param);
+      const [data, error] = await getStoreAndProduct(param);
 
       if (data) {
         setStoreDetail(data);

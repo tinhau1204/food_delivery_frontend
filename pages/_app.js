@@ -18,21 +18,22 @@ function MyApp({ Component, pageProps }) {
   const path = router.pathname;
   const [exPath, setExPath] = useState("");
 
-  useEffect(() => {
-    if (path.includes("/mystore")) {
-      const res = path.split("mystore/")[1];
-      if (res === undefined) {
-        setExPath("");
-      } else {
-        setExPath("/" + res);
-      }
-    }
-  }, [path]);
+  // useEffect(() => {
+  //   console.log(path);
+  //   if (path.includes("/mystore")) {
+  //     const res = path.split("mystore/")[1];
+  //     if (res === undefined) {
+  //       setExPath("");
+  //     } else {
+  //       setExPath("/" + res);
+  //     }
+  //   }
+  // }, [path]);
 
   useEffect(() => {
     setTimeout(() => {
       setPageLoader(false);
-    }, 500);
+    }, 200);
   }, []);
 
   return (
@@ -57,17 +58,20 @@ function MyApp({ Component, pageProps }) {
         <Provider store={store}>
           <MantineProvider withGlobalStyles withNormalizeCSS>
             <NotificationsProvider>
-              {path !== "/login" &&
-                path !== "/mystore" + exPath &&
+              {path !== "/mystore" &&
+                path !== "/mystore/login" &&
+                path !== "/login" &&
                 path !== "/register" &&
                 path !== "/paymentsuccess" && <Header />}
-              {path !== "/login" &&
-                path !== "/mystore" + exPath &&
+              {path !== "/mystore" &&
+                path !== "/mystore/login" &&
+                path !== "/login" &&
                 path !== "/register" &&
                 path !== "/paymentsuccess" && <BreadCrumb />}
               <Component {...pageProps} />
-              {path !== "/login" &&
-                path !== "/mystore" + exPath &&
+              {path !== "/mystore" &&
+                path !== "/mystore/login" &&
+                path !== "/login" &&
                 path !== "/register" &&
                 path !== "/paymentsuccess" && <Footer />}
             </NotificationsProvider>

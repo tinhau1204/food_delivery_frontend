@@ -112,7 +112,7 @@ function Header() {
   };
 
   const getSearchedProduct = async (value) => {
-    const [data, error] = await searchProduct("/menu/search", value);
+    const [data, error] = await searchProduct(value);
 
     if (data) {
       setSearchData(data);

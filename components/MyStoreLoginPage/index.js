@@ -27,6 +27,11 @@ export default function MyStoreLoginPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emptyEmail, setEmptyEmail] = useState(false);
+  const [emptyPassword, setEmptyPassword] = useState(false);
+
   useEffect(() => {
     //sessionStorage.removeItem("User");
     setLoading(true);
@@ -36,65 +41,68 @@ export default function MyStoreLoginPage() {
       setUserId(user_id);
     }
     setLoading(false);
-  }, []);
+  });
 
-  function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [emptyEmail, setEmptyEmail] = useState(false);
-    const [emptyPassword, setEmptyPassword] = useState(false);
-
-    async function Login() {
-      // check all fields
-      if (email === "" || password === "") {
-        if (email === "") {
-          setEmptyEmail(true);
-        } else {
-          setEmptyEmail(false);
-        }
-        if (password === "") {
-          setEmptyPassword(true);
-        } else {
-          setEmptyPassword(false);
-        }
-        return;
+  async function Login() {
+    // check all fields
+    if (email === "" || password === "") {
+      if (email === "") {
+        setEmptyEmail(true);
+      } else {
+        setEmptyEmail(false);
       }
-
-      setEmptyEmail(false);
-      setEmptyPassword(false);
-
-      try {
-        const data = {
-          role_id: "SEL",
-          email: email,
-          password: password,
-        };
-
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API}/account/login`,
-          data,
-        );
-        //console.log(response);
-        const { error, message } = response.data;
-        if (error) {
-          alert(error);
-        } else {
-          if (response.data.storeId === 0) {
-            sessionStorage.setItem("TempUser", response.data.userId);
-            router.push("/mystore/register");
-          } else {
-            sessionStorage.setItem("User", response.data.userId);
-            sessionStorage.setItem("Store", response.data.storeId);
-            setUserId(response.data.userId);
-            router.push("/mystore");
-          }
-        }
-      } catch (err) {
-        //@ts-ignore
-        alert(err.response.data.error);
+      if (password === "") {
+        setEmptyPassword(true);
+      } else {
+        setEmptyPassword(false);
       }
+      return;
     }
-    return (
+
+    setEmptyEmail(false);
+    setEmptyPassword(false);
+
+    try {
+      const data = {
+        role_id: "SEL",
+        email: email,
+        password: password,
+      };
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/account/login`,
+        data,
+      );
+      //console.log(response);
+      const { error, message } = response.data;
+      if (error) {
+        alert(error);
+      } else {
+        if (response.data.storeId === 0) {
+          sessionStorage.setItem("TempUser", response.data.userId);
+          router.push("/mystore/register");
+        } else {
+          sessionStorage.setItem("User", response.data.userId);
+          sessionStorage.setItem("Store", response.data.storeId);
+          setUserId(response.data.userId);
+          router.push("/mystore");
+        }
+      }
+    } catch (err) {
+      //@ts-ignore
+      alert(err.response);
+    }
+  }
+
+  return (
+    <>
+      <Head>
+        <title>Food-Delivery</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
       <div className={styles.wrapper}>
         <Paper className={styles.form} radius={0} p={30}>
           <Title
@@ -158,42 +166,44 @@ export default function MyStoreLoginPage() {
           </Text>
         </Paper>
       </div>
-    );
-  }
-
-  return (
-    // @ts-ignore
-    <>
-      <Head>
-        <title>Food-Delivery</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
-      {loading ? (
-        <> </>
-      ) : // : userId ? (
-      //   <Layout>
-      //     <MantineProvider
-      //       withGlobalStyles
-      //       withNormalizeCSS
-      //       theme={{
-      //         /** Put your mantine theme override here */
-      //         colorScheme: "light",
-      //       }}
-      //     >
-      //       <Component {...pageProps} />
-      //     </MantineProvider>
-      //   </Layout>
-      // )
-      router.pathname === "/mystore/register" ? (
-        <Register />
-      ) : router.pathname === "/mystore/forgot-password" ? (
-        <ForgotPassword />
-      ) : (
-        <Login />
-      )}
     </>
   );
+
+  // return (
+  //   // @ts-ignore
+  //   <>
+  //     <Head>
+  //       <title>Food-Delivery</title>
+  //       <meta
+  //         name="viewport"
+  //         content="minimum-scale=1, initial-scale=1, width=device-width"
+  //       />
+  //     </Head>
+  //     {loading ? (
+  //       <> </>
+  //     ) : (
+  //       // : userId ? (
+  //       //   <Layout>
+  //       //     <MantineProvider
+  //       //       withGlobalStyles
+  //       //       withNormalizeCSS
+  //       //       theme={{
+  //       //         /** Put your mantine theme override here */
+  //       //         colorScheme: "light",
+  //       //       }}
+  //       //     >
+  //       //       <Component {...pageProps} />
+  //       //     </MantineProvider>
+  //       //   </Layout>
+  //       // )
+  //       // router.pathname === "/mystore/register" ? (
+  //       //   <Register />
+  //       // ) : router.pathname === "/mystore/forgot-password" ? (
+  //       //   <ForgotPassword />
+  //       // ) :
+  //       //
+  //       <Login />
+  //     )}
+  //   </>
+  // );
 }

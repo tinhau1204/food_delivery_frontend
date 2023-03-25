@@ -8,7 +8,7 @@ import {
   Title,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { getProductDetail } from "@/lib/api/productdetail";
+import { getProductDetailById } from "@/lib/api/products";
 import styles from "./styles.module.scss";
 import { CountingStar } from "../shards/CardItem/components/StarRating";
 import { BsDot } from "react-icons/bs";
@@ -53,7 +53,7 @@ function DetailPage() {
 
   useEffect(() => {
     const getProduct = async () => {
-      const [data, error] = await getProductDetail("/menu/product/" + id);
+      const [data, error] = await getProductDetailById(id);
 
       if (data) {
         console.log("Product detail", data);

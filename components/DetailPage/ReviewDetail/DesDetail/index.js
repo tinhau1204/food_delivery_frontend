@@ -13,7 +13,7 @@ import { React, useState, useEffect } from "react";
 //import StoreDetailPage from "@/components/StoreDetailPage";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { getRandomProducts } from "@/lib/api/randomproducts";
+import { getRandomProducts } from "@/lib/api/products";
 
 function DesDetail({ storeinfo }) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
@@ -31,10 +31,7 @@ function DesDetail({ storeinfo }) {
         product_id: id,
       };
       console.log(value);
-      const [data, error] = await getRandomProducts(
-        "/menu/random-products",
-        value,
-      );
+      const [data, error] = await getRandomProducts(value);
 
       if (data) {
         setRandProduct(data);

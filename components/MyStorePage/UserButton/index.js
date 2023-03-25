@@ -3,60 +3,65 @@ import {
   Group,
   Avatar,
   Text,
+  Menu,
   createStyles,
 } from "@mantine/core";
-import { IconChevronRight } from "@tabler/icons";
+import { IconChevronRight, IconLogout, IconEdit } from "@tabler/icons";
+import styles from "./styles.module.scss";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-const useStyles = createStyles((theme) => ({
-  user: {
-    display: "block",
-    width: "100%",
-    padding: theme.spacing.md,
-    color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-
-    "&:hover": {
-      backgroundColor:
-        theme.colorScheme === "dark"
-          ? theme.colors.dark[8]
-          : theme.colors.gray[0],
-    },
-  },
-}));
-
-export function UserButton({ image, email, icon, ...others }) {
-  const { classes } = useStyles();
+export function UserButton({ image, name, email, icon }) {
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const router = useRouter();
 
   const logOut = () => {
     sessionStorage.removeItem("Store");
     sessionStorage.removeItem("User");
-    router.push("/mystore/login");
-    window.location.reload();
+    router.push("/mystore/login", undefined, { shallow: true });
+    //window.location.reload();
   };
 
   return (
-    <UnstyledButton
-      className={classes.user}
-      {...others}
-      onClick={() => logOut()}
+    <Menu
+      mb={20}
+      className={styles.usermenu}
+      opened={menuOpen}
+      onChange={setMenuOpen}
+      position="right-end"
+      offset={12}
+      withArrow
+      arrowPosition="center"
     >
-      <Group>
-        <Avatar src={image} radius="xl" />
+      <Menu.Target>
+        <Group>
+          <Avatar src={image} size={40} radius="xl" />
+          <div style={{ flex: 1 }}>
+            <Text size={14} weight={500}>
+              {name}
+            </Text>
+            <Text color="dimmed" size="xs">
+              {email}
+            </Text>
+          </div>
+          {icon || <IconChevronRight size={18} stroke={1.5} />}
+        </Group>
+      </Menu.Target>
 
-        <div style={{ flex: 1 }}>
-          <Text size="sm" weight={500}>
-            {email}
-          </Text>
-
-          <Text color="dimmed" size="xs">
-            Seller
-          </Text>
-        </div>
-
-        {icon || <IconChevronRight size={14} stroke={1.5} />}
-      </Group>
-    </UnstyledButton>
+      <Menu.Dropdown>
+        <UnstyledButton onClick={() => logOut()}>
+          <Menu.Item icon={<IconEdit size="1.2rem" stroke={1.5} />} disabled>
+            <Text>Edit account</Text>
+          </Menu.Item>
+          <Menu.Item
+            color="red"
+            icon={<IconLogout size="1.2rem" stroke={1.5} />}
+          >
+            <Text>Log out</Text>
+          </Menu.Item>
+        </UnstyledButton>
+      </Menu.Dropdown>
+    </Menu>
   );
 }

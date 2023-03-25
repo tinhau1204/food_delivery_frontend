@@ -1,0 +1,14 @@
+@import "../../../styles/scss/mixin";
+@import "../../../styles/scss/variables";
+
+.usermenu {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.usermenu:hover {
+  color: $ocean;
+  background-color: $dark;
+}

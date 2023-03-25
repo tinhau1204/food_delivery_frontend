@@ -10,7 +10,7 @@ function StorePage() {
 
   useEffect(() => {
     const getStore = async () => {
-      const [data, error] = await getAllStores("/store/get-all-stores/");
+      const [data, error] = await getAllStores();
 
       if (data) {
         setStores(data);

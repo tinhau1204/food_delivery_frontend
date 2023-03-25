@@ -23,35 +23,35 @@ function Footer() {
   const [html, setHTML] = useState({ __html: "" });
   const chatbot_url = process.env.NEXT_PUBLIC_CHATBOT_API;
 
-  useEffect(() => {
-    const getChatBot = () => {
-      fetch(chatbot_url)
-        .then(async (data) => {
-          const backendHtmlString = await data.text();
-          let formatString = backendHtmlString
-            .split("<body>")[1]
-            .split("</body>")[0];
-          setHTML({ __html: formatString });
-          const head = document.querySelector("head");
-          head.innerHTML += `<link rel="stylesheet" href="${chatbot_url}/static/style.css">`;
-          let a = document.querySelector(
-            `script[src="${chatbot_url}/static/app.js"]`,
-          );
-          if (!a) {
-            const script = document.createElement("script");
-            script.async = true;
-            script.src = chatbot_url + "/static/app.js";
+  // useEffect(() => {
+  //   const getChatBot = () => {
+  //     fetch(chatbot_url)
+  //       .then(async (data) => {
+  //         const backendHtmlString = await data.text();
+  //         let formatString = backendHtmlString
+  //           .split("<body>")[1]
+  //           .split("</body>")[0];
+  //         setHTML({ __html: formatString });
+  //         const head = document.querySelector("head");
+  //         head.innerHTML += `<link rel="stylesheet" href="${chatbot_url}/static/style.css">`;
+  //         let a = document.querySelector(
+  //           `script[src="${chatbot_url}/static/app.js"]`,
+  //         );
+  //         if (!a) {
+  //           const script = document.createElement("script");
+  //           script.async = true;
+  //           script.src = chatbot_url + "/static/app.js";
 
-            document.body.appendChild(script);
-          }
-        })
-        .catch((err) => {
-          console.log("Can't fetch chatbot url");
-        });
-    };
+  //           document.body.appendChild(script);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Can't fetch chatbot url");
+  //       });
+  //   };
 
-    getChatBot();
-  }, []);
+  //   getChatBot();
+  // }, []);
 
   return (
     <>
@@ -139,7 +139,7 @@ function Footer() {
           />
         </Grid.Col>
       </Grid>
-      {html && <div dangerouslySetInnerHTML={html} />}
+      {/* {html && <div dangerouslySetInnerHTML={html} />} */}
     </>
   );
 }

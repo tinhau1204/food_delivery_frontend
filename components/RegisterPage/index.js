@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import PasswordStrength from "./shards/PasswordStrength";
 import registerSchema from "./validate";
 import styles from "./styles.module.scss";
-import { assignUser } from "@/lib/api/user";
+import { accountRegister } from "@/lib/api/accounts";
 import { TiTick } from "react-icons/ti";
 import { HiLockClosed } from "react-icons/hi";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
@@ -58,7 +58,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (values) => {
     setLoading(false);
-    const [data, error] = await assignUser("/account/register", values);
+    const [data, error] = await accountRegister(values);
 
     if (data) {
       showNotification({

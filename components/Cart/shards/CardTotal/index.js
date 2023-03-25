@@ -11,7 +11,7 @@ import {
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import { createOrder } from "@/lib/api/order";
+import { createOrder } from "@/lib/api/orders";
 import { TiTick } from "react-icons/ti";
 import { showNotification } from "@mantine/notifications";
 import { getCart, clearCart } from "@/redux/cart";
@@ -46,7 +46,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
   ///
 
   const createOrderWithPaypal = async (values) => {
-    const [data, error] = await createOrder("/order/create", values);
+    const [data, error] = await createOrder(values);
     if (data) {
       console.log("Order created");
     }

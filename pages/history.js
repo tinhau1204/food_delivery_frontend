@@ -31,10 +31,10 @@ import {
   IconHourglassEmpty,
 } from "@tabler/icons";
 import moment from "moment";
-import { getHistory } from "@/lib/api/order";
-import { getProductDetail } from "@/lib/api/productdetail";
-import { getOrderComment } from "@/lib/api/order/comment";
-import { getOrderReceivedState } from "@/lib/api/orderstate";
+import { getHistory } from "@/lib/api/orders";
+import { getOrderById } from "@/lib/api/orders";
+import { getOrderComment } from "@/lib/api/orders";
+import { getOrderReceivedState } from "@/lib/api/orders";
 import { cancelOrder } from "@/lib/api/products";
 import { BiCommentDetail } from "react-icons/bi";
 import WriteReview from "@/components/DetailPage/ReviewDetail/WriteReview";
@@ -146,7 +146,10 @@ export default function Orders() {
       const session = JSON.parse(document.cookie.split("=")[1]);
       let account_id = session.userId;
       const [data, error] = await getHistory(
-        `/order/get-history?user_id=${account_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
+        account_id,
+        status_id,
+        currentPage,
+        size,
       );
       setTotalOrders(data.total);
       setTotalPages(data.pages);
@@ -161,9 +164,7 @@ export default function Orders() {
 
   async function getOrder(order_id) {
     try {
-      const [data, error] = await getProductDetail(
-        "order/get-order/" + order_id,
-      );
+      const [data, error] = await getOrderById(order_id);
       setAddress(data.address);
       setPayment(data.payment_method);
       setShip(data.ship_fee);
@@ -179,7 +180,7 @@ export default function Orders() {
       const value = {
         order_id: order_id,
       };
-      const [data, error] = await getOrderReceivedState("order/state/", value);
+      const [data, error] = await getOrderReceivedState(value);
       if (data) {
         console.log(data);
         setOrderState(data);
@@ -195,7 +196,7 @@ export default function Orders() {
   async function getComment(order_id) {
     try {
       const value = { account_id: userId, order_id: order_id };
-      const [data] = await getOrderComment("order/get-comment/", value);
+      const [data] = await getOrderComment(value);
       setOrderComment(data);
     } catch (err) {
       console.log(err);
@@ -218,10 +219,7 @@ export default function Orders() {
         status_id: status_id,
       };
 
-      const [data, error] = await cancelOrder(
-        "order/status-change",
-        dataCancel,
-      );
+      const [data, error] = await cancelOrder(dataCancel);
       if (error) {
         alert(error);
         setLoading(false);
