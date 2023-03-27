@@ -1,5 +1,6 @@
 @import "../../styles/scss/mixin";
 
+
 .wrapper {
     min-height: 100vh;
     background-size: cover;
@@ -7,8 +8,9 @@
 }
 
 .link {
-    color: #006EFA;
-    font-size: 14;
+    color: #4a99ff;
+    font-size: 16;
+    font-weight: 500;
 }
 
 .form {

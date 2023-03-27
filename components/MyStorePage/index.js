@@ -1,10 +1,8 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavigationBar from "./NavigationBar";
 
 export default function MyStorePage() {
   return (
-    <div>
-      <NavBar />
-    </div>
+    <div style={{ backgroundColor: "#1a1b1e", color: "white" }}>ASDASD</div>
   );
 }

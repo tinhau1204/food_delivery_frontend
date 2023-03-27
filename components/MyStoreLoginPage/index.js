@@ -95,7 +95,7 @@ export default function MyStoreLoginPage() {
   }
 
   return (
-    <>
+    <div>
       <Head>
         <title>Food-Delivery</title>
         <meta
@@ -113,7 +113,7 @@ export default function MyStoreLoginPage() {
             mb={50}
             variant="gradient"
             gradient={{ from: "indigo", to: "cyan" }}
-            weight={700}
+            weight={900}
           >
             Welcome back
           </Title>
@@ -134,6 +134,7 @@ export default function MyStoreLoginPage() {
           )}
           <PasswordInput
             label="Password"
+            variant="filled"
             placeholder="Your password"
             mt="md"
             size="md"
@@ -149,16 +150,16 @@ export default function MyStoreLoginPage() {
           )}
           <Group position="apart" mt="lg">
             <Checkbox label="Keep me logged in" sx={{ lineHeight: 1 }} />
-            <Link href="/mystore/forgot-password">
+            {/* <Link href="/mystore/forgot-password">
               <a className={styles.link}>Forgot password? </a>
-            </Link>
+            </Link> */}
           </Group>
 
           <Button fullWidth mt="xl" size="md" onClick={Login}>
             Login
           </Button>
 
-          <Text align="center" mt="md">
+          <Text align="center" mt="md" color="white">
             Don&apos;t have an account?{" "}
             <Link href="/mystore/register">
               <a className={styles.link}>Register </a>
@@ -166,7 +167,7 @@ export default function MyStoreLoginPage() {
           </Text>
         </Paper>
       </div>
-    </>
+    </div>
   );
 
   // return (

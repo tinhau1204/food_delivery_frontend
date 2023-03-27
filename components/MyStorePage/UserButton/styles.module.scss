@@ -2,6 +2,7 @@
 @import "../../../styles/scss/variables";
 
 .usermenu {
+  color: white;
   display: flex;
   width: 100%;
   padding: 10px;
@@ -9,6 +10,11 @@
 }
 
 .usermenu:hover {
-  color: $ocean;
-  background-color: $dark;
+  color: $primary;
+  background-color: $grey;
+}
+
+.dropdown{
+  background-color: #1a1b1e;
+  border-Color: #27ca7e77;
 }

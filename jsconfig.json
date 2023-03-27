@@ -20,6 +20,6 @@
             "@/shards/*": ["components/shards/*"]
         }
     },
-    "include": ["**/*.js", "**/*.jsx"],
+    "include": ["**/*.js", "**/*.jsx", "pages/mystore/new-product-type.js"],
     "exclude": ["node_modules"]
 }

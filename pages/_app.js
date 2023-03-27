@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import "../styles/reset.css";
 import Header from "@/components/shards/Header";
 import Footer from "@/components/shards/Footer";
+import NavigationBar from "@/components/MyStorePage/NavigationBar";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import store from "@/redux";
@@ -16,7 +17,7 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [pageloader, setPageLoader] = useState(true);
   const path = router.pathname;
-  const [exPath, setExPath] = useState("");
+  const [isSeller, setIsSeller] = useState();
 
   // useEffect(() => {
   //   console.log(path);
@@ -29,6 +30,12 @@ function MyApp({ Component, pageProps }) {
   //     }
   //   }
   // }, [path]);
+
+  useEffect(() => {
+    if (path.includes("mystore")) {
+      setIsSeller(true);
+    } else setIsSeller(false);
+  }, [path]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,28 +62,43 @@ function MyApp({ Component, pageProps }) {
           />
         </div>
       ) : (
-        <Provider store={store}>
-          <MantineProvider withGlobalStyles withNormalizeCSS>
-            <NotificationsProvider>
-              {path !== "/mystore" &&
-                path !== "/mystore/login" &&
-                path !== "/login" &&
-                path !== "/register" &&
-                path !== "/paymentsuccess" && <Header />}
-              {path !== "/mystore" &&
-                path !== "/mystore/login" &&
-                path !== "/login" &&
-                path !== "/register" &&
-                path !== "/paymentsuccess" && <BreadCrumb />}
-              <Component {...pageProps} />
-              {path !== "/mystore" &&
-                path !== "/mystore/login" &&
-                path !== "/login" &&
-                path !== "/register" &&
-                path !== "/paymentsuccess" && <Footer />}
-            </NotificationsProvider>
-          </MantineProvider>
-        </Provider>
+        <>
+          {isSeller ? (
+            <MantineProvider
+              theme={{ colorScheme: "dark" }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              <NotificationsProvider>
+                {path !== "/mystore/login" && path !== "/mystore/register" && (
+                  <NavigationBar />
+                )}
+                <Component {...pageProps} />
+              </NotificationsProvider>
+            </MantineProvider>
+          ) : (
+            <Provider store={store}>
+              <MantineProvider
+                theme={{ colorScheme: "dark" }}
+                withGlobalStyles
+                withNormalizeCSS
+              >
+                <NotificationsProvider>
+                  {path !== "/login" &&
+                    path !== "/register" &&
+                    path !== "/paymentsuccess" && <Header />}
+                  {path !== "/login" &&
+                    path !== "/register" &&
+                    path !== "/paymentsuccess" && <BreadCrumb />}
+                  <Component {...pageProps} />
+                  {path !== "/login" &&
+                    path !== "/register" &&
+                    path !== "/paymentsuccess" && <Footer />}
+                </NotificationsProvider>
+              </MantineProvider>
+            </Provider>
+          )}
+        </>
       )}
     </>
   );

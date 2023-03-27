@@ -6,14 +6,18 @@ import {
   Menu,
   createStyles,
 } from "@mantine/core";
-import { IconChevronRight, IconLogout, IconEdit } from "@tabler/icons";
+import {
+  IconChevronRight,
+  IconLogout,
+  IconEdit,
+  Icon3dRotate,
+} from "@tabler/icons";
 import styles from "./styles.module.scss";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export function UserButton({ image, name, email, icon }) {
   const [menuOpen, setMenuOpen] = useState(false);
-
   const router = useRouter();
 
   const logOut = () => {
@@ -31,7 +35,6 @@ export function UserButton({ image, name, email, icon }) {
       onChange={setMenuOpen}
       position="right-end"
       offset={12}
-      withArrow
       arrowPosition="center"
     >
       <Menu.Target>
@@ -39,28 +42,30 @@ export function UserButton({ image, name, email, icon }) {
           <Avatar src={image} size={40} radius="xl" />
           <div style={{ flex: 1 }}>
             <Text size={14} weight={500}>
-              {name}
+              {name || "No Name"}
             </Text>
             <Text color="dimmed" size="xs">
-              {email}
+              {email || "Noname@gmail.com"}
             </Text>
           </div>
           {icon || <IconChevronRight size={18} stroke={1.5} />}
         </Group>
       </Menu.Target>
 
-      <Menu.Dropdown>
-        <UnstyledButton onClick={() => logOut()}>
-          <Menu.Item icon={<IconEdit size="1.2rem" stroke={1.5} />} disabled>
-            <Text>Edit account</Text>
-          </Menu.Item>
-          <Menu.Item
-            color="red"
-            icon={<IconLogout size="1.2rem" stroke={1.5} />}
-          >
-            <Text>Log out</Text>
-          </Menu.Item>
-        </UnstyledButton>
+      <Menu.Dropdown className={styles.dropdown}>
+        <Menu.Item icon={<Icon3dRotate size="1.2rem" stroke={1.5} />}>
+          <Text>Test</Text>
+        </Menu.Item>
+        <Menu.Item icon={<IconEdit size="1.2rem" stroke={1.5} />}>
+          <Text>Edit account</Text>
+        </Menu.Item>
+        <Menu.Item
+          onClick={() => logOut()}
+          color="red"
+          icon={<IconLogout size="1.2rem" stroke={1.5} />}
+        >
+          <Text>Log out</Text>
+        </Menu.Item>
       </Menu.Dropdown>
     </Menu>
   );

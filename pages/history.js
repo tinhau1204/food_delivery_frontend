@@ -76,7 +76,6 @@ const useStyles = createStyles((theme) => ({
   },
   root: {
     padding: 40,
-    backgroundColor: "#FAFAFA",
     height: "100%",
     width: "98vw",
   },
