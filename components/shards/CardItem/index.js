@@ -21,7 +21,7 @@ function CardItem({
 }) {
   const [addWishlist, setAddWishlist] = useState(false);
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
-  const cardHeight = 400;
+  const cardHeight = styles.card.height;
   const { wishlist } = useSelector(getWishlist);
   const dispatch = useDispatch();
 
@@ -40,7 +40,7 @@ function CardItem({
       style={{
         width: 250,
         minHeight: name.length > 27 ? cardHeight + 20 : cardHeight,
-        border: "2px solid #ccc",
+        border: "2px solid #25262bb5",
       }}
       className={styles.card}
     >
@@ -81,16 +81,17 @@ function CardItem({
         style={{
           width: 200,
           height: 200,
-          padding: "1.7rem 1.2rem",
-          marginBottom: "3rem",
+          marginTop: "0.2rem",
+          padding: "1.7rem 1.2rem 1.7rem 0.9rem",
+          marginBottom: "2.5rem",
         }}
       >
         <div
           style={{
             width: 208,
             height: 208,
-            border: "1px solid #ccc",
-            borderRadius: 3,
+            border: "1px solid #25262bb5",
+            borderRadius: 5,
           }}
         >
           <Image
@@ -107,24 +108,28 @@ function CardItem({
           />
         </div>
       </Card.Section>
-      <Text size="xs" color="grey">
+      {/* <Text size="xs" color="grey">
         {type}
-      </Text>
+      </Text> */}
       <Link href={"/detail" + "?id=" + pid} passhref>
-        <Text size="md" weight={700} className={styles.nameNavigate}>
+        <Text size="md" weight={650} className={styles.nameNavigate}>
           {name}
         </Text>
       </Link>
-      <Text size="xs" color="grey">
-        {store_name}
-      </Text>
-      {!hidden && (
-        <Text size="xs" color="red">
-          Ordered: {ordered != null ? ordered : "0"}
+      <Group position="apart" pt={14}>
+        <Text size={13} weight={500} color="grey">
+          {store_name}
         </Text>
-      )}
-      <Group position="apart">
-        <Text weight={500}>${String(price)}</Text>
+        {!hidden && (
+          <Text size={13} weight={500} color="red">
+            Ordered {ordered != null ? ordered : "0"}
+          </Text>
+        )}
+      </Group>
+      <Group position="apart" pt={2}>
+        <Text size={18} weight={500}>
+          ${String(price)}
+        </Text>
         {!hidden ? (
           <Button
             className={styles.buttonAdd}

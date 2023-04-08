@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
+import MyStoreRegisterPage from "../MyStoreRegisterPage";
 import { joiResolver, useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import PasswordStrength from "./shards/PasswordStrength";
@@ -25,9 +26,14 @@ import { showNotification } from "@mantine/notifications";
 import { HiOutlineIdentification } from "react-icons/hi";
 import Link from "next/link";
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  // const [isSeller, setIsSeller] = useState(false);
+
+  useEffect(() => {
+    console.log("Customer", props);
+  });
 
   function makeid(length) {
     var result = "";
@@ -91,7 +97,7 @@ const RegisterPage = () => {
           placeholder="ID"
           defaultValue={makeid(10)}
           hidden
-          // disabled
+          disabled
           {...form.getInputProps("id")}
         />
         <TextInput

@@ -259,7 +259,6 @@ function Header() {
                   <Group spacing="xs">
                     <Indicator
                       color="green"
-                      withBorder
                       label={wishlist.length + ""}
                       dot={false}
                       showZero={false}
@@ -280,7 +279,6 @@ function Header() {
                   <Group spacing="xs">
                     <Indicator
                       color="green"
-                      withBorder
                       label={cart.length + ""}
                       dot={false}
                       showZero={false}
@@ -303,7 +301,7 @@ function Header() {
                 />
               ) : (
                 <ActionIcon size="sx" variant="subtle" color="teal">
-                  <Link href="/login" replace>
+                  <Link href="/customer/login" replace>
                     <Group spacing="xs">
                       <AiOutlineUser size={20} />
                       <Text>Account</Text>

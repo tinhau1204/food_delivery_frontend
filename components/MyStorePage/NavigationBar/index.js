@@ -25,7 +25,7 @@ import {
 import { UserButton } from "../UserButton";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-import { accountInfoGetWithId } from "@/lib";
+//import { accountInfoGetWithId } from "@/lib";
 //import image from "../public/Mustifi.svg";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -50,12 +50,12 @@ const useStyles = createStyles((theme) => ({
   },
 
   link: {
-    //...theme.fn.focusStyles(),
+    ...theme.fn.focusStyles(),
     display: "flex",
     alignItems: "center",
     textDecoration: "none",
     fontSize: theme.fontSizes.sm,
-    color: theme.colors.gray[5],
+    color: theme.colors.gray[4],
     padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
     borderRadius: theme.radius.sm,
     fontWeight: 500,
@@ -71,13 +71,13 @@ const useStyles = createStyles((theme) => ({
 
   linkIcon: {
     ref: getStylesRef("icon"),
-    color: theme.colors.gray[5],
+    color: theme.colors.gray[4],
     marginRight: theme.spacing.sm,
   },
 
-  linkActive: {
+  linkSelected: {
     "&, &:hover": {
-      backgroundColor: "#27ca7d33",
+      backgroundColor: "#27ca7e28",
       color: "#27ca7d",
 
       [`& .${getStylesRef("icon")}`]: {
@@ -88,7 +88,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const data = [
-  { link: "/mystore/", label: "Dashboard", icon: IconDashboard },
+  { link: "/mystore", label: "Dashboard", icon: IconDashboard },
   {
     link: "/mystore/new-product",
     label: "New Product",
@@ -100,7 +100,7 @@ const data = [
   //   icon: IconLayoutGridAdd,
   // },
   {
-    link: "/mystore/all-product-types",
+    link: "/mystore/all-products-types",
     label: "All Product Types",
     icon: IconBorderAll,
   },
@@ -114,41 +114,66 @@ export default function NavigationBar() {
   const { classes, cx } = useStyles();
 
   const router = useRouter();
+  const [linkActive, setLinkActive] = useState("");
   const [active, setActive] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   async function fetchUserData() {
-    const userId = sessionStorage.getItem("User");
-    const [response, error] = await accountInfoGetWithId(userId);
-    if (response != null || response != undefined) {
-      setName(response.name);
-      setEmail(response.email);
-      console.log(response);
-      console.log(response);
-    }
+    // const userId = sessionStorage.getItem("User");
+    // const [response, error] = await accountInfoGetWithId(userId);
+    // if (response != null || response != undefined) {
+
+    // }
+    const savedCookie = JSON.parse(document.cookie.split("User=")[1]);
+    setName(savedCookie.name);
+    setEmail(savedCookie.email);
   }
 
   useEffect(() => {
-    router.push(active, undefined, { shallow: true });
-  }, [active]);
+    router.push(linkActive, undefined, { shallow: true });
+  }, [linkActive]);
 
   useEffect(() => {
     fetchUserData();
   });
 
-  const [navLinkActive, setNavLinkActive] = useState(0);
+  //set nav item actived according to the current url
+  function checkLinkStateAndSetNavItem() {
+    for (let i = 0; i < data.length; i++) {
+      if (router.pathname === data[i].link) {
+        setActive(data[i].label);
+        break;
+      }
+    }
+  }
+
+  //check and confirm page refresh (F5)
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    if (active === "") {
+      checkLinkStateAndSetNavItem();
+    }
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
 
   const links = data.map((item) => (
     <a
       className={cx(classes.link, {
-        [classes.linkActive]: item.label === active,
+        [classes.linkSelected]: item.label === active,
       })}
       href={item.link}
       key={item.label}
       onClick={(event) => {
         event.preventDefault();
-        setActive(item.link);
+        setLinkActive(item.link);
+        setActive(item.label);
       }}
     >
       <item.icon className={classes.linkIcon} stroke={1.5} />

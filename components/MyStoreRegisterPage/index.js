@@ -22,7 +22,7 @@ import image from "/public/images/default-thumbnail.jpg";
 import { client, genRandonString } from "../../components/common";
 import { useRouter } from "next/router";
 
-export default function MyStoreRegisterPage() {
+export default function MyStoreRegisterPage(props) {
   const router = useRouter();
 
   // info of account
@@ -64,6 +64,7 @@ export default function MyStoreRegisterPage() {
   // check if account is created successfully
   const [created, setCreated] = useState(false);
   useEffect(() => {
+    console.log("Seller", props);
     const user_id = sessionStorage.getItem("TempUser");
 
     if (user_id != null) {
@@ -256,11 +257,11 @@ export default function MyStoreRegisterPage() {
     <Group position="center" className={styles.wrapper}>
       {!created ? (
         <Container size={420} my={40}>
-          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <Paper shadow="md" p={30} mt={30} radius="md">
             <Title
               align="center"
               variant="gradient"
-              gradient={{ from: "indigo", to: "cyan" }}
+              gradient={{ from: "#13a762", to: "cyan" }}
               sx={(theme) => ({
                 fontFamily: `Greycliff CF, ${theme.fontFamily}`,
                 fontWeight: 900,
@@ -335,8 +336,8 @@ export default function MyStoreRegisterPage() {
             )}
             <Text color="dimmed" size="sm" align="center" mt="md">
               Already has account?{" "}
-              <Link href="/" className={styles.link}>
-                Login
+              <Link href="/seller/login">
+                <a className={styles.link}> Login </a>
               </Link>
             </Text>
             <Button fullWidth mt="xs" onClick={Register} loading={loading}>
@@ -346,11 +347,11 @@ export default function MyStoreRegisterPage() {
         </Container>
       ) : (
         <Container size={420} my={40}>
-          <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+          <Paper shadow="md" p={30} mt={30} radius="md">
             <Title
               align="center"
               variant="gradient"
-              gradient={{ from: "indigo", to: "cyan" }}
+              gradient={{ from: "#13a762", to: "cyan" }}
               sx={(theme) => ({
                 fontFamily: `Greycliff CF, ${theme.fontFamily}`,
                 fontWeight: 900,

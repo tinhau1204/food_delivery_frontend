@@ -12,10 +12,9 @@ import {
   PasswordInput,
   //Checkbox,
   Button,
-  Radio,
   Center,
-  Anchor,
 } from "@mantine/core";
+import MyStoreLoginPage from "../MyStoreLoginPage";
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
 import { HiLockClosed } from "react-icons/hi";
@@ -30,20 +29,14 @@ import { TiTick } from "react-icons/ti";
 import { MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { login } from "@/redux/user";
+import { boolean } from "joi";
 
-export default function LoginPage() {
-  const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
-  const [checked, setChecked] = useState(true);
+export default function LoginPage(props) {
+  // const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
+  // const [checked, setChecked] = useState(true);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const [data, setdata] = useState({
-    name: "",
-    age: 0,
-    date: "",
-    programming: "",
-  });
 
   const form = useForm({
     initialValues: {
@@ -87,85 +80,74 @@ export default function LoginPage() {
   };
 
   return (
-    <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
-      <Group>
-        <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
-          <Image
-            src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
-            width="100%"
-            height="100vh"
-            alt="background image"
-            style={{ zIndex: 1 }}
-          ></Image>
-        </Paper>
-        <Group
-          style={{
-            width: 300,
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: 1,
-            zIndex: 2,
-          }}
-        >
-          <Paper
-            shadow="md"
-            p="md"
-            radius="md"
-            withBorder
-            style={{ width: 300, borderColor: "green" }}
-          >
-            <Text weight={700} size="xl" align="center">
-              Login
-            </Text>
-            <Stack>
-              <TextInput
-                placeholder="Email"
-                label="Email"
-                icon={<BiUserCircle size={20} color="#27ca7d" />}
-                required
-                {...form.getInputProps("email")}
-              />
-              <PasswordInput
-                placeholder="Password"
-                label="Password"
-                icon={<HiLockClosed size={20} color="#27ca7d" />}
-                required
-                {...form.getInputProps("password")}
-              />
-              {/* <Center>
-                <Radio.Group
-                  name="role_selection"
-                  size="md"
-                  color="#253d4e"
-                  required
-                  {...form.getInputProps("role_id")}
-                >
-                  <Radio value="CUS" label="Customer" />
-                  <Radio value="SEL" label="Seller" />
-                </Radio.Group>
-              </Center> */}
-
-              <Button variant="outline" color="teal" type="submit">
-                Login
-              </Button>
-              <Link href="/register" passhref>
-                <Text variant="link" component="a" align="left" size="sm">
-                  Create a new account?
-                </Text>
-              </Link>
-              <Center>
-                Cooperate with our team?
-                <Anchor
-                  href={"https://food-delivery-seller.vercel.app/"}
-                  ml="xs"
-                >
-                  Seller
-                </Anchor>
-              </Center>
-            </Stack>
+    <div>
+      <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
+        <Group>
+          <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
+            <Image
+              src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
+              width="100%"
+              height="100vh"
+              alt="background image"
+              style={{ zIndex: 1 }}
+            ></Image>
           </Paper>
+          <Group
+            style={{
+              width: 300,
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: 1,
+              zIndex: 2,
+            }}
+          >
+            <Paper
+              shadow="md"
+              p="md"
+              radius="md"
+              withBorder
+              style={{ width: 300, borderColor: "#27ca7d" }}
+            >
+              <Text weight={700} size="xl" align="center">
+                Login
+              </Text>
+              <Stack>
+                <TextInput
+                  placeholder="Email"
+                  label="Email"
+                  icon={<BiUserCircle size={20} color="#27ca7d" />}
+                  required
+                  {...form.getInputProps("email")}
+                />
+                <PasswordInput
+                  placeholder="Password"
+                  label="Password"
+                  icon={<HiLockClosed size={20} color="#27ca7d" />}
+                  required
+                  {...form.getInputProps("password")}
+                />
+                <a
+                  style={{ color: "#61afef", fontSize: 13 }}
+                  onClick={() => toRegister()}
+                >
+                  Create a new account?
+                </a>
+                <Button variant="outline" color="teal" type="submit">
+                  Login
+                </Button>
+                <Center>
+                  Cooperate with our team?
+                  <Link href="/seller/login">
+                    <a style={{ color: "#61afef", paddingLeft: "10px" }}>
+                      Seller
+                    </a>
+                  </Link>
+                </Center>
+              </Stack>
+            </Paper>
+          </Group>
         </Group>
-      </Group>
-    </form>
+      </form>
+    </div>
   );
 }

@@ -168,7 +168,7 @@ function CardTotal({
 
   return (
     <>
-      <Paper p="md" withBorder style={{ marginTop: 20, width: 300, zIndex: 1 }}>
+      <Paper p="md" style={{ marginTop: 20, width: 300, zIndex: 1 }}>
         <Group position="apart">
           <Text size="lg" weight={700} color="#253d4e">
             Subtotal:{" "}

@@ -10,6 +10,7 @@ import {
   Title,
   Text,
   Anchor,
+  Center,
   Group,
 } from "@mantine/core";
 //import Layout from "../components/_layout";
@@ -21,7 +22,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
-export default function MyStoreLoginPage() {
+export default function MyStoreLoginPage(props) {
   //const { Component, pageProps } = props;
   const [userId, setUserId] = useState("");
   const router = useRouter();
@@ -31,17 +32,6 @@ export default function MyStoreLoginPage() {
   const [password, setPassword] = useState("");
   const [emptyEmail, setEmptyEmail] = useState(false);
   const [emptyPassword, setEmptyPassword] = useState(false);
-
-  useEffect(() => {
-    //sessionStorage.removeItem("User");
-    setLoading(true);
-    if (sessionStorage.length > 0) {
-      const user_id = sessionStorage.getItem("User");
-      // @ts-ignore
-      setUserId(user_id);
-    }
-    setLoading(false);
-  });
 
   async function Login() {
     // check all fields
@@ -80,10 +70,14 @@ export default function MyStoreLoginPage() {
       } else {
         if (response.data.storeId === 0) {
           sessionStorage.setItem("TempUser", response.data.userId);
-          router.push("/mystore/register");
+          router.push("/register");
         } else {
-          sessionStorage.setItem("User", response.data.userId);
-          sessionStorage.setItem("Store", response.data.storeId);
+          // sessionStorage.setItem("User", response.data.userId);
+          // sessionStorage.setItem("Store", response.data.storeId);
+          var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
+          document.cookie = `User=${JSON.stringify(
+            response.data,
+          )};Expires=${expireTime};path=/;`;
           setUserId(response.data.userId);
           router.push("/mystore");
         }
@@ -112,7 +106,7 @@ export default function MyStoreLoginPage() {
             mt="md"
             mb={50}
             variant="gradient"
-            gradient={{ from: "indigo", to: "cyan" }}
+            gradient={{ from: "#13a762", to: "cyan" }}
             weight={900}
           >
             Welcome back
@@ -150,21 +144,27 @@ export default function MyStoreLoginPage() {
           )}
           <Group position="apart" mt="lg">
             <Checkbox label="Keep me logged in" sx={{ lineHeight: 1 }} />
-            {/* <Link href="/mystore/forgot-password">
-              <a className={styles.link}>Forgot password? </a>
-            </Link> */}
+            <Link
+              href={{
+                pathname: "/seller/register",
+              }}
+              shallow={true}
+            >
+              <a style={{ color: "#61afef", fontSize: 13 }}>
+                Create a new account?
+              </a>
+            </Link>
           </Group>
 
           <Button fullWidth mt="xl" size="md" onClick={Login}>
             Login
           </Button>
-
-          <Text align="center" mt="md" color="white">
-            Don&apos;t have an account?{" "}
-            <Link href="/mystore/register">
-              <a className={styles.link}>Register </a>
+          <Center style={{ paddingTop: "10px" }}>
+            Want to browse and order ?
+            <Link href="/customer/login">
+              <a style={{ color: "#61afef", paddingLeft: "10px" }}>Customer</a>
             </Link>
-          </Text>
+          </Center>
         </Paper>
       </div>
     </div>

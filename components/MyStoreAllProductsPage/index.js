@@ -23,9 +23,10 @@ import { client } from "../common";
 
 const useStyles = createStyles((theme) => ({
   root: {
+    marginLeft: 270,
     marginTop: 40,
     height: "100%",
-    width: "75vw",
+    width: "80vw",
   },
   rowSelected: {
     backgroundColor:
@@ -39,7 +40,7 @@ const useStyles = createStyles((theme) => ({
     marginBottom: 40,
   },
   thead: {
-    background: "#D1D1D1",
+    background: "#27ca7e91",
   },
   textInput: {
     width: 400,
@@ -79,7 +80,7 @@ export default function TableSelection() {
   async function getAllProducts() {
     try {
       const response = await axios.get(
-        process.env.API + "menu/get-all-products/" + store_id,
+        process.env.NEXT_PUBLIC_API + "/menu/get-all-products/" + store_id,
       );
 
       if (response.data.length > 0) {
@@ -106,7 +107,7 @@ export default function TableSelection() {
   // get all type of product
   async function getAllProductType() {
     const response = await axios.get(
-      process.env.API + "menu/get-all-product-type/" + store_id,
+      process.env.NEXT_PUBLIC_API + "/menu/get-all-product-type/" + store_id,
     );
 
     const types = response.data;
@@ -128,7 +129,7 @@ export default function TableSelection() {
   async function getProductInfo(product_id) {
     try {
       const response = await axios.get(
-        process.env.API + "menu/get-product/" + product_id,
+        process.env.NEXT_PUBLIC_API + "/menu/get-product/" + product_id,
       );
 
       const { name, type_id, description, image, price } = response.data[0];
@@ -200,7 +201,7 @@ export default function TableSelection() {
 
     try {
       const response = await axios.post(
-        process.env.API + "menu/edit-product",
+        process.env.NEXT_PUBLIC_API + "/menu/edit-product",
         data,
       );
       if (response.data.error) {
@@ -244,24 +245,25 @@ export default function TableSelection() {
     <div className={classes.root}>
       <Group position="center">
         <Paper
-          withBorder
           p="xl"
           radius="md"
-          shadow="0 0 35px rgb(127 150 174 / 15%);"
+          style={{
+            backgroundColor: "#121216",
+          }}
         >
           <Text
             className={classes.title}
             component="span"
             align="center"
             variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+            gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
             size="xl"
             weight={700}
             style={{ fontFamily: "Greycliff CF, sans-serif" }}
           >
             ALL PRODUCTS
           </Text>
-          <Table withBorder sx={{ minWidth: 800 }} verticalSpacing="sm">
+          <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
             <thead className={classes.thead}>
               <tr>
                 <th>ID</th>
@@ -291,7 +293,7 @@ export default function TableSelection() {
                 component="span"
                 align="center"
                 variant="gradient"
-                gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+                gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
                 size="xl"
                 weight={700}
                 style={{ fontFamily: "Greycliff CF, sans-serif" }}

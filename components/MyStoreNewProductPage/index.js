@@ -26,9 +26,19 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
   },
   title: {
+    color: theme.colors.gray[4],
     display: "flex",
     justifyContent: "center",
-    marginBottom: 40,
+  },
+  titlePaper: {
+    backgroundColor: "#25262b",
+    borderTopLeftRadius: "8px",
+    borderTopRightRadius: "8px",
+  },
+  contentPaper: {
+    backgroundColor: "#121216",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
   },
   textInput: {
     width: 400,
@@ -68,7 +78,6 @@ export default function NewProduct() {
     const [response, error] = await getAllProductsType(store_id);
     if (response != null || response != undefined) {
       const types = response;
-      console.log(types);
       let typeArray = [];
       for (let i = 0; i < types.length; i++) {
         let data = {
@@ -173,135 +182,132 @@ export default function NewProduct() {
 
   return (
     <div className={classes.root}>
-      <Group position="center">
-        <Paper
-          withBorder
-          p="xl"
-          radius="md"
-          shadow="0 0 35px rgb(127 150 174 / 15%);"
+      <Paper p="sm" className={classes.titlePaper}>
+        <Text
+          className={classes.title}
+          component="span"
+          align="center"
+          size={18}
+          weight={650}
+          style={{ fontFamily: "Segoe UI" }}
         >
-          <Text
-            className={classes.title}
-            component="span"
-            align="center"
-            variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-            size="xl"
-            weight={700}
-            style={{ fontFamily: "Greycliff CF, sans-serif" }}
-          >
-            New Product Information
-          </Text>
-          <Group position="apart" mb={50}>
-            <Paper>
-              <FileInput
-                label="Your product's image"
-                placeholder="Pick an image of your product"
-                required
-                mt="md"
-                error={emptyImage}
-                value={file}
-                onChange={(value) => {
-                  if (value) {
-                    setFileUrl(URL.createObjectURL(value));
-                    setFile(value);
-                  }
-                }}
-              />
-              {emptyImage ? (
-                <Text fz="xs" c="red">
-                  Image is required
-                </Text>
-              ) : (
-                <></>
-              )}
-              <Group mt="md">
-                <Image src={fileUrl} height={400} width={400} alt={""} />
-              </Group>
-            </Paper>
-            <Paper ml={30} mt={85} mr={10}>
-              <TextInput
-                placeholder="What is your product's name?"
-                label="Name of the product"
-                radius="md"
-                withAsterisk
-                className={classes.textInput}
-                onChange={(value) => setNameProduct(value.currentTarget.value)}
-                error={emptyName}
-              ></TextInput>
-              {emptyName ? (
-                <Text fz="xs" c="red">
-                  Name is required
-                </Text>
-              ) : (
-                <></>
-              )}
-              <Textarea
-                placeholder="Description of your product"
-                label="Description"
-                radius="md"
-                mt="lg"
-                withAsterisk
-                onChange={(value) => setDescription(value.currentTarget.value)}
-                error={emptyDescription}
-              ></Textarea>
-              {emptyDescription ? (
-                <Text fz="xs" c="red">
-                  Description is required
-                </Text>
-              ) : (
-                <></>
-              )}
-              <Select
-                label="Your product type"
-                placeholder="Pick one"
-                required
-                searchable
-                nothingFound="No options"
-                mt="lg"
-                error={emptyType}
-                data={typeProduct}
-                value={typeChosen}
-                onChange={(value) => setTypeChosen(value)}
-              />
-              {emptyType ? (
-                <Text fz="xs" c="red">
-                  Product Type is required
-                </Text>
-              ) : (
-                <></>
-              )}
-              <NumberInput
-                label="Price"
-                radius="md"
-                mt="lg"
-                withAsterisk
-                defaultValue={0}
-                precision={2}
-                min={0}
-                parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
-                onChange={(value) => setPrice(value)}
-                formatter={(value) =>
-                  !Number.isNaN(parseFloat(value))
-                    ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                    : "$ "
+          Product Information
+        </Text>
+      </Paper>
+      <Paper
+        p="xl"
+        //radius="md"
+        className={classes.contentPaper}
+      >
+        <Group position="apart" mb={50}>
+          <Paper style={{ backgroundColor: "#121216" }}>
+            <FileInput
+              label="Your product's image"
+              placeholder="Pick an image of your product"
+              required
+              mt="md"
+              error={emptyImage}
+              value={file}
+              onChange={(value) => {
+                if (value) {
+                  setFileUrl(URL.createObjectURL(value));
+                  setFile(value);
                 }
-                error={emptyPrice}
-              ></NumberInput>
-              {emptyPrice ? (
-                <Text fz="xs" c="red">
-                  Price must higher than 0
-                </Text>
-              ) : (
-                <></>
-              )}
-              <Button mt={40} fullWidth onClick={newProduct} loading={loading}>
-                Create
-              </Button>
-            </Paper>
-          </Group>
-        </Paper>
-      </Group>
+              }}
+            />
+            {emptyImage ? (
+              <Text fz="xs" c="red">
+                Image is required
+              </Text>
+            ) : (
+              <></>
+            )}
+            <Group mt="md">
+              <Image src={fileUrl} height={400} width={400} alt={""} />
+            </Group>
+          </Paper>
+          <Paper ml={30} mt={85} mr={10} style={{ backgroundColor: "#121216" }}>
+            <TextInput
+              placeholder="What is your product's name?"
+              label="Name of the product"
+              radius="md"
+              withAsterisk
+              className={classes.textInput}
+              onChange={(value) => setNameProduct(value.currentTarget.value)}
+              error={emptyName}
+            ></TextInput>
+            {emptyName ? (
+              <Text fz="xs" c="red">
+                Name is required
+              </Text>
+            ) : (
+              <></>
+            )}
+            <Textarea
+              placeholder="Description of your product"
+              label="Description"
+              radius="md"
+              mt="lg"
+              withAsterisk
+              onChange={(value) => setDescription(value.currentTarget.value)}
+              error={emptyDescription}
+            ></Textarea>
+            {emptyDescription ? (
+              <Text fz="xs" c="red">
+                Description is required
+              </Text>
+            ) : (
+              <></>
+            )}
+            <Select
+              label="Your product type"
+              placeholder="Pick one"
+              required
+              searchable
+              nothingFound="No options"
+              mt="lg"
+              error={emptyType}
+              data={typeProduct}
+              value={typeChosen}
+              onChange={(value) => setTypeChosen(value)}
+            />
+            {emptyType ? (
+              <Text fz="xs" c="red">
+                Product Type is required
+              </Text>
+            ) : (
+              <></>
+            )}
+            <NumberInput
+              label="Price"
+              radius="md"
+              mt="lg"
+              withAsterisk
+              defaultValue={0}
+              precision={2}
+              min={0}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              onChange={(value) => setPrice(value)}
+              formatter={(value) =>
+                !Number.isNaN(parseFloat(value))
+                  ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : "$ "
+              }
+              error={emptyPrice}
+            ></NumberInput>
+            {emptyPrice ? (
+              <Text fz="xs" c="red">
+                Price must higher than 0
+              </Text>
+            ) : (
+              <></>
+            )}
+            <Button mt={40} fullWidth onClick={newProduct} loading={loading}>
+              Create
+            </Button>
+          </Paper>
+        </Group>
+      </Paper>
     </div>
   );
 }

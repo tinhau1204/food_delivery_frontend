@@ -61,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     color: "#898989",
   },
   thead: {
-    background: "#D1D1D1",
+    background: "#27ca7e91",
   },
   paginationText: {
     display: "flex",
@@ -467,12 +467,7 @@ export default function Orders() {
       </Group>
       <Group position="center">
         <div className={classes.table}>
-          <Paper
-            withBorder
-            p="md"
-            radius="md"
-            shadow="0 0 35px rgb(127 150 174 / 15%);"
-          >
+          <Paper p="md" radius="md" shadow="0 0 35px rgb(127 150 174 / 15%);">
             <Group position="apart" className={classes.pagination}>
               <span className={classes.totalText}>
                 Total {totalOrders} orders
@@ -510,7 +505,6 @@ export default function Orders() {
                     </li>
                     <li>
                       <Paper
-                        withBorder
                         className={classes.paginationText}
                         fz="xs"
                         radius={5}
@@ -555,7 +549,7 @@ export default function Orders() {
                 </nav>
               </Paper>
             </Group>
-            <Paper withBorder>
+            <Paper>
               <Table sx={{ minWidth: 800 }} verticalSpacing={10}>
                 <thead className={classes.thead}>
                   <tr>
@@ -619,7 +613,6 @@ export default function Orders() {
                     </li>
                     <li>
                       <Paper
-                        withBorder
                         className={classes.paginationText}
                         fz="xs"
                         radius={5}
@@ -683,7 +676,7 @@ export default function Orders() {
             component="span"
             align="center"
             variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+            gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
             size="xl"
             weight={700}
             style={{ fontFamily: "Greycliff CF, sans-serif" }}
@@ -742,7 +735,7 @@ export default function Orders() {
               component="span"
               align="center"
               variant="gradient"
-              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
               size="xl"
               weight={700}
               style={{ fontFamily: "Greycliff CF, sans-serif" }}
@@ -854,7 +847,7 @@ export default function Orders() {
               component="span"
               align="center"
               variant="gradient"
-              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
               size="xl"
               weight={700}
               style={{ fontFamily: "Greycliff CF, sans-serif" }}

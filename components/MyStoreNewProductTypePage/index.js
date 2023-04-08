@@ -4,6 +4,7 @@ import {
   Group,
   Paper,
   Text,
+  Stack,
   TextInput,
 } from "@mantine/core";
 import { useState } from "react";
@@ -19,13 +20,24 @@ const useStyles = createStyles((theme) => ({
     position: "sticky",
     zIndex: 2,
   },
-  title: {
-    display: "flex",
-    justifyContent: "center",
-    marginBottom: 40,
-  },
+
   textInput: {
     width: 400,
+  },
+  title: {
+    color: theme.colors.gray[4],
+    display: "flex",
+    justifyContent: "center",
+  },
+  titlePaper: {
+    backgroundColor: "#25262b",
+    borderTopLeftRadius: "8px",
+    borderTopRightRadius: "8px",
+  },
+  contentPaper: {
+    backgroundColor: "#121216",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
   },
 }));
 
@@ -59,7 +71,7 @@ export default function NewProductType() {
 
     try {
       const response = await axios.post(
-        process.env.API + "menu/new-product-type",
+        process.env.NEXT_PUBLIC_API + "/menu/new-product-type",
         data,
       );
       if (response) {
@@ -77,54 +89,45 @@ export default function NewProductType() {
 
   return (
     <div className={classes.root}>
-      <Group position="center">
-        <Paper
-          w={350}
-          withBorder
-          p="xl"
-          radius="md"
-          shadow="0 0 35px rgb(127 150 174 / 15%);"
+      <Paper w={350} p="sm" className={classes.titlePaper}>
+        <Text
+          className={classes.title}
+          component="span"
+          align="center"
+          size={18}
+          weight={650}
+          style={{ fontFamily: "Segoe UI" }}
         >
-          <Text
-            className={classes.title}
-            component="span"
-            align="center"
-            variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-            size="xl"
-            weight={700}
-            style={{ fontFamily: "Greycliff CF, sans-serif" }}
-          >
-            NEW PRODUCT TYPE
+          Product Type
+        </Text>
+      </Paper>
+      <Paper
+        p="xl"
+        //radius="md"
+        className={classes.contentPaper}
+      >
+        <TextInput
+          styles={{ label: { fontSize: 13 } }}
+          placeholder="Name of product's type"
+          label="Lowercased with no special characters"
+          w="100%"
+          radius="md"
+          withAsterisk
+          className={classes.textInput}
+          onChange={(value) => setNameProductType(value.currentTarget.value)}
+          error={emptyName}
+        ></TextInput>
+        {emptyName ? (
+          <Text fz="xs" c="red">
+            Name is required
           </Text>
-          <TextInput
-            styles={{ label: { fontSize: 13 } }}
-            placeholder="Name of product's type"
-            label="Lowercased with no special characters"
-            w="100%"
-            radius="md"
-            withAsterisk
-            className={classes.textInput}
-            onChange={(value) => setNameProductType(value.currentTarget.value)}
-            error={emptyName}
-          ></TextInput>
-          {emptyName ? (
-            <Text fz="xs" c="red">
-              Name is required
-            </Text>
-          ) : (
-            <></>
-          )}
-          <Button
-            mt="xl"
-            fullWidth
-            onClick={createProductType}
-            loading={loading}
-          >
-            Create
-          </Button>
-        </Paper>
-      </Group>
+        ) : (
+          <></>
+        )}
+        <Button mt="xl" fullWidth onClick={createProductType} loading={loading}>
+          Create
+        </Button>
+      </Paper>
     </div>
   );
 }

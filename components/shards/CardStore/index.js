@@ -16,7 +16,7 @@ function CardStore({
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   return (
-    <Card shadow="sm" p="lg" radius="md" withBorder className={styles.card}>
+    <Card shadow="sm" p="lg" radius="md" className={styles.card}>
       <Card.Section>
         <Image src={img_load + image} height={160} alt={`${name} image`} />
       </Card.Section>

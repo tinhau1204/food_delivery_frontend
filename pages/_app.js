@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "../styles/reset.css";
 import Header from "@/components/shards/Header";
 import Footer from "@/components/shards/Footer";
@@ -19,29 +19,25 @@ function MyApp({ Component, pageProps }) {
   const path = router.pathname;
   const [isSeller, setIsSeller] = useState();
 
-  // useEffect(() => {
-  //   console.log(path);
-  //   if (path.includes("/mystore")) {
-  //     const res = path.split("mystore/")[1];
-  //     if (res === undefined) {
-  //       setExPath("");
-  //     } else {
-  //       setExPath("/" + res);
-  //     }
-  //   }
-  // }, [path]);
-
-  useEffect(() => {
-    if (path.includes("mystore")) {
-      setIsSeller(true);
-    } else setIsSeller(false);
-  }, [path]);
-
   useEffect(() => {
     setTimeout(() => {
       setPageLoader(false);
-    }, 200);
-  }, []);
+    }, 1000);
+  });
+
+  useMemo(() => {
+    if (path.includes("seller") || path.includes("mystore")) {
+      if (isSeller !== true) {
+        setIsSeller(true);
+        setPageLoader(true);
+      }
+    } else {
+      if (isSeller !== false) {
+        setIsSeller(false);
+        setPageLoader(true);
+      }
+    }
+  }, [path]);
 
   return (
     <>
@@ -55,7 +51,7 @@ function MyApp({ Component, pageProps }) {
         >
           <Loader
             variant="dots"
-            size={100}
+            size={50}
             style={{
               marginBlock: "auto",
             }}
@@ -64,19 +60,21 @@ function MyApp({ Component, pageProps }) {
       ) : (
         <>
           {isSeller ? (
+            //<Provider store={store}>
             <MantineProvider
               theme={{ colorScheme: "dark" }}
               withGlobalStyles
               withNormalizeCSS
             >
               <NotificationsProvider>
-                {path !== "/mystore/login" && path !== "/mystore/register" && (
+                {!path.includes("/customer") && !path.includes("/seller") && (
                   <NavigationBar />
                 )}
                 <Component {...pageProps} />
               </NotificationsProvider>
             </MantineProvider>
           ) : (
+            //</Provider>
             <Provider store={store}>
               <MantineProvider
                 theme={{ colorScheme: "dark" }}
@@ -84,15 +82,18 @@ function MyApp({ Component, pageProps }) {
                 withNormalizeCSS
               >
                 <NotificationsProvider>
-                  {path !== "/login" &&
-                    path !== "/register" &&
+                  {!path.includes("/customer") &&
+                    !path.includes("/seller") &&
+                    path !== "/_error" &&
                     path !== "/paymentsuccess" && <Header />}
-                  {path !== "/login" &&
-                    path !== "/register" &&
+                  {!path.includes("/customer") &&
+                    !path.includes("/seller") &&
+                    path !== "/_error" &&
                     path !== "/paymentsuccess" && <BreadCrumb />}
                   <Component {...pageProps} />
-                  {path !== "/login" &&
-                    path !== "/register" &&
+                  {!path.includes("/customer") &&
+                    !path.includes("/seller") &&
+                    path !== "/_error" &&
                     path !== "/paymentsuccess" && <Footer />}
                 </NotificationsProvider>
               </MantineProvider>
