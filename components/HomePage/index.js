@@ -75,7 +75,7 @@ function HomePage() {
     setFilterProduct(filter);
   };
   return (
-    <Paper p="lg" style={{ borderTop: "1px solid #ccc" }}>
+    <Paper p="lg">
       <Group align="flex-start">
         <Stack align="center">
           <TextInput

@@ -4,12 +4,14 @@ import {
   Navbar,
   Group,
   NavLink,
+  Button,
   Box,
   Avatar,
   Text,
   Code,
   getStylesRef,
   AppShell,
+  Alert,
   rem,
 } from "@mantine/core";
 import {
@@ -29,6 +31,7 @@ import Image from "next/image";
 //import image from "../public/Mustifi.svg";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import MyStoreAllProductsPage from "@/components/MyStoreAllProductsPage";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -46,7 +49,8 @@ const useStyles = createStyles((theme) => ({
     width: "92%",
     marginLeft: "10px",
     paddingTop: theme.spacing.md,
-    marginTop: theme.spacing.md,
+    // position: "relative",
+    // bottom: 0,
   },
 
   link: {
@@ -91,7 +95,7 @@ const data = [
   { link: "/mystore", label: "Dashboard", icon: IconDashboard },
   {
     link: "/mystore/new-product",
-    label: "New Product",
+    label: "New Product / Types",
     icon: IconLayoutGridAdd,
   },
   // {
@@ -99,13 +103,17 @@ const data = [
   //   label: "New Product Type",
   //   icon: IconLayoutGridAdd,
   // },
+  // {
+  //   link: "/mystore/all-products-types",
+  //   label: "All Product Types",
+  //   icon: IconBorderAll,
+  // },
   {
-    link: "/mystore/all-products-types",
-    label: "All Product Types",
+    link: "/mystore/all-products",
+    label: "All Products / Types",
     icon: IconBorderAll,
   },
-  { link: "/mystore/all-products", label: "All Products", icon: IconBorderAll },
-  { link: "/orders", label: "Orders", icon: IconReceipt },
+  { link: "/mystore/orders", label: "Orders", icon: IconReceipt },
   // { link: "", label: "Stats", icon: IconCalendarStats },
   // { link: "", label: "Store Settings", icon: IconSettings },
 ];
@@ -115,19 +123,22 @@ export default function NavigationBar() {
 
   const router = useRouter();
   const [linkActive, setLinkActive] = useState("");
+  const [isLogin, setIsLogin] = useState(false);
   const [active, setActive] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   async function fetchUserData() {
-    // const userId = sessionStorage.getItem("User");
-    // const [response, error] = await accountInfoGetWithId(userId);
-    // if (response != null || response != undefined) {
-
-    // }
-    const savedCookie = JSON.parse(document.cookie.split("User=")[1]);
-    setName(savedCookie.name);
-    setEmail(savedCookie.email);
+    if (document.cookie.indexOf("Sel") > -1) {
+      const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+      setName(savedCookie.name);
+      setEmail(savedCookie.email);
+      setIsLogin(true);
+    } else {
+      setName("");
+      setEmail("");
+      setIsLogin(false);
+    }
   }
 
   useEffect(() => {
@@ -184,14 +195,20 @@ export default function NavigationBar() {
   return (
     <Navbar
       style={{
+        filter: isLogin ? "blur(0px)" : "blur(8px)",
+        "-webkit-filter": isLogin ? "blur(0px)" : "blur(8px)",
         backgroundColor: "#1a1b1e",
+        cursor: isLogin ? "auto" : "not-allowed",
+        pointerEvents: isLogin ? "auto" : "none",
         borderColor: "#353a3c",
         position: "absolute",
+        height: "-webkit-fill-available",
+        zIndex: 0,
         left: 0,
       }}
       width={{ sm: 255 }}
     >
-      <Navbar.Section grow>
+      <Navbar.Section>
         <Group position="left" className={classes.header}>
           <Image
             src={"/images/logo.png"}
@@ -204,7 +221,7 @@ export default function NavigationBar() {
             FD Store
           </Text>
         </Group>
-        <Box w="inherit" mr="10px" ml="10px" mt="10px">
+        <Box w="inherit" mr="10px" ml="10px" mt="10px" h="75vh">
           {links}
         </Box>
       </Navbar.Section>

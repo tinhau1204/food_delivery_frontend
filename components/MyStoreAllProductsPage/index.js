@@ -19,14 +19,17 @@ import {
 import { IconEdit } from "@tabler/icons";
 import axios from "axios";
 import { client } from "../common";
+import { editProduct, getProductById } from "@/lib";
 //import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
   root: {
-    marginLeft: 270,
-    marginTop: 40,
+    marginLeft: 770,
+    marginTop: 80,
     height: "100%",
-    width: "80vw",
+    width: "50vw",
+    zIndex: 0,
+    position: "absolute",
   },
   rowSelected: {
     backgroundColor:
@@ -45,14 +48,19 @@ const useStyles = createStyles((theme) => ({
   textInput: {
     width: 400,
   },
+  tdcontent: {
+    textAlign: "center",
+    verticalAlign: "middle",
+  },
 }));
 
-export default function TableSelection() {
+export default function MyStoreAllProductsPage() {
   const [productArray, setProductArray] = useState([]);
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const store_id = sessionStorage.getItem("Store");
+  const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+  const store_id = savedCookie.storeId;
 
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState();
@@ -64,6 +72,7 @@ export default function TableSelection() {
   const [description, setDescription] = useState("");
   const [imageProduct, setImageProduct] = useState("");
   const [price, setPrice] = useState(0);
+  const test = 50;
 
   // check if empty
   const [emptyName, setEmptyName] = useState(false);
@@ -86,11 +95,14 @@ export default function TableSelection() {
       if (response.data.length > 0) {
         const dataArray = [];
         for (let i = 0; i < response.data.length; i++) {
-          const { id, name, price, type } = response.data[i];
+          const { id, name, description, price, type, image } =
+            response.data[i];
           const data = {
             product_id: id,
             name: name,
+            description: description,
             price: price,
+            image: image,
             type: type,
           };
 
@@ -126,19 +138,33 @@ export default function TableSelection() {
     setTypeProduct(typeArray);
   }
 
-  async function getProductInfo(product_id) {
-    try {
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_API + "/menu/get-product/" + product_id,
-      );
+  // async function getProductInfo(product_id) {
+  //   try {
+  //     const [response, err] = await getProductById(product_id);
 
-      const { name, type_id, description, image, price } = response.data[0];
-      setNameProduct(name);
-      setDescription(description);
-      setPrice(price);
-      setTypeChosen(type_id);
-      setFileUrl(process.env.IPFS_URL + image);
-      setImageProduct(image);
+  //     const { name, type_id, description, image, price } = response[0];
+  //     setNameProduct(name);
+  //     setDescription(description);
+  //     setPrice(price);
+  //     setTypeChosen(type_id);
+  //     setFileUrl(process.env.NEXT_PUBLIC_IPFS_URL + image);
+  //     setImageProduct(image);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
+
+  async function getProductInfo(index) {
+    try {
+      const { name, type_id, description, image, price } = productArray[index];
+      console.log(productArray[index]);
+      console.log(name, type_id, description, image, price);
+      // setNameProduct(name);
+      // setDescription(description);
+      // setPrice(price);
+      // setTypeChosen(type_id);
+      // setFileUrl(process.env.NEXT_PUBLIC_IPFS_URL + image);
+      // setImageProduct(image);
     } catch (err) {
       console.log(err);
     }
@@ -149,7 +175,18 @@ export default function TableSelection() {
     getAllProductType();
   }, []);
 
-  async function editProduct() {
+  function ClearContent() {
+    setDescription("");
+    setPrice(0);
+    setNameProduct("");
+    setImageProduct("");
+    setTypeChosen("");
+    setTimeout(() => {
+      setOpened(false);
+    }, 500);
+  }
+
+  async function editProductInfo() {
     setLoading(true);
     if (
       nameProduct === "" ||
@@ -200,16 +237,13 @@ export default function TableSelection() {
     }
 
     try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_API + "/menu/edit-product",
-        data,
-      );
-      if (response.data.error) {
-        alert(response.data.error);
+      const [response, err] = await editProduct(data);
+      if (err) {
+        alert(err);
         setLoading(false);
         return;
       }
-      alert(response.data.message);
+      alert(response);
     } catch (err) {
       alert(err);
     }
@@ -217,21 +251,22 @@ export default function TableSelection() {
     setLoading(false);
   }
 
-  const rows = productArray.map((item) => {
+  const rows = productArray.map((item, index) => {
     const Icon = IconEdit;
     return (
       <tr key={item.product_id}>
-        <td> {item.product_id}</td>
-        <td>{item.name}</td>
-        <td>$ {item.price}</td>
-        <td>{item.type}</td>
-        <td>
+        <td className={classes.tdcontent}> {item.product_id}</td>
+        <td className={classes.tdcontent}>{item.name}</td>
+        <td className={classes.tdcontent}>$ {item.price}</td>
+        <td className={classes.tdcontent}>{item.type}</td>
+        <td className={classes.tdcontent}>
           <Button
             variant="default"
             onClick={() => {
               setOpened(true);
               setIdProduct(item.product_id);
-              getProductInfo(item.product_id);
+              getProductInfo(index);
+              //getProductInfo(item.product_id);
             }}
           >
             <Icon size={22} stroke={1.5} />
@@ -255,22 +290,20 @@ export default function TableSelection() {
             className={classes.title}
             component="span"
             align="center"
-            variant="gradient"
-            gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
-            size="xl"
-            weight={700}
-            style={{ fontFamily: "Greycliff CF, sans-serif" }}
+            size={18}
+            weight={650}
+            style={{ fontFamily: "Segoe UI" }}
           >
-            ALL PRODUCTS
+            All products
           </Text>
-          <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+          <Table sx={{ minWidth: 750 }} verticalSpacing="sm">
             <thead className={classes.thead}>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Group</th>
-                <th>Action</th>
+                <th style={{ width: "10%" }}>ID</th>
+                <th style={{ width: "40%" }}>Name</th>
+                <th style={{ width: "20%" }}>Price</th>
+                <th style={{ width: "20%" }}>Group</th>
+                <th style={{ width: "10%" }}>Action</th>
               </tr>
             </thead>
             <tbody>{rows}</tbody>
@@ -285,7 +318,7 @@ export default function TableSelection() {
             overlayBlur={3}
             opened={opened}
             size="auto"
-            onClose={() => setOpened(false)}
+            onClose={() => ClearContent()}
           >
             <Paper>
               <Text
@@ -382,7 +415,7 @@ export default function TableSelection() {
                     radius="md"
                     mt="md"
                     withAsterisk
-                    defaultValue={Number(price)}
+                    defaultValue={price}
                     precision={2}
                     min={0}
                     parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
@@ -404,7 +437,7 @@ export default function TableSelection() {
                 </Paper>
               </Group>
 
-              <Button fullWidth onClick={editProduct} loading={loading}>
+              <Button fullWidth onClick={editProductInfo} loading={loading}>
                 Edit Product
               </Button>
             </Paper>

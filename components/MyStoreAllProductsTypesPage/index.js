@@ -19,14 +19,17 @@ import {
 import { IconEdit } from "@tabler/icons";
 import axios from "axios";
 import { client } from "../common";
+import { getProductType, getAllProductsType, editProductType } from "@/lib";
 //import Image from "next/image";
 
 const useStyles = createStyles((theme) => ({
   root: {
     marginLeft: 270,
     height: "100%",
-    width: "80vw",
+    width: "30vw",
     paddingTop: 80,
+    position: "sticky",
+    zIndex: 1,
   },
   rowSelected: {
     backgroundColor:
@@ -55,14 +58,19 @@ const useStyles = createStyles((theme) => ({
   textInput: {
     width: 400,
   },
+  tdcontent: {
+    textAlign: "center",
+    verticalAlign: "middle",
+  },
 }));
 
-export default function TableSelection() {
+export default function MyStoreAllProductsTypePage() {
   const [typeArray, setTypeArray] = useState([]);
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const store_id = sessionStorage.getItem("Store");
+  const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+  const store_id = savedCookie.storeId;
 
   // product info
   const [idProductType, setIdProductType] = useState("");
@@ -74,14 +82,12 @@ export default function TableSelection() {
   // loading
   const [loading, setLoading] = useState(false);
 
-  async function getAllProductTypes() {
+  async function getAllProductTypesInfo() {
     try {
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_API + "/menu/get-all-product-type/" + store_id,
-      );
+      const [response, error] = await getAllProductsType(store_id);
 
-      if (response.data.length > 0) {
-        setTypeArray(response.data);
+      if (response.length > 0) {
+        setTypeArray(response);
       }
     } catch (err) {
       console.log(err);
@@ -90,11 +96,9 @@ export default function TableSelection() {
 
   async function getProductTypeInfo(id) {
     try {
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_API + "/menu/get-product-type/" + id,
-      );
+      const [response, error] = await getProductType(id);
 
-      const { name } = response.data[0];
+      const { name } = response[0];
       setNameType(name);
     } catch (err) {
       console.log(err);
@@ -102,10 +106,10 @@ export default function TableSelection() {
   }
 
   useEffect(() => {
-    getAllProductTypes();
+    getAllProductTypesInfo();
   }, []);
 
-  async function editProductType() {
+  async function editProductTypeInfo() {
     setLoading(true);
     // check if name is empty
     if (nameType === "") {
@@ -117,16 +121,13 @@ export default function TableSelection() {
     setEmptyName(false);
 
     try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_API + "/menu/edit-product-type",
-        data,
-      );
-      if (response.data.error) {
-        alert(response.data.error);
+      const [response, error] = await editProductType(data);
+      if (error) {
+        alert(error);
         setLoading(false);
         return;
       }
-      alert(response.data.message);
+      alert(response);
     } catch (err) {
       setLoading(false);
       alert(err);
@@ -139,15 +140,13 @@ export default function TableSelection() {
     const Icon = IconEdit;
     return (
       <tr key={item.id}>
-        <td>
-          <Group spacing="sm">
-            <Text size="sm">{item.id}</Text>
-          </Group>
+        <td className={classes.tdcontent}>
+          <Text size="sm">{item.id}</Text>
         </td>
-        <td>
+        <td className={classes.tdcontent}>
           <Text size="sm">{item.name}</Text>
         </td>
-        <td>
+        <td className={classes.tdcontent}>
           <Button
             variant="default"
             onClick={() => {
@@ -180,12 +179,12 @@ export default function TableSelection() {
         >
           All products types
         </Text>
-        <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+        <Table sx={{ minWidth: classes.root.width }} verticalSpacing="sm">
           <thead className={classes.thead}>
             <tr style={{ textAlign: "center" }}>
-              <th>ID</th>
+              <th style={{ width: "30%" }}>ID</th>
               <th>Name</th>
-              <th>Action</th>
+              <th style={{ width: "30%" }}>Action</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -237,7 +236,7 @@ export default function TableSelection() {
               </Paper>
             </Group>
 
-            <Button fullWidth onClick={editProductType} loading={loading}>
+            <Button fullWidth onClick={editProductTypeInfo} loading={loading}>
               Edit Product Type
             </Button>
           </Paper>

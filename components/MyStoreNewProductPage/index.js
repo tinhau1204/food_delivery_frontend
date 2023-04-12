@@ -23,17 +23,12 @@ const useStyles = createStyles((theme) => ({
     position: "absolute",
     zIndex: 1,
     marginLeft: 635,
-    height: "100%",
+    height: "80%",
   },
   title: {
     color: theme.colors.gray[4],
     display: "flex",
     justifyContent: "center",
-  },
-  titlePaper: {
-    backgroundColor: "#25262b",
-    borderTopLeftRadius: "8px",
-    borderTopRightRadius: "8px",
   },
   contentPaper: {
     backgroundColor: "#121216",
@@ -47,7 +42,7 @@ const useStyles = createStyles((theme) => ({
 
 //eslint prettier
 
-export default function NewProduct() {
+export default function MyStoreNewProductPage() {
   const { classes } = useStyles();
   const [emptyImage, setEmptyImage] = useState(false);
   const [file, setFile] = useState(null);
@@ -71,7 +66,8 @@ export default function NewProduct() {
   // loading
   const [loading, setLoading] = useState(false);
 
-  const store_id = sessionStorage.getItem("Store");
+  const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+  const store_id = savedCookie.storeId;
 
   // get all type of product
   async function getAllProductsTypeFromStore() {
@@ -95,7 +91,7 @@ export default function NewProduct() {
   }
 
   useEffect(() => {
-    if (sessionStorage.length > 0) {
+    if (document.cookie.indexOf("Sel") > -1) {
       getAllProductsTypeFromStore();
     }
   }, []);
@@ -182,7 +178,11 @@ export default function NewProduct() {
 
   return (
     <div className={classes.root}>
-      <Paper p="sm" className={classes.titlePaper}>
+      <Paper
+        p="xl"
+        //radius="md"
+        className={classes.contentPaper}
+      >
         <Text
           className={classes.title}
           component="span"
@@ -193,13 +193,7 @@ export default function NewProduct() {
         >
           Product Information
         </Text>
-      </Paper>
-      <Paper
-        p="xl"
-        //radius="md"
-        className={classes.contentPaper}
-      >
-        <Group position="apart" mb={50}>
+        <Group position="apart">
           <Paper style={{ backgroundColor: "#121216" }}>
             <FileInput
               label="Your product's image"

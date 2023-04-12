@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { genRandonString } from "../common";
+import { createProductType } from "@/lib";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -28,11 +29,6 @@ const useStyles = createStyles((theme) => ({
     color: theme.colors.gray[4],
     display: "flex",
     justifyContent: "center",
-  },
-  titlePaper: {
-    backgroundColor: "#25262b",
-    borderTopLeftRadius: "8px",
-    borderTopRightRadius: "8px",
   },
   contentPaper: {
     backgroundColor: "#121216",
@@ -53,7 +49,7 @@ export default function NewProductType() {
   // loading
   const [loading, setLoading] = useState(false);
 
-  async function createProductType() {
+  async function createProductTypeInfo() {
     setLoading(true);
     if (nameProductType === "") {
       setEmptyName(true);
@@ -62,7 +58,8 @@ export default function NewProductType() {
     }
     setEmptyName(false);
 
-    const store_id = sessionStorage.getItem("Store");
+    const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+    const store_id = savedCookie.storeId;
     const data = {
       id: genRandonString(),
       name: nameProductType,
@@ -70,15 +67,13 @@ export default function NewProductType() {
     };
 
     try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_API + "/menu/new-product-type",
-        data,
-      );
-      if (response) {
-        alert(response.data.message);
+      const [response, error] = await createProductType(data);
+      if (error) {
+        alert(error);
         setLoading(false);
         return;
       }
+      alert(response);
     } catch (error) {
       setLoading(false);
       alert("Must be in lowercased with no special characters");
@@ -89,7 +84,11 @@ export default function NewProductType() {
 
   return (
     <div className={classes.root}>
-      <Paper w={350} p="sm" className={classes.titlePaper}>
+      <Paper
+        p="xl"
+        //radius="md"
+        className={classes.contentPaper}
+      >
         <Text
           className={classes.title}
           component="span"
@@ -100,15 +99,10 @@ export default function NewProductType() {
         >
           Product Type
         </Text>
-      </Paper>
-      <Paper
-        p="xl"
-        //radius="md"
-        className={classes.contentPaper}
-      >
         <TextInput
           styles={{ label: { fontSize: 13 } }}
           placeholder="Name of product's type"
+          mt={16}
           label="Lowercased with no special characters"
           w="100%"
           radius="md"
@@ -124,7 +118,12 @@ export default function NewProductType() {
         ) : (
           <></>
         )}
-        <Button mt="xl" fullWidth onClick={createProductType} loading={loading}>
+        <Button
+          mt="xl"
+          fullWidth
+          onClick={createProductTypeInfo}
+          loading={loading}
+        >
           Create
         </Button>
       </Paper>

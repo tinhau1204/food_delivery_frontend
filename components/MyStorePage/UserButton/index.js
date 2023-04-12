@@ -23,7 +23,7 @@ export function UserButton({ image, name, email, icon }) {
   const logOut = () => {
     // sessionStorage.removeItem("Store");
     // sessionStorage.removeItem("User");
-    document.cookie = `User=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
+    document.cookie = `Sel=;Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;`;
     router.push("/seller/login");
   };
 

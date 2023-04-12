@@ -22,8 +22,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import axios from "axios";
 
-export default function MyStoreLoginPage(props) {
-  //const { Component, pageProps } = props;
+export default function MyStoreLoginPage() {
   const [userId, setUserId] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -75,7 +74,7 @@ export default function MyStoreLoginPage(props) {
           // sessionStorage.setItem("User", response.data.userId);
           // sessionStorage.setItem("Store", response.data.storeId);
           var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
-          document.cookie = `User=${JSON.stringify(
+          document.cookie = `Sel=${JSON.stringify(
             response.data,
           )};Expires=${expireTime};path=/;`;
           setUserId(response.data.userId);
