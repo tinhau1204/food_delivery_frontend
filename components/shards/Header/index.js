@@ -84,15 +84,14 @@ function Header() {
   /////////////////////////////////////////////////////////
 
   useEffect(() => {
-    let cookieInfo = document.cookie.split("=")[1];
-
-    if (cookieInfo !== undefined) {
-      const checkUser = JSON.parse(cookieInfo);
+    if (document.cookie.indexOf("Cus") > -1) {
+      const savedCookie = JSON.parse(document.cookie.split("Cus=")[1]);
+      const checkUser = JSON.parse(savedCookie);
       setUser(checkUser);
     }
   }, [setUser]);
 
-  /////// Search data when press Enter ///////////////
+  /////// Search data when press Enter //////////////////////////////////////////
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       //Check if input valid
@@ -118,7 +117,7 @@ function Header() {
       setSearchData(data);
     }
   };
-  ////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////
 
   //// Detect and hide/show if click outside/inside search drop-menu ////
   const wrapperRef = useRef(null);

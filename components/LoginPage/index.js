@@ -30,13 +30,22 @@ import { MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { login } from "@/redux/user";
 import { boolean } from "joi";
+import AlertPopup from "../shards/AlertPopup";
 
 export default function LoginPage(props) {
   // const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
   // const [checked, setChecked] = useState(true);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
+
+  const [isSelLogin, setIsSelLogin] = useState(false);
+  useEffect(() => {
+    if (document.cookie.indexOf("Sel") > -1) {
+      setIsSelLogin(true);
+    } else setIsSelLogin(false);
+  }, []);
 
   const form = useForm({
     initialValues: {
@@ -81,8 +90,23 @@ export default function LoginPage(props) {
 
   return (
     <div>
+      {isSelLogin ? (
+        <AlertPopup
+          Title={"Signout Required"}
+          Content={"You need to logout your current seller account first!"}
+          LinkRef={"/mystore"}
+          ButtonName={"Navigate"}
+        />
+      ) : (
+        ""
+      )}
       <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
-        <Group>
+        <Group
+          style={{
+            filter: isSelLogin ? "blur(8px)" : "blur(0px)",
+            "-webkit-filter": isSelLogin ? "blur(8px)" : "blur(0px)",
+          }}
+        >
           <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
             <Image
               src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"

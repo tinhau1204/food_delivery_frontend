@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 //import ForgotPassword from "./forgot-password";
 import Link from "next/link";
 import axios from "axios";
+import { accountLogin } from "@/lib";
 
 export default function MyStoreLoginPage() {
   const [userId, setUserId] = useState("");
@@ -58,26 +59,19 @@ export default function MyStoreLoginPage() {
         password: password,
       };
 
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/account/login`,
-        data,
-      );
-      //console.log(response);
-      const { error, message } = response.data;
+      const [response, error] = await accountLogin(data);
       if (error) {
         alert(error);
       } else {
-        if (response.data.storeId === 0) {
-          sessionStorage.setItem("TempUser", response.data.userId);
+        if (response.storeId === 0) {
+          sessionStorage.setItem("TempUser", response.userId);
           router.push("/register");
         } else {
-          // sessionStorage.setItem("User", response.data.userId);
-          // sessionStorage.setItem("Store", response.data.storeId);
           var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
           document.cookie = `Sel=${JSON.stringify(
-            response.data,
+            response,
           )};Expires=${expireTime};path=/;`;
-          setUserId(response.data.userId);
+          setUserId(response.userId);
           router.push("/mystore");
         }
       }
