@@ -86,7 +86,7 @@ function Header() {
   useEffect(() => {
     if (document.cookie.indexOf("Cus") > -1) {
       const savedCookie = JSON.parse(document.cookie.split("Cus=")[1]);
-      const checkUser = JSON.parse(savedCookie);
+      const checkUser = savedCookie;
       setUser(checkUser);
     }
   }, [setUser]);
