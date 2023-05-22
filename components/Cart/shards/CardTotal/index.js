@@ -53,8 +53,12 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
   };
 
   useEffect(() => {
-    const data = JSON.parse(document.cookie.split("=")[1]);
-    setAccountid(data.userId);
+    if (document.cookie.indexOf("Cus") > -1) {
+      const savedCookie = JSON.parse(document.cookie.split("Cus=")[1]);
+      setAccountid(savedCookie.userId);
+    } else {
+      setAccountid("");
+    }
 
     dispatch({
       type: "resetOptions",

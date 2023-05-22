@@ -87,8 +87,8 @@ const useStyles = createStyles((theme) => ({
 export default function Orders() {
   let userId = "",
     cookieInfo = "";
-  if (document.cookie) {
-    cookieInfo = JSON.parse(document.cookie.split("=")[1]);
+  if (document.cookie.indexOf("Cus") > -1) {
+    cookieInfo = JSON.parse(document.cookie.split("Cus=")[1]);
     userId = cookieInfo.userId;
   }
   const { classes } = useStyles();
@@ -142,7 +142,10 @@ export default function Orders() {
     }
 
     try {
-      const session = JSON.parse(document.cookie.split("=")[1]);
+      let session = "";
+      if (document.cookie.indexOf("Cus") > -1) {
+        session = JSON.parse(document.cookie.split("Cus=")[1]);
+      }
       let account_id = session.userId;
       const [data, error] = await getHistory(
         account_id,

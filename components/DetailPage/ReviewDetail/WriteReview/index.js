@@ -19,8 +19,8 @@ import {
 
 function WriteReview({ orderId, orderComment }) {
   let cookieInfo = "";
-  if (document.cookie) {
-    cookieInfo = JSON.parse(document.cookie.split("=")[1]);
+  if (document.cookie.indexOf("Cus") > -1) {
+    cookieInfo = JSON.parse(document.cookie.split("Cus=")[1]);
   }
 
   const [comment, setComment] = useState("");
