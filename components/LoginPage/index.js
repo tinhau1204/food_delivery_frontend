@@ -150,12 +150,11 @@ export default function LoginPage(props) {
                   required
                   {...form.getInputProps("password")}
                 />
-                <a
-                  style={{ color: "#61afef", fontSize: 13 }}
-                  onClick={() => toRegister()}
-                >
-                  Create a new account?
-                </a>
+                <Link href="/customer/register">
+                  <a style={{ color: "#61afef", fontSize: 13 }}>
+                    Create a new account?
+                  </a>
+                </Link>
                 <Button variant="outline" color="teal" type="submit">
                   Login
                 </Button>

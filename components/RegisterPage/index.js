@@ -59,7 +59,7 @@ const RegisterPage = (props) => {
   });
 
   const handleToLogin = () => {
-    router.replace("/login");
+    router.replace("/customer/login");
   };
 
   const handleSubmit = async (values) => {
@@ -149,7 +149,7 @@ const RegisterPage = (props) => {
           </Center>
           <Center>
             Cooperate with our team?
-            <Anchor href={"https://food-delivery-seller.vercel.app/"} ml="xs">
+            <Anchor href={"/seller/register"} ml="xs">
               Seller
             </Anchor>
           </Center>

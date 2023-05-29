@@ -24,6 +24,7 @@ import {
   IconCircleCheck,
 } from "@tabler/icons";
 import moment from "moment";
+// import { getAllOrdersWithParams } from "@/lib";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -93,11 +94,12 @@ export default function MyStoreOrdersPage() {
 
   async function getAllOrders() {
     try {
-      const response = await axios.get(
-        process.env.NEXT_PUBLIC_API +
-          `/order/get-store-orders?store_id=${store_id}&page=${currentPage}&size=${size}`,
+      const response = await getAllOrdersWithParams(
+        store_id,
+        currentPage,
+        size,
       );
-      const data = response.data;
+      const data = response;
       setTotalOrders(data.items.length);
       setTotalPages(data.pages);
       setHasNext(data.hasNext);
@@ -112,6 +114,7 @@ export default function MyStoreOrdersPage() {
 
   useEffect(() => {
     getAllOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function ProceedOrder(order_id, product_id) {

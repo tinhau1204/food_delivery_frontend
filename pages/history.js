@@ -161,8 +161,15 @@ export default function Orders() {
     } catch (err) {
       console.log(err);
     }
-    setIsFinish(true);
+    //setIsFinish(true);
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsFinish(true);
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orders]);
 
   async function getOrder(order_id) {
     try {
@@ -207,6 +214,7 @@ export default function Orders() {
 
   useEffect(() => {
     getAllOrders(tab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
 
   async function cancelingOrder(order_id) {
@@ -252,13 +260,11 @@ export default function Orders() {
         break;
       case "success":
         Icon = IconChecks;
-
         break;
       case "failed":
         Icon = IconSquareRoundedLetterX;
         break;
     }
-
     return (
       <>
         <tr key={row.id}>
@@ -417,6 +423,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("not received");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Not Accepted Yet
@@ -428,6 +436,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("received");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Accepted
@@ -439,6 +449,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("shipping");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Shipping
@@ -451,6 +463,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("success");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Success
@@ -463,6 +477,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("failed");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Failed
@@ -569,9 +585,9 @@ export default function Orders() {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{isFinish ? rows : <Waiting />}</tbody>
+                <tbody>{isFinish ? rows : <Waiting />} </tbody>
               </Table>
-              {orders.length == 0 ? (
+              {isFinish && orders.length == 0 ? (
                 <Group position="center">
                   <Text color="#B4B4B4" fw={500} mt={50} mb={50}>
                     Empty
