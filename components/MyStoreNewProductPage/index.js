@@ -162,12 +162,13 @@ export default function MyStoreNewProductPage() {
 
     try {
       const [response, error] = await createProduct(data);
-      if (response.data.error) {
-        alert(response.data.error);
+      if (error) {
+        alert(Object.values(error)[0]);
         setLoading(false);
         return;
+      } else {
+        alert(response.message);
       }
-      alert(response.data.message);
     } catch (err) {
       setLoading(false);
       alert(err);

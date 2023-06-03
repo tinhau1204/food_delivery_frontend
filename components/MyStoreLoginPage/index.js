@@ -20,7 +20,6 @@ import { useRouter } from "next/router";
 //import Register from "./register";
 //import ForgotPassword from "./forgot-password";
 import Link from "next/link";
-import axios from "axios";
 import { accountLogin } from "@/lib";
 
 export default function MyStoreLoginPage() {
@@ -61,11 +60,11 @@ export default function MyStoreLoginPage() {
 
       const [response, error] = await accountLogin(data);
       if (error) {
-        alert(error);
+        alert(Object.values(error)[0]);
       } else {
         if (response.storeId === 0) {
           sessionStorage.setItem("TempUser", response.userId);
-          router.push("/register");
+          router.push("/seller/register");
         } else {
           var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
           document.cookie = `Sel=${JSON.stringify(

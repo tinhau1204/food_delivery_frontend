@@ -69,11 +69,12 @@ export default function NewProductType() {
     try {
       const [response, error] = await createProductType(data);
       if (error) {
-        alert(error);
+        alert(Object.values(error)[0]);
         setLoading(false);
         return;
+      } else {
+        alert(response.message);
       }
-      alert(response);
     } catch (error) {
       setLoading(false);
       alert("Must be in lowercased with no special characters");
