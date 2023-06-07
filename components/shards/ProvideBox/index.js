@@ -14,10 +14,10 @@ const ProvideCard = (props) => {
         </Card.Section>
         <Card.Section>
           <Stack spacing="sm" justify="center" align="center">
-            <Title size={"h3"} color="#253d4e">
+            <Title size={"h3"} color="white">
               {title}
             </Title>
-            <Text size="sm" color="gray" align="center">
+            <Text size="sm" color="white" align="center">
               {text}
             </Text>
             <Button rightIcon={<HiArrowNarrowRight />} color="teal">

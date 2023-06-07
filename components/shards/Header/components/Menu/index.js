@@ -39,7 +39,7 @@ export function ListIcon({ data }) {
             href={item.path}
             passhref
             target="_blank"
-            color="#253d4e"
+            color="white"
           >
             {/* <Link href={item.path} passhref> */}
             {item.icon}

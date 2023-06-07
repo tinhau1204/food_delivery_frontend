@@ -1,8 +1,8 @@
 @import "../../../styles/scss/mixin";
 @import "../../../styles/scss/variables";
 .card {
-  width: 250px;
-  height: 380px;
+  // width: 280px;
+  // height: 400px;
   background-color: #25262bb5;
   position: relative;
   transition: 0.15s ease-out;
@@ -31,10 +31,10 @@
   position: absolute;
   top: 1rem;
   /* Size */
-  height: 1.5rem;
+  height: 1rem;
   width: 5.656rem;
   /* Displayed diagonally */
-  transform: translate(-40px, -5px) rotate(-45deg);
+  transform: translate(-32px, -5px) rotate(-45deg);
   /* Background color */
   // background-color: #d1d5db;
   /* Centerize the text content */
@@ -56,16 +56,21 @@
 .rightSection {
   position: absolute;
   right: 1rem;
-  top: 1rem;
+  top: 0.5rem;
+}
+
+.nameNavigate{
+  line-height: normal;
 }
 
 .nameNavigate:hover {
+  line-height: normal;
   text-decoration: underline;
   color: $primary;
   cursor: pointer;
 }
 
 .buttonAdd {
-  width: 6.3vw;
-  height: 2vw;
+  width: 7.6vw;
+  height: 2.1vw;
 }

@@ -81,8 +81,8 @@ function WishListPage() {
   return (
     <>
       <Stack align="center" p="xl">
-        <FaRegHeart size={40} color="#253d4e" />
-        <Title color="#253d4e">My Wishlist</Title>
+        <FaRegHeart size={40} color="white" />
+        <Title color="white">My Wishlist</Title>
         {wishlist.length > 0 ? (
           <Table style={{ maxWidth: "85%" }}>
             <thead>

@@ -90,7 +90,7 @@ function DesDetail({ storeinfo }) {
               mt={10}
               mr={20}
             >
-              <Title color="#253d4e" size={17}>
+              <Title color="white" size={17}>
                 {storeinfo.name}
               </Title>
               <Badge
@@ -104,7 +104,7 @@ function DesDetail({ storeinfo }) {
                 {storeinfo.type_name}
               </Badge>
               <Group mt={10}>
-                <Text color="gray" size={14}>
+                <Text color="white" size={14}>
                   Address:
                 </Text>
                 <Text

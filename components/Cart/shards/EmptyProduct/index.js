@@ -9,10 +9,10 @@ function EmptyProduct() {
       <Center style={{ height: 350 }}>
         <Stack>
           <Group spacing="sm">
-            <Title color="#253d4e">Shopping Cart Is</Title>
+            <Title color="white">Shopping Cart Is</Title>
             <Title color="teal">Empty</Title>
           </Group>
-          <Text color="gray" size="sm" style={{ textAlign: "center" }}>
+          <Text color="white" size="sm" style={{ textAlign: "center" }}>
             Go to store and add to cart products you&apos;d like to build
           </Text>
           <Link href="/" passhref>

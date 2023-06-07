@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import store from "@/redux";
 import BreadCrumb from "@/components/shards/BreadCrumb";
-import { NotificationsProvider } from "@mantine/notifications";
+import { Notifications } from "@mantine/notifications";
 import { Loader } from "@mantine/core";
 
 function MyApp({ Component, pageProps }) {
@@ -66,12 +66,12 @@ function MyApp({ Component, pageProps }) {
               withGlobalStyles
               withNormalizeCSS
             >
-              <NotificationsProvider>
-                {!path.includes("/customer") && !path.includes("/seller") && (
-                  <NavigationBar />
-                )}
-                <Component {...pageProps} />
-              </NotificationsProvider>
+              //Mantine v6.0 only need 1 Notification before Component
+              <Notifications />
+              {!path.includes("/customer") && !path.includes("/seller") && (
+                <NavigationBar />
+              )}
+              <Component {...pageProps} />
             </MantineProvider>
           ) : (
             //</Provider>
@@ -81,21 +81,20 @@ function MyApp({ Component, pageProps }) {
                 withGlobalStyles
                 withNormalizeCSS
               >
-                <NotificationsProvider>
-                  {!path.includes("/customer") &&
-                    !path.includes("/seller") &&
-                    path !== "/_error" &&
-                    path !== "/paymentsuccess" && <Header />}
-                  {!path.includes("/customer") &&
-                    !path.includes("/seller") &&
-                    path !== "/_error" &&
-                    path !== "/paymentsuccess" && <BreadCrumb />}
-                  <Component {...pageProps} />
-                  {!path.includes("/customer") &&
-                    !path.includes("/seller") &&
-                    path !== "/_error" &&
-                    path !== "/paymentsuccess" && <Footer />}
-                </NotificationsProvider>
+                <Notifications />
+                {!path.includes("/customer") &&
+                  !path.includes("/seller") &&
+                  path !== "/_error" &&
+                  path !== "/paymentsuccess" && <Header />}
+                {!path.includes("/customer") &&
+                  !path.includes("/seller") &&
+                  path !== "/_error" &&
+                  path !== "/paymentsuccess" && <BreadCrumb />}
+                <Component {...pageProps} />
+                {!path.includes("/customer") &&
+                  !path.includes("/seller") &&
+                  path !== "/_error" &&
+                  path !== "/paymentsuccess" && <Footer />}
               </MantineProvider>
             </Provider>
           )}

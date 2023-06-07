@@ -37,7 +37,7 @@ function RevDetail({ sid }) {
             <UserReview data={comments} />
           </Stack>
           {/* <Stack>
-            <Title size={20} color="#253d4e">
+            <Title size={20} color="white">
               Add a review
             </Title>
             <WriteReview />

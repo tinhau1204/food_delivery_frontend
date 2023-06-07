@@ -22,7 +22,7 @@ function UserReview({ data }) {
       //   <Center style={{ height: 50 }}>
       //     <Group spacing="sm">
       //       <Title
-      //         color="#253d4e"
+      //         color="white"
       //         style={{ alignText: "center", justify: "center" }}
       //       >
       //         No comments
@@ -30,7 +30,7 @@ function UserReview({ data }) {
       //     </Group>
       //   </Center>
       // </div>
-      <Text color="gray" style={{ maxWidth: 550 }}>
+      <Text color="white" style={{ maxWidth: 550 }}>
         No comments
       </Text>
     );
@@ -44,7 +44,7 @@ function UserReview({ data }) {
                 <Avatar radius="xl" size="lg" src="/images/defaultuser.png" />
                 <Stack spacing={5} mt={10}>
                   <Stack spacing="xs">
-                    <Title size="lg" color="#253d4e">
+                    <Title size="lg" color="white">
                       {item.name}
                     </Title>
                     <Group>

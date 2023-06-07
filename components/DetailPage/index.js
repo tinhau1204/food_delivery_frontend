@@ -118,18 +118,18 @@ function DetailPage() {
             />
           </div>
           <Stack spacing="xs">
-            <Title color="#253d4e" size={26}>
+            <Title color="white" size={26}>
               {productDetail.info.name}
             </Title>
             <Group>
-              <Text color="gray">Type:</Text>
+              <Text color="white">Type:</Text>
               <Title color="teal" size={14}>
                 {productDetail.info.type}
               </Title>
             </Group>
             <Group mt={10} mb={15}>
-              <Text color="gray">Price:</Text>
-              <Title color="#253d4e" size={26}>
+              <Text color="white">Price:</Text>
+              <Title color="white" size={26}>
                 {productDetail.info.price + " $"}
               </Title>
             </Group>
@@ -154,7 +154,7 @@ function DetailPage() {
                 {wishlist.some((item) => item.pid == Number(id)) ? (
                   <AiFillHeart size={24} color="#f74b81" />
                 ) : (
-                  <AiOutlineHeart size={24} color="#253d4e" />
+                  <AiOutlineHeart size={24} color="white" />
                 )}
               </ActionIcon>
               {/* <Button color="teal" size="md">

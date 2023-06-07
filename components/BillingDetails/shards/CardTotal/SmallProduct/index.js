@@ -25,10 +25,10 @@ function SmallProduct({ image, name, type, price, amount }) {
             />
             <Stack spacing="none">
               <Text weight={600}>{name}</Text>
-              <Text size="xs" color="gray">
+              <Text size="xs" color="white">
                 Type: {type}
               </Text>
-              <Text size="xs" color="gray">
+              <Text size="xs" color="white">
                 Quantity: {amount}
               </Text>
             </Stack>

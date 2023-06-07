@@ -31,7 +31,7 @@ function CardStore({
         </Text>
       </Group>
       <Stack>
-        <Text size="xs" color="#253d4e">
+        <Text size="xs" color="white">
           {address}
         </Text>
         <Text size="sm" color="dimmed" style={{ overflow: "auto" }}>

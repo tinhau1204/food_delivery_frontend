@@ -329,7 +329,7 @@ export default function Orders() {
                 <Tooltip label={"Waiting for all store to accept "}>
                   <Button
                     variant="outline"
-                    color="gray"
+                    color="white"
                     onClick={() => {
                       getOrderState(row.id);
                     }}
@@ -766,25 +766,25 @@ export default function Orders() {
         <Group position="left" ml={10} mt={20}>
           <Paper>
             <Group>
-              <Text weight={700} color="#253d4e">
+              <Text weight={700} color="white">
                 Id:{" "}
               </Text>
-              <Text color="#253d4e">{orderId}</Text>
+              <Text color="white">{orderId}</Text>
             </Group>
             <Group mt={10} mb={10}>
-              <Text weight={700} color="#253d4e">
+              <Text weight={700} color="white">
                 Address:{" "}
               </Text>
-              <Text color="#253d4e">{address}</Text>
+              <Text color="white">{address}</Text>
             </Group>
             <Group mt={10} mb={10}>
-              <Text weight={700} color="#253d4e">
+              <Text weight={700} color="white">
                 Ship fee:{" "}
               </Text>
               <Text>${" " + ship}</Text>
             </Group>
             <Group mt={10} mb={20}>
-              <Text weight={700} color="#253d4e">
+              <Text weight={700} color="white">
                 Detail:
               </Text>
             </Group>

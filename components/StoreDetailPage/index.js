@@ -108,7 +108,7 @@ function StoreDetailPage() {
               // justify="flex-start"
               // style={{ position: "absolute", top: "0.5rem", right: "0" }}
               >
-                <Title color="#253d4e" size={18}>
+                <Title color="white" size={18}>
                   {storedetail.store[0].name}
                 </Title>
                 <Text color="green" size={14}>
@@ -132,7 +132,7 @@ function StoreDetailPage() {
                   Address:
                 </Text>
                 <Text
-                  color="gray"
+                  color="white"
                   size={16}
                   style={{
                     maxWidth: 240,

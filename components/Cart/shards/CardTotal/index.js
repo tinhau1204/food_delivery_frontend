@@ -174,39 +174,39 @@ function CardTotal({
     <>
       <Paper p="md" style={{ marginTop: 20, width: 300, zIndex: 1 }}>
         <Group position="apart">
-          <Text size="lg" weight={700} color="#253d4e">
+          <Text size="lg" weight={700} color="white">
             Subtotal:{" "}
           </Text>
-          <Text color="#253d4e">{"$" + (subTotal ?? 0)}</Text>
+          <Text color="white">{"$" + (subTotal ?? 0)}</Text>
         </Group>
         <Divider my="sm" variant="dashed" />
         <Group position="apart">
-          <Text size="lg" weight={700} color="#253d4e">
+          <Text size="lg" weight={700} color="white">
             Discount:{" "}
           </Text>
-          <Text color="#253d4e">{"-$" + "0"}</Text>
+          <Text color="white">{"-$" + "0"}</Text>
         </Group>
         <Divider my="sm" variant="dashed" />
         <Group position="apart">
-          <Text size="lg" weight={700} color="#253d4e">
+          <Text size="lg" weight={700} color="white">
             Shipping:{" "}
           </Text>
-          <Text color="#253d4e">{"Free"}</Text>
+          <Text color="white">{"Free"}</Text>
         </Group>
         <Divider my="sm" variant="dashed" />
 
         <Group position="apart">
-          <Text size="lg" weight={700} color="#253d4e">
+          <Text size="lg" weight={700} color="white">
             Estimated Tax:{" "}
           </Text>
-          <Text color="#253d4e">{"$" + tax}</Text>
+          <Text color="white">{"$" + tax}</Text>
         </Group>
         <Divider my="sm" />
         <Group position="apart">
-          <Text size="lg" weight={700} color="#253d4e">
+          <Text size="lg" weight={700} color="white">
             Total:{" "}
           </Text>
-          <Text color="#253d4e">{"$" + (Number(tax) + Number(subTotal))}</Text>
+          <Text color="white">{"$" + (Number(tax) + Number(subTotal))}</Text>
         </Group>
         {/* <Button
           disabled

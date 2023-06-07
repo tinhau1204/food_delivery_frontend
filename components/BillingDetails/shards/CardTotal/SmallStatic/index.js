@@ -15,7 +15,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
       {/* Sub total */}
       <Grid columns={12} align="center">
         <Grid.Col span={9}>
-          <Text weight={700} size="xl" color="#253d4e">
+          <Text weight={700} size="xl" color="white">
             Sub Total:
           </Text>
         </Grid.Col>
@@ -33,7 +33,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
       {/* Shipping */}
       <Grid columns={12} align="center">
         <Grid.Col span={9}>
-          <Text weight={700} size="xl" color="#253d4e">
+          <Text weight={700} size="xl" color="white">
             Shipping:
           </Text>
         </Grid.Col>
@@ -50,7 +50,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
       {/* Estimated Tax */}
       <Grid columns={12} align="center">
         <Grid.Col span={9}>
-          <Text weight={700} size="xl" color="#253d4e">
+          <Text weight={700} size="xl" color="white">
             Estimated Tax:
           </Text>
         </Grid.Col>
@@ -67,7 +67,7 @@ function SmallStatic({ subtotal, shipping, tax, total }) {
       {/* Total */}
       <Grid columns={12} align="center">
         <Grid.Col span={9}>
-          <Text weight={700} size="xl" color="#253d4e">
+          <Text weight={700} size="xl" color="white">
             Total:
           </Text>
         </Grid.Col>

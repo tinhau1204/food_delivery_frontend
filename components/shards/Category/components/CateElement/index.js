@@ -30,7 +30,7 @@ function CateElement({ data, onclickcate }) {
                 {item.name}
               </Text>
             </Group>
-            <Badge color="gray" radius="xl">
+            <Badge color="white" radius="xl">
               {item.quantity}
             </Badge>
           </Group>

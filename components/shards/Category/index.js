@@ -28,9 +28,8 @@ function Category({ onClickCate, getType }) {
 
   return (
     <Container style={{ width: 300, marginLeft: 100, marginRight: 100 }}>
-      {/* Category */}
       <Group align="center" position="apart">
-        <Text weight={700} size={20} color="#253d4e">
+        <Text weight={700} size={20} color="white">
           Category
         </Text>
         <MdKeyboardArrowRight size={20} />

@@ -34,7 +34,7 @@ function AboutUsPage() {
         </div>
         <div className={styles.introduceContent}>
           <Stack justify="space-between">
-            <Title color="#253d4e">{active.title}</Title>
+            <Title color="white">{active.title}</Title>
             <Text weight={500} color="teal" size="xl">
               {active.content}
             </Text>
@@ -80,7 +80,7 @@ function AboutUsPage() {
       </Group>
 
       <div className={styles.provideContainer}>
-        <Title color="#253d4e" mb={50} mt={100} justify="center" align="center">
+        <Title color="white" mb={50} mt={100} justify="center" align="center">
           What We Provide?
         </Title>
         <SimpleGrid

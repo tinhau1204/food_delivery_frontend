@@ -13,10 +13,10 @@ function SmallItem({ name, image, type, store_name }) {
         />
         <Stack spacing="none" style={{ flex: 1 }}>
           <Text weight={600}>{name}</Text>
-          <Text size="xs" color="gray">
+          <Text size="xs" color="white">
             Category: {type}
           </Text>
-          <Text size="xs" color="gray">
+          <Text size="xs" color="white">
             Store: {store_name}
           </Text>
         </Stack>

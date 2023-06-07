@@ -38,11 +38,11 @@ function paymentsuccess() {
           <Image src="/images/check.gif" />
         </div>
 
-        <Title align="center" size={20} color="#253d4e">
+        <Title align="center" size={20} color="white">
           Your Order will be accepted soon
         </Title>
 
-        <Text size={15} color="gray" align="center" mt={5}>
+        <Text size={15} color="white" align="center" mt={5}>
           The website will be redirected to the homepage after {timeleft}
         </Text>
       </Paper>
