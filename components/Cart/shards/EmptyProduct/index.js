@@ -13,11 +13,11 @@ function EmptyProduct() {
             <Title color="teal">Empty</Title>
           </Group>
           <Text color="gray" size="sm" style={{ textAlign: "center" }}>
-            Go to shop and add to cart products you&apos;d like to build
+            Go to store and add to cart products you&apos;d like to build
           </Text>
           <Link href="/" passhref>
             <Button leftIcon={<BsArrowLeft />} color="teal">
-              Return to shop
+              Return to store
             </Button>
           </Link>
         </Stack>

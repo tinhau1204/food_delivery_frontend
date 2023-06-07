@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -12,21 +12,28 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
+import MyStoreRegisterPage from "../MyStoreRegisterPage";
 import { joiResolver, useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import PasswordStrength from "./shards/PasswordStrength";
 import registerSchema from "./validate";
 import styles from "./styles.module.scss";
-import { assignUser } from "@/lib/api/user";
+import { accountRegister } from "@/lib/api/accounts";
 import { TiTick } from "react-icons/ti";
 import { HiLockClosed } from "react-icons/hi";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { HiOutlineIdentification } from "react-icons/hi";
+import Link from "next/link";
 
-const RegisterPage = () => {
+const RegisterPage = (props) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  // const [isSeller, setIsSeller] = useState(false);
+
+  useEffect(() => {
+    console.log("Customer", props);
+  });
 
   function makeid(length) {
     var result = "";
@@ -38,8 +45,6 @@ const RegisterPage = () => {
     }
     return result;
   }
-
-  console.log(typeof makeid(10));
 
   const form = useForm({
     initialValues: {
@@ -54,14 +59,12 @@ const RegisterPage = () => {
   });
 
   const handleToLogin = () => {
-    router.replace("/login");
+    router.replace("/customer/login");
   };
 
   const handleSubmit = async (values) => {
-    console.log("value Submit", values);
     setLoading(false);
-    const [data, error] = await assignUser("/account/register", values);
-    console.log("data register", data);
+    const [data, error] = await accountRegister(values);
 
     if (data) {
       showNotification({
@@ -94,7 +97,7 @@ const RegisterPage = () => {
           placeholder="ID"
           defaultValue={makeid(10)}
           hidden
-          // disabled
+          disabled
           {...form.getInputProps("id")}
         />
         <TextInput
@@ -127,18 +130,8 @@ const RegisterPage = () => {
             required
             {...form.getInputProps("confirmPassword")}
           /> */}
-          <Radio.Group
-            name="favoriteFramework"
-            label="Select your favorite framework/library"
-            description="This is anonymous"
-            withAsterisk
-          >
-            <Radio value="react" label="React" />
-            <Radio value="svelte" label="Svelte" />
-            <Radio value="ng" label="Angular" />
-            <Radio value="vue" label="Vue" />
-          </Radio.Group>
-          <Radio.Group
+
+          {/* <Radio.Group
             //defaultValue={"CUS"}
             label="What is your role?"
             size="md"
@@ -147,16 +140,22 @@ const RegisterPage = () => {
           >
             <Radio value="CUS" label="Customer" checked="true" />
             <Radio value="SEL" label="Seller" />
-          </Radio.Group>
-          <Button size="md" type="submit">
-            Register
-          </Button>
+          </Radio.Group> */}
           <Center>
             Already have an account?
             <Anchor onClick={handleToLogin} ml="xs">
               Login
             </Anchor>
           </Center>
+          <Center>
+            Cooperate with our team?
+            <Anchor href={"/seller/register"} ml="xs">
+              Seller
+            </Anchor>
+          </Center>
+          <Button size="md" type="submit">
+            Register
+          </Button>
         </SimpleGrid>
         <LoadingOverlay visible={loading} />
       </Stack>

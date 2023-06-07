@@ -2,20 +2,22 @@ import { Button, Divider, Group, Paper, Text } from "@mantine/core";
 //import Link from "next/link";
 import { React, useEffect, useState } from "react";
 import {
-  AiOutlineHeart,
+  //AiOutlineHeart,
   AiOutlineShoppingCart,
-  AiOutlineUser,
+  //AiOutlineUser,
 } from "react-icons/ai";
 import {
   PayPalScriptProvider,
   PayPalButtons,
   usePayPalScriptReducer,
 } from "@paypal/react-paypal-js";
-import { createOrder } from "@/lib/api/order";
+import { createOrder } from "@/lib/api/orders";
 import { TiTick } from "react-icons/ti";
 import { showNotification } from "@mantine/notifications";
+import { getCart, clearCart } from "@/redux/cart";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import moment from "moment";
+//import moment from "moment";
 
 function genRandomString() {
   let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -34,16 +36,29 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
   const [accountId, setAccountid] = useState("");
   const style = { layout: "vertical" };
 
+  //Cart
+  const { cart } = useSelector(getCart);
+  const cartDispatch = useDispatch();
+
+  const clearCartList = () => {
+    cartDispatch(clearCart());
+  };
+  ///
+
   const createOrderWithPaypal = async (values) => {
-    const [data, error] = await createOrder("/order/create", values);
+    const [data, error] = await createOrder(values);
     if (data) {
       console.log("Order created");
     }
   };
 
   useEffect(() => {
-    const data = JSON.parse(document.cookie.split("=")[1]);
-    setAccountid(data.userId);
+    if (document.cookie.indexOf("Cus") > -1) {
+      const savedCookie = JSON.parse(document.cookie.split("Cus=")[1]);
+      setAccountid(savedCookie.userId);
+    } else {
+      setAccountid("");
+    }
 
     dispatch({
       type: "resetOptions",
@@ -64,9 +79,10 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       account_id: account_id,
       ship_fee: "0",
       payment_method: "Paypal",
+      product_count: amount,
       address: address,
       order_detail: "",
-      product_count: parseInt(cartdata.length),
+      product_count: parseInt(cart.length),
       timestamp: new Date().toISOString(),
     };
 
@@ -80,7 +96,6 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
 
       formatData.push(returnJson);
     });
-    console.log(formatData);
     order_info["order_detail"] = formatData;
 
     return order_info;
@@ -107,15 +122,12 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
               ],
             })
             .then((orderId) => {
-              // console.log(new Date().toISOString());
-              // console.log(
-              //   moment(new Date().toISOString()).format("MM/DD/YYYY h:mm a"),
-              // );
               return orderId;
             });
         }}
         onApprove={function (data, actions) {
           return actions.order.capture().then(function (details) {
+            clearCartList();
             const address = details.purchase_units[0].shipping.address;
             const full_address =
               address.address_line_1 +
@@ -137,7 +149,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
                 color: "green",
                 icon: <TiTick color="white" />,
               });
-              router.push("/");
+              router.push("/paymentsuccess");
             }
           });
         }}
@@ -160,7 +172,7 @@ function CardTotal({
 
   return (
     <>
-      <Paper p="md" withBorder style={{ marginTop: 20, width: 300 }}>
+      <Paper p="md" style={{ marginTop: 20, width: 300, zIndex: 1 }}>
         <Group position="apart">
           <Text size="lg" weight={700} color="#253d4e">
             Subtotal:{" "}
@@ -196,7 +208,7 @@ function CardTotal({
           </Text>
           <Text color="#253d4e">{"$" + (Number(tax) + Number(subTotal))}</Text>
         </Group>
-        <Button
+        {/* <Button
           disabled
           leftIcon={<AiOutlineShoppingCart />}
           color="teal"
@@ -204,7 +216,7 @@ function CardTotal({
           onClick={onClick}
         >
           Checkout
-        </Button>
+        </Button> */}
         <div
           style={{
             maxWidth: "750px",

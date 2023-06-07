@@ -10,7 +10,6 @@ function CateElement({ data, onclickcate }) {
       {data.map((item, index) => (
         <Paper
           shadow={isSelected == item.name ? "xl" : "none"}
-          withBorder
           p="5px"
           key={index}
           style={{ marginBottom: 10 }}

@@ -4,7 +4,6 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 
 const ProvideCard = (props) => {
   const { icon, title, text } = props;
-  // console.log(new URL(icon, document.baseURI).href)
   return (
     <Card className={styles.card}>
       <Stack align="center" justify="center">

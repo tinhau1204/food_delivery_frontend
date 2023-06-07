@@ -11,6 +11,7 @@ import {
 import React from "react";
 import WriteReview from "../WriteReview";
 import styles from "./styles.module.scss";
+import moment from "moment/moment";
 
 function UserReview({ data }) {
   const count = data.length;
@@ -39,29 +40,36 @@ function UserReview({ data }) {
         {data.map((item, index) => (
           <>
             <Group key={item.product_id}>
-              <Stack spacing="none">
-                <Avatar radius="xl" size="lg" src="" />
-                <Title size="lg" color="#253d4e">
-                  {item.name}
-                </Title>
-              </Stack>
-              <Stack spacing="none">
-                <Text color="#253d4e" size="sm">
-                  {item.timestamp}
-                </Text>
-                {/* <Text color="##0796fc" size="sm">
-                {item.updated}
-              </Text> */}
-                <Text color="gray" size="sm">
-                  {item.comment}
-                </Text>
-                <Group spacing="none">
-                  <CountingSmallStar count={item.star} />
-                  <Text size="sm" color="gray">
-                    {"(" + item.star + ") " + "Review"}
+              <Group spacing={20}>
+                <Avatar radius="xl" size="lg" src="/images/defaultuser.png" />
+                <Stack spacing={5} mt={10}>
+                  <Stack spacing="xs">
+                    <Title size="lg" color="#253d4e">
+                      {item.name}
+                    </Title>
+                    <Group>
+                      <Text color="grey" size={12}>
+                        {moment(item.timestamp).format("MM/DD/YYYY h:mm a")}
+                      </Text>
+                      <Text color="grey" size={12}>
+                        |
+                      </Text>
+                      <Text color="grey" size={12}>
+                        Product:
+                      </Text>
+                      <Text color="teal" fw={700} size={12}>
+                        {item.products[0].name}
+                      </Text>
+                    </Group>
+                  </Stack>
+                  <Group spacing="none">
+                    <CountingSmallStar count={item.star} />
+                  </Group>
+                  <Text color="black" size="sm">
+                    {item.comment}
                   </Text>
-                </Group>
-              </Stack>
+                </Stack>
+              </Group>
             </Group>
             <Divider my="sm" />
           </>

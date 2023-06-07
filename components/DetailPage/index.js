@@ -8,7 +8,7 @@ import {
   Title,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import { getProductDetail } from "@/lib/api/productdetail";
+import { getProductDetailById } from "@/lib/api/products";
 import styles from "./styles.module.scss";
 import { CountingStar } from "../shards/CardItem/components/StarRating";
 import { BsDot } from "react-icons/bs";
@@ -29,14 +29,14 @@ function DetailPage() {
   const { cart } = useSelector(getCart);
   const { wishlist } = useSelector(getWishlist);
   const dispatch = useDispatch();
-  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
+  const router = useRouter();
   const { id } = router.query;
-  console.log("id page", id);
-  console.log("wishlist", wishlist);
-  console.log("cart", cart);
-  console.log("productDetail", productDetail);
+  // console.log("id page", id);
+  // console.log("wishlist", wishlist);
+  // console.log("cart", cart);
+  // console.log("productDetail", productDetail);
 
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
@@ -53,7 +53,7 @@ function DetailPage() {
 
   useEffect(() => {
     const getProduct = async () => {
-      const [data, error] = await getProductDetail("/menu/product/" + id);
+      const [data, error] = await getProductDetailById(id);
 
       if (data) {
         console.log("Product detail", data);
@@ -66,7 +66,7 @@ function DetailPage() {
     };
 
     getProduct();
-  }, []);
+  }, [id]);
 
   console.log(
     "check",
@@ -185,7 +185,7 @@ function DetailPage() {
               Description
             </Text>
             <Text
-              color="gray"
+              color="black"
               size={14}
               style={{ maxWidth: 340, overflowWrap: "break-word" }}
             >

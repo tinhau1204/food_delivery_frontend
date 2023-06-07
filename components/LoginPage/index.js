@@ -12,9 +12,9 @@ import {
   PasswordInput,
   //Checkbox,
   Button,
-  Radio,
   Center,
 } from "@mantine/core";
+import MyStoreLoginPage from "../MyStoreLoginPage";
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
 import { HiLockClosed } from "react-icons/hi";
@@ -22,27 +22,30 @@ import { HiLockClosed } from "react-icons/hi";
 import loginSchema from "./validate";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { assignUser } from "@/lib";
+import { accountLogin } from "@/lib/api/accounts";
 import { useDispatch } from "react-redux";
 import { joiResolver, useForm } from "@mantine/form";
 import { TiTick } from "react-icons/ti";
 import { MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { login } from "@/redux/user";
+import { boolean } from "joi";
+import AlertPopup from "../shards/AlertPopup";
 
-export default function LoginPage() {
-  const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
-  const [checked, setChecked] = useState(true);
+export default function LoginPage(props) {
+  // const [isFocus, setIsFocus] = useState({ name: "", isActive: false });
+  // const [checked, setChecked] = useState(true);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
-  const [data, setdata] = useState({
-    name: "",
-    age: 0,
-    date: "",
-    programming: "",
-  });
+  const [isSelLogin, setIsSelLogin] = useState(false);
+  useEffect(() => {
+    if (document.cookie.indexOf("Sel") > -1) {
+      setIsSelLogin(true);
+    } else setIsSelLogin(false);
+  }, []);
 
   const form = useForm({
     initialValues: {
@@ -55,9 +58,7 @@ export default function LoginPage() {
 
   const handleSubmit = async (values) => {
     setLoading(true);
-    console.log("value", values);
-    const [data, error] = await assignUser("/account/login", values);
-    //console.log(data);
+    const [data, error] = await accountLogin(values);
     if (data) {
       showNotification({
         autoClose: 4000,
@@ -69,8 +70,7 @@ export default function LoginPage() {
 
       dispatch(login({ ...data }));
       var expireTime = new Date(Date.now() + 21600 * 1000).toUTCString();
-      //console.log(expireTime);
-      document.cookie = `User=${JSON.stringify(
+      document.cookie = `Cus=${JSON.stringify(
         data,
       )};Expires=${expireTime};path=/;`;
       router.push("/");
@@ -89,76 +89,88 @@ export default function LoginPage() {
   };
 
   return (
-    <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
-      <Group>
-        <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
-          <Image
-            src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
-            width="100%"
-            height="100vh"
-            alt="background image"
-            style={{ zIndex: 1 }}
-          ></Image>
-        </Paper>
+    <div>
+      {isSelLogin ? (
+        <AlertPopup
+          Title={"Signout Required"}
+          Content={"You need to logout your current seller account first!"}
+          LinkRef={"/mystore"}
+          ButtonName={"Navigate"}
+        />
+      ) : (
+        ""
+      )}
+      <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
         <Group
           style={{
-            width: 300,
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: 1,
-            zIndex: 2,
+            filter: isSelLogin ? "blur(8px)" : "blur(0px)",
+            "-webkit-filter": isSelLogin ? "blur(8px)" : "blur(0px)",
           }}
         >
-          <Paper
-            shadow="md"
-            p="md"
-            radius="md"
-            withBorder
-            style={{ width: 300, borderColor: "green" }}
-          >
-            <Text weight={700} size="xl" align="center">
-              Login
-            </Text>
-            <Stack>
-              <TextInput
-                placeholder="Email"
-                label="Email"
-                icon={<BiUserCircle size={20} color="#27ca7d" />}
-                required
-                {...form.getInputProps("email")}
-              />
-              <PasswordInput
-                placeholder="Password"
-                label="Password"
-                icon={<HiLockClosed size={20} color="#27ca7d" />}
-                required
-                {...form.getInputProps("password")}
-              />
-              <Center>
-                <Radio.Group
-                  name="role_selection"
-                  size="md"
-                  color="#253d4e"
-                  required
-                  {...form.getInputProps("role_id")}
-                >
-                  <Radio value="CUS" label="Customer" />
-                  <Radio value="SEL" label="Seller" />
-                </Radio.Group>
-              </Center>
-
-              <Button variant="outline" color="teal" type="submit">
-                Login
-              </Button>
-              <Link href="/register" passhref>
-                <Text variant="link" component="a" align="left" size="sm">
-                  Create a new account?
-                </Text>
-              </Link>
-            </Stack>
+          <Paper shadow="md" radius="lg" style={{ width: "50%" }}>
+            <Image
+              src="https://img.freepik.com/free-vector/restaurant-mural-wallpaper_23-2148692632.jpg?w=2000"
+              width="100%"
+              height="100vh"
+              alt="background image"
+              style={{ zIndex: 1 }}
+            ></Image>
           </Paper>
+          <Group
+            style={{
+              width: 300,
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: 1,
+              zIndex: 2,
+            }}
+          >
+            <Paper
+              shadow="md"
+              p="md"
+              radius="md"
+              withBorder
+              style={{ width: 300, borderColor: "#27ca7d" }}
+            >
+              <Text weight={700} size="xl" align="center">
+                Login
+              </Text>
+              <Stack>
+                <TextInput
+                  placeholder="Email"
+                  label="Email"
+                  icon={<BiUserCircle size={20} color="#27ca7d" />}
+                  required
+                  {...form.getInputProps("email")}
+                />
+                <PasswordInput
+                  placeholder="Password"
+                  label="Password"
+                  icon={<HiLockClosed size={20} color="#27ca7d" />}
+                  required
+                  {...form.getInputProps("password")}
+                />
+                <Link href="/customer/register">
+                  <a style={{ color: "#61afef", fontSize: 13 }}>
+                    Create a new account?
+                  </a>
+                </Link>
+                <Button variant="outline" color="teal" type="submit">
+                  Login
+                </Button>
+                <Center>
+                  Cooperate with our team?
+                  <Link href="/seller/login">
+                    <a style={{ color: "#61afef", paddingLeft: "10px" }}>
+                      Seller
+                    </a>
+                  </Link>
+                </Center>
+              </Stack>
+            </Paper>
+          </Group>
         </Group>
-      </Group>
-    </form>
+      </form>
+    </div>
   );
 }

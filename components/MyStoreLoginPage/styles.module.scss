@@ -1,0 +1,27 @@
+@import "../../styles/scss/mixin";
+
+
+.wrapper {
+    min-height: 100vh;
+    background-size: cover;
+    background-image: url("/images/food-banner.jpg");
+}
+
+.form {
+    min-Height: 100vh;
+    max-Width: 450px;
+    padding-Top: 80px;
+}
+    
+.title {
+    color: black;
+    font-Family: "Bahnschrift";
+}
+    
+.logo {
+    color: black;
+    width: 120px;
+    display: block;
+    margin-Left: auto;
+    margin-Right: auto;
+};

@@ -1,17 +1,17 @@
 import {
   createStyles,
   Table,
-  Progress,
   Anchor,
   Text,
   Group,
-  ScrollArea,
+  Radio,
   Stack,
   Paper,
   Skeleton,
   Button,
   Modal,
   useMantineTheme,
+  Tooltip,
   //SimpleGrid,
 } from "@mantine/core";
 import Image from "next/image";
@@ -28,11 +28,16 @@ import {
   IconCircleX,
   IconChecks,
   IconSquareRoundedLetterX,
+  IconHourglassEmpty,
 } from "@tabler/icons";
 import moment from "moment";
-import { getHistory } from "@/lib/api/order";
-import { getProductDetail } from "@/lib/api/productdetail";
+import { getHistory } from "@/lib/api/orders";
+import { getOrderById } from "@/lib/api/orders";
+import { getOrderComment } from "@/lib/api/orders";
+import { getOrderReceivedState } from "@/lib/api/orders";
 import { cancelOrder } from "@/lib/api/products";
+import { BiCommentDetail } from "react-icons/bi";
+import WriteReview from "@/components/DetailPage/ReviewDetail/WriteReview";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -56,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     color: "#898989",
   },
   thead: {
-    background: "#D1D1D1",
+    background: "#27ca7e91",
   },
   paginationText: {
     display: "flex",
@@ -71,7 +76,6 @@ const useStyles = createStyles((theme) => ({
   },
   root: {
     padding: 40,
-    backgroundColor: "#FAFAFA",
     height: "100%",
     width: "98vw",
   },
@@ -81,8 +85,15 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function Orders() {
+  let userId = "",
+    cookieInfo = "";
+  if (document.cookie.indexOf("Cus") > -1) {
+    cookieInfo = JSON.parse(document.cookie.split("Cus=")[1]);
+    userId = cookieInfo.userId;
+  }
   const { classes } = useStyles();
   const [orders, setOrders] = useState([]);
+  const [orderState, setOrderState] = useState([]);
   const [tab, setTab] = useState("not received");
   const [currentPage, setCurrentPage] = useState(1);
   const [size, setSize] = useState(20);
@@ -93,6 +104,8 @@ export default function Orders() {
   const [isFinish, setIsFinish] = useState(false);
   const [loading, setLoading] = useState(false);
   const [opened, setOpened] = useState(false);
+  const [openedState, setOpenedState] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [address, setAddress] = useState("");
@@ -102,7 +115,11 @@ export default function Orders() {
   const [timestamp, setTimestamp] = useState("");
   // const [userId, setUserId] = useState("");
   const [detail, setDetail] = useState([]);
+  const [orderComment, setOrderComment] = useState([]);
   const theme = useMantineTheme();
+  const [commentopened, setCommentOpened] = useState(false);
+  const [commentStoreId, setCommentStoreId] = useState("");
+  const [change, setChange] = useState(false);
 
   async function getAllOrders(status) {
     let status_id;
@@ -125,10 +142,16 @@ export default function Orders() {
     }
 
     try {
-      const session = JSON.parse(document.cookie.split("=")[1]);
+      let session = "";
+      if (document.cookie.indexOf("Cus") > -1) {
+        session = JSON.parse(document.cookie.split("Cus=")[1]);
+      }
       let account_id = session.userId;
       const [data, error] = await getHistory(
-        `/order/get-history?user_id=${account_id}&status_id=${status_id}&page=${currentPage}&size=${size}`,
+        account_id,
+        status_id,
+        currentPage,
+        size,
       );
       setTotalOrders(data.total);
       setTotalPages(data.pages);
@@ -138,18 +161,21 @@ export default function Orders() {
     } catch (err) {
       console.log(err);
     }
-    setIsFinish(true);
+    //setIsFinish(true);
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsFinish(true);
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orders]);
 
   async function getOrder(order_id) {
     try {
-      const [data, error] = await getProductDetail(
-        "order/get-order/" + order_id,
-      );
-      console.log(data);
+      const [data, error] = await getOrderById(order_id);
       setAddress(data.address);
       setPayment(data.payment_method);
-      //setPrice(data.price);
       setShip(data.ship_fee);
       setTimestamp(data.timestamp);
       setDetail(data.order_detail);
@@ -158,8 +184,37 @@ export default function Orders() {
     }
   }
 
+  async function getOrderState(order_id) {
+    try {
+      const value = {
+        order_id: order_id,
+      };
+      const [data, error] = await getOrderReceivedState(value);
+      if (data) {
+        console.log(data);
+        setOrderState(data);
+        setOpenedState(true);
+      } else {
+        setOpenedState(false);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function getComment(order_id) {
+    try {
+      const value = { account_id: userId, order_id: order_id };
+      const [data] = await getOrderComment(value);
+      setOrderComment(data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     getAllOrders(tab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab]);
 
   async function cancelingOrder(order_id) {
@@ -174,10 +229,7 @@ export default function Orders() {
         status_id: status_id,
       };
 
-      const [data, error] = await cancelOrder(
-        "order/status-change",
-        dataCancel,
-      );
+      const [data, error] = await cancelOrder(dataCancel);
       if (error) {
         alert(error);
         setLoading(false);
@@ -216,7 +268,7 @@ export default function Orders() {
     return (
       <>
         <tr key={row.id}>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>
             <Anchor
               size="sm"
               onClick={async () => {
@@ -228,20 +280,15 @@ export default function Orders() {
               {row.id}
             </Anchor>
           </td>
-          <td>{Intl.NumberFormat().format(Number(row.totalprice))}</td>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>
+            {Intl.NumberFormat().format(Number(row.totalprice))}
+          </td>
+          <td style={{ verticalAlign: "middle" }}>
             {moment(row.timestamp).format("MM/DD/YYYY h:mm a")}{" "}
             <Text c="dimmed">({moment(row.timestamp).fromNow()})</Text>
           </td>
-          <td>{row.payment_method}</td>
-          <td>
-            {tab == "not received" || tab == "received" ? (
-              <Text>{row.progress + " / " + row.product_count}</Text>
-            ) : (
-              <></>
-            )}
-          </td>
-          <td>
+          <td style={{ verticalAlign: "middle" }}>{row.payment_method}</td>
+          <td style={{ verticalAlign: "middle" }}>
             {tab == "not received" ? (
               <Button
                 variant="default"
@@ -252,6 +299,45 @@ export default function Orders() {
               >
                 <Icon size={30} stroke={1.5} />
               </Button>
+            ) : tab == "success" ? (
+              <>
+                <Button
+                  onClick={async () => {
+                    await getComment(row.id);
+                    setCommentOpened(true);
+                  }}
+                  variant="outline"
+                  color="teal"
+                  leftIcon={<BiCommentDetail size={20} />}
+                >
+                  Add Comment
+                </Button>
+                <Modal
+                  opened={commentopened}
+                  onClose={() => setCommentOpened(false)}
+                  size={700}
+                >
+                  {orderComment.length > 0 ? (
+                    <WriteReview orderId={row.id} orderComment={orderComment} />
+                  ) : (
+                    <></>
+                  )}
+                </Modal>
+              </>
+            ) : tab == "received" ? (
+              <>
+                <Tooltip label={"Waiting for all store to accept "}>
+                  <Button
+                    variant="outline"
+                    color="gray"
+                    onClick={() => {
+                      getOrderState(row.id);
+                    }}
+                  >
+                    <Icon size={22} stroke={1.5} />
+                  </Button>
+                </Tooltip>
+              </>
             ) : (
               <Icon size={22} stroke={1.5} />
             )}
@@ -337,6 +423,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("not received");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Not Accepted Yet
@@ -348,6 +436,8 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("received");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Accepted
@@ -359,28 +449,36 @@ export default function Orders() {
           className={classes.tab}
           onClick={() => {
             setTab("shipping");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Shipping
         </Button>
         <Button
           size="sm"
+          color="green"
           variant={tab == "success" ? "filled" : "default"}
           radius="md"
           className={classes.tab}
           onClick={() => {
             setTab("success");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Success
         </Button>
         <Button
           size="sm"
+          color="red"
           variant={tab == "failed" ? "filled" : "default"}
           radius="md"
           className={classes.tab}
           onClick={() => {
             setTab("failed");
+            setOrders([]);
+            setIsFinish(false);
           }}
         >
           Failed
@@ -388,12 +486,7 @@ export default function Orders() {
       </Group>
       <Group position="center">
         <div className={classes.table}>
-          <Paper
-            withBorder
-            p="md"
-            radius="md"
-            shadow="0 0 35px rgb(127 150 174 / 15%);"
-          >
+          <Paper p="md" radius="md" shadow="0 0 35px rgb(127 150 174 / 15%);">
             <Group position="apart" className={classes.pagination}>
               <span className={classes.totalText}>
                 Total {totalOrders} orders
@@ -431,7 +524,6 @@ export default function Orders() {
                     </li>
                     <li>
                       <Paper
-                        withBorder
                         className={classes.paginationText}
                         fz="xs"
                         radius={5}
@@ -476,7 +568,7 @@ export default function Orders() {
                 </nav>
               </Paper>
             </Group>
-            <Paper withBorder>
+            <Paper>
               <Table sx={{ minWidth: 800 }} verticalSpacing={10}>
                 <thead className={classes.thead}>
                   <tr>
@@ -485,18 +577,19 @@ export default function Orders() {
                     <th>Timestamp</th>
                     <th>Payment method</th>
                     <th>
-                      {tab == "not received" || tab == "received"
-                        ? "Progress"
+                      {tab == "not received"
+                        ? "Action"
+                        : tab == "received"
+                        ? "Current State"
                         : ""}
                     </th>
-                    <th>{tab == "not received" ? "Action" : "Status"}</th>
                   </tr>
                 </thead>
-                <tbody>{isFinish ? rows : <Waiting />}</tbody>
+                <tbody>{isFinish ? rows : <Waiting />} </tbody>
               </Table>
-              {orders.length == 0 ? (
+              {isFinish && orders.length == 0 ? (
                 <Group position="center">
-                  <Text color="#B4B4B4" fw={400} mt={22} mb={23}>
+                  <Text color="#B4B4B4" fw={500} mt={50} mb={50}>
                     Empty
                   </Text>
                 </Group>
@@ -539,7 +632,6 @@ export default function Orders() {
                     </li>
                     <li>
                       <Paper
-                        withBorder
                         className={classes.paginationText}
                         fz="xs"
                         radius={5}
@@ -603,7 +695,7 @@ export default function Orders() {
             component="span"
             align="center"
             variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+            gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
             size="xl"
             weight={700}
             style={{ fontFamily: "Greycliff CF, sans-serif" }}
@@ -623,11 +715,22 @@ export default function Orders() {
         </Group>
         <Group position="center" mb={10}>
           <Button
+            size="lg"
             variant="gradient"
-            gradient={{ from: "teal", to: "blue", deg: 60 }}
-            fullWidth
             loading={loading}
+            gradient={{ from: "teal", to: "blue", deg: 60 }}
             onClick={() => cancelingOrder(orderId)}
+          >
+            OK
+          </Button>
+          <Button
+            size="lg"
+            variant="gradient"
+            gradient={{ from: "grey", to: "white", deg: 60 }}
+            loading={loading}
+            style={{ color: "black" }}
+            ml={10}
+            onClick={() => setOpened(false)}
           >
             Cancel
           </Button>
@@ -651,7 +754,7 @@ export default function Orders() {
               component="span"
               align="center"
               variant="gradient"
-              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
               size="xl"
               weight={700}
               style={{ fontFamily: "Greycliff CF, sans-serif" }}
@@ -735,6 +838,96 @@ export default function Orders() {
                         </td>
                         <td>
                           <Text color={"#253d4e"}>{item.price + "$"} </Text>{" "}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </div>
+            </Group>
+          </Paper>
+        </Group>
+      </Modal>
+      <Modal
+        overlayColor={
+          theme.colorScheme === "dark"
+            ? theme.colors.dark[9]
+            : theme.colors.gray[2]
+        }
+        overlayOpacity={0.55}
+        overlayBlur={3}
+        size="auto"
+        opened={openedState}
+        onClose={() => setOpenedState(false)}
+      >
+        <Group position="center">
+          <Paper>
+            <Text
+              component="span"
+              align="center"
+              variant="gradient"
+              gradient={{ from: "#13a762", to: "#27ca7d", deg: 45 }}
+              size="xl"
+              weight={700}
+              style={{ fontFamily: "Greycliff CF, sans-serif" }}
+            >
+              Order State
+            </Text>
+          </Paper>
+        </Group>
+        <Group position="left" ml={10} mt={20}>
+          <Paper>
+            <Group>
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  borderRadius: 5,
+                }}
+              >
+                <Table horizontalSpacing="sm" verticalSpacing="xs">
+                  <thead>
+                    <tr>
+                      <th>Product name</th>
+                      <th>Store</th>
+                      <th>Accept</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderState.map((item) => (
+                      <tr key={item.name}>
+                        <td>
+                          <Text
+                            color={"#27ca7d"}
+                            style={{
+                              cursor: "pointer",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                          >
+                            {item.name}
+                          </Text>
+                        </td>
+                        <td>
+                          <Text
+                            style={{
+                              cursor: "pointer",
+                              "&:hover": { textDecoration: "underline" },
+                            }}
+                            color={"#e99424"}
+                          >
+                            {item.store}
+                          </Text>
+                        </td>
+                        <td>
+                          {item.proceed == 1 ? (
+                            <IconChecks
+                              size={22}
+                              stroke={1.5}
+                              align="center"
+                              verticalAlign="center"
+                            />
+                          ) : (
+                            <IconHourglassEmpty size={22} stroke={1.5} />
+                          )}
                         </td>
                       </tr>
                     ))}

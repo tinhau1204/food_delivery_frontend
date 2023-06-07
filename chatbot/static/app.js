@@ -45,8 +45,9 @@ class Chatbox {
 
     let msg1 = { name: "User", message: text1 };
     this.messages.push(msg1);
+    const chatbot_url = "http://localhost:4000/";
 
-    fetch("http://127.0.0.1:4000/predict", {
+    fetch(chatbot_url + "/predict", {
       method: "POST",
       body: JSON.stringify({ message: text1 }),
       mode: "cors",

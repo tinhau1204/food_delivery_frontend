@@ -19,7 +19,7 @@ function AboutUsPage() {
     <div className={styles.container}>
       <Group grow>
         <div className={styles.imageContainer}>
-          <Image src={active.image} fit="fill" width={400} height={400} />
+          <Image src={active.image} fit="cover" width={400} height={400} />
           <div className={styles.activeButtonGroup}>
             {introduceData.map((info) => (
               <div
@@ -52,17 +52,17 @@ function AboutUsPage() {
               </ActionIcon>
               <ActionIcon
                 onClick={() => setActive((pre) => introduceData[pre.id + 1])}
-                disabled={active.id === 3}
+                disabled={active.id === 2}
                 className={styles.arrowButton}
               >
                 <Bs.BsFillArrowRightCircleFill
-                  color={active.id === 3 ? "gray" : "#3bd884"}
+                  color={active.id === 2 ? "gray" : "#3bd884"}
                   size={30}
                 />
               </ActionIcon>
             </div>
           </Stack>
-          <Group grow spacing="xs" position="Apart">
+          <Group position="left" spacing="xl">
             {introduceData
               .filter((value) => value.id !== active.id)
               .map((value) => (
@@ -80,13 +80,15 @@ function AboutUsPage() {
       </Group>
 
       <div className={styles.provideContainer}>
-        <Title color="#253d4e" mb={10}>
+        <Title color="#253d4e" mb={50} mt={100} justify="center" align="center">
           What We Provide?
         </Title>
         <SimpleGrid
-          col={3}
+          cols={3}
+          spacing="xs"
+          verticalSpacing="xs"
           breakpoints={[
-            { maxWidth: 1539, cols: 3, spacing: "md" },
+            { maxWidth: 900, cols: 3, spacing: "md" },
             { maxWidth: 755, cols: 2, spacing: "sm" },
             { maxWidth: 600, cols: 1, spacing: "sm" },
           ]}

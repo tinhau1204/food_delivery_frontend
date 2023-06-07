@@ -12,13 +12,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import CateElement from "./components/CateElement";
-import { GiChickenOven } from "react-icons/gi";
+import { GiChickenOven, GiHamburger, GiSlicedBread } from "react-icons/gi";
+import { MdFastfood, MdLocalDrink } from "react-icons/md";
 import ListCheckbox from "./components/ListCheckbox";
 
-function Category({ onClickCate }) {
+function Category({ onClickCate, getType }) {
   const [sliderMin, setSliderMin] = useState(20);
   const [sliderMax, setSliderMax] = useState(100);
-  useEffect(() => console.log("setSlider", sliderMin), [sliderMin]);
+  const filterType = (name) => {
+    const filter = getType.filter((val) =>
+      name == "Food" ? val.type != "drink" : val.type == name.toLowerCase(),
+    );
+    return filter.length;
+  };
+
   return (
     <Container style={{ width: 300, marginLeft: 100, marginRight: 100 }}>
       {/* Category */}
@@ -32,24 +39,24 @@ function Category({ onClickCate }) {
       <CateElement
         data={[
           {
-            icon: <GiChickenOven size={35} color="#27ca7d" />,
+            icon: <MdFastfood size={35} color="#27ca7d" />,
             name: "Food",
-            quantity: 10,
+            quantity: filterType("Food"),
           },
           {
-            icon: <GiChickenOven size={35} color="#27ca7d" />,
+            icon: <MdLocalDrink size={35} color="#27ca7d" />,
             name: "Drink",
-            quantity: 10,
+            quantity: filterType("Drink"),
           },
           {
-            icon: <GiChickenOven size={35} color="#27ca7d" />,
+            icon: <GiHamburger size={35} color="#27ca7d" />,
             name: "Hamburger",
-            quantity: 10,
+            quantity: filterType("Hamburger"),
           },
           {
-            icon: <GiChickenOven size={35} color="#27ca7d" />,
+            icon: <GiSlicedBread size={35} color="#27ca7d" />,
             name: "Bread",
-            quantity: 10,
+            quantity: filterType("Bread"),
           },
         ]}
         onclickcate={(val) => onClickCate(val)}

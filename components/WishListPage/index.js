@@ -5,10 +5,10 @@ import {
   Table,
   ActionIcon,
   Button,
-  Text,
+  //Text,
 } from "@mantine/core";
 import React, { useState } from "react";
-import styles from "./styles.module.scss";
+//import styles from "./styles.module.scss";
 import { FaRegHeart } from "react-icons/fa";
 import { BsTrash } from "react-icons/bs";
 import SmallItem from "./shard/SmallItem";
@@ -16,26 +16,28 @@ import { getWishlist, addToWishlist, removeWishlist } from "@/redux/wishlist";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
 import { useSelector, useDispatch } from "react-redux";
 import EmptyList from "./shard/EmptyList";
+import { checkLoginCookie } from "@/lib/api/cookie";
+
 function WishListPage() {
   const { wishlist } = useSelector(getWishlist);
   const { cart } = useSelector(getCart);
   const dispatch = useDispatch();
+  const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   const handleAddToCart = (product) => {
-    console.log(
-      "here ",
-      cart.some((item) => item.pid === product.pid),
-    );
-    if (cart.some((item) => item.pid === product.pid)) {
-      var oldItem = cart.find((item) => item.pid === product.pid);
-      console.log(oldItem);
-      var newItem = { ...oldItem, amount: oldItem.amount + 1 };
-      dispatch(updateCart(newItem));
-      dispatch(removeWishlist(product));
-    } else {
-      var newItem = { ...product, amount: 1 };
-      dispatch(addToCart(newItem));
-      dispatch(removeWishlist(product));
+    if (checkLoginCookie) {
+      if (checkLoginCookie()) {
+        if (cart.some((item) => item.pid === product.pid)) {
+          var oldItem = cart.find((item) => item.pid === product.pid);
+          var newItem = { ...oldItem, amount: oldItem.amount + 1 };
+          dispatch(updateCart(newItem));
+          dispatch(removeWishlist(product));
+        } else {
+          var newItem = { ...product, amount: 1 };
+          dispatch(addToCart(newItem));
+          dispatch(removeWishlist(product));
+        }
+      }
     }
   };
 
@@ -57,7 +59,7 @@ function WishListPage() {
       <td>
         {
           <SmallItem
-            image={element.image}
+            image={img_load + element.image}
             name={element.name}
             type={element.type}
             store_name={element.store_name}

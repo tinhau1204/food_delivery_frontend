@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  Avatar,
-  Group,
-  Stack,
-  Grid,
-  Container,
-  Divider,
-  Space,
-} from "@mantine/core";
+import { Avatar, Stack, Grid } from "@mantine/core";
 import { ListIcon } from "../Header/components/Menu";
 import {
   CiFacebook,
@@ -21,6 +13,7 @@ import {
 } from "react-icons/ci";
 import { GiAlarmClock } from "react-icons/gi";
 import { ImWhatsapp } from "react-icons/im";
+//import { getBotData } from "@/lib/api/bot";
 
 import List, { HorizontalList } from "./components/List";
 import styles from "./styles.module.scss";
@@ -28,37 +21,36 @@ function Footer() {
   const primaryColor = "#008080";
 
   const [html, setHTML] = useState({ __html: "" });
+  const chatbot_url = process.env.NEXT_PUBLIC_CHATBOT_API;
 
   // useEffect(() => {
-  //   async function createMarkup() {
-  //     let response = await fetch(`http://127.0.0.1:4000/chatbot`);
-  //     if (response) {
-  //       const backendHtmlString = await response.text();
+  //   const getChatBot = () => {
+  //     fetch(chatbot_url)
+  //       .then(async (data) => {
+  //         const backendHtmlString = await data.text();
+  //         let formatString = backendHtmlString
+  //           .split("<body>")[1]
+  //           .split("</body>")[0];
+  //         setHTML({ __html: formatString });
+  //         const head = document.querySelector("head");
+  //         head.innerHTML += `<link rel="stylesheet" href="${chatbot_url}/static/style.css">`;
+  //         let a = document.querySelector(
+  //           `script[src="${chatbot_url}/static/app.js"]`,
+  //         );
+  //         if (!a) {
+  //           const script = document.createElement("script");
+  //           script.async = true;
+  //           script.src = chatbot_url + "/static/app.js";
 
-  //       let formatString = backendHtmlString
-  //         .split("<body>")[1]
-  //         .split("</body>")[0];
+  //           document.body.appendChild(script);
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.log("Can't fetch chatbot url");
+  //       });
+  //   };
 
-  //       return { __html: formatString };
-  //     } else {
-  //       return "error";
-  //     }
-  //   }
-  //   const head = document.querySelector("head");
-  //   head.innerHTML += `<link rel="stylesheet" href="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/style.css">`;
-
-  //   let a = document.querySelector(
-  //     `script[src="${process.env.NEXT_PUBLIC_CHATBOT_API}/static/app.js"]`,
-  //   );
-  //   if (!a) {
-  //     const script = document.createElement("script");
-  //     script.async = true;
-  //     script.src = process.env.NEXT_PUBLIC_CHATBOT_API + "/static/app.js";
-
-  //     createMarkup()
-  //       .then(document.body.appendChild(script))
-  //       .then((result) => setHTML(result));
-  //   }
+  //   getChatBot();
   // }, []);
 
   return (
@@ -71,7 +63,7 @@ function Footer() {
       >
         <Grid.Col span={3} style={{ flex: 1 }}>
           <Stack align="flex-start">
-            <Avatar size="md" src="https://i.imgur.com/qw6oWmE.png" />
+            {/* <Avatar size="md" fit="contain" src="/images/logo.png" /> */}
             <ListIcon
               data={[
                 {
@@ -142,7 +134,7 @@ function Footer() {
               { title: "Sign in", path: "/login" },
               { title: "View Cart", path: "/cart" },
               { title: "My Wishlist", path: "/wishlist" },
-              { title: "Track My Order", path: "/order" },
+              { title: "Track My Order", path: "/history" },
             ]}
           />
         </Grid.Col>

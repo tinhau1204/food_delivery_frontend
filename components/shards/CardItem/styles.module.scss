@@ -2,7 +2,8 @@
 @import "../../../styles/scss/variables";
 .card {
   width: 250px;
-  height: 400px;
+  height: 380px;
+  background-color: #25262bb5;
   position: relative;
   transition: 0.15s ease-out;
 }
@@ -62,4 +63,9 @@
   text-decoration: underline;
   color: $primary;
   cursor: pointer;
+}
+
+.buttonAdd {
+  width: 6.3vw;
+  height: 2vw;
 }

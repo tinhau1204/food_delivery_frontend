@@ -22,7 +22,7 @@ function CardTotal({ countItem }) {
     countItem(cart.length);
   }, [countItem, cart]);
   return (
-    <Paper withBorder pt={10} pb={10}>
+    <Paper pt={10} pb={10}>
       <ScrollArea style={{ height: 250 }} type="auto">
         {cart.map((item, index) => (
           <SmallProduct

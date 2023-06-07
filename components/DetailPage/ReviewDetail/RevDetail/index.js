@@ -1,9 +1,9 @@
 import { Container, Group, Stack, Title } from "@mantine/core";
 import { React, useState, useEffect } from "react";
-import useSWR from "swr";
+//import useSWR from "swr";
 import UserReview from "../UserReview";
-import WriteReview from "../WriteReview";
-import { getStoreCommments } from "@/lib/api/storecomments";
+//import WriteReview from "../WriteReview";
+import { getStoreCommments } from "@/lib/api/comments";
 
 function RevDetail({ sid }) {
   let [comments, setComments] = useState(null);
@@ -11,7 +11,7 @@ function RevDetail({ sid }) {
 
   useEffect(() => {
     const getComment = async (value) => {
-      const [data, error] = await getStoreCommments("/store/comments", value);
+      const [data, error] = await getStoreCommments(value);
 
       if (data) {
         setComments(data);
