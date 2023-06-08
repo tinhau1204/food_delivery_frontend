@@ -24,7 +24,7 @@ import {
   IconCircleCheck,
 } from "@tabler/icons";
 import moment from "moment";
-// import { getAllOrdersWithParams } from "@/lib";
+import { getAllOrdersWithParams } from "@/lib";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -94,17 +94,16 @@ export default function MyStoreOrdersPage() {
 
   async function getAllOrders() {
     try {
-      const response = await getAllOrdersWithParams(
+      const [response, err] = await getAllOrdersWithParams(
         store_id,
         currentPage,
         size,
       );
-      const data = response;
-      setTotalOrders(data.items.length);
-      setTotalPages(data.pages);
-      setHasNext(data.hasNext);
-      setHasPrevious(data.hasPrevious);
-      setOrders(data.items);
+      setTotalOrders(response.items.length);
+      setTotalPages(response.pages);
+      setHasNext(response.hasNext);
+      setHasPrevious(response.hasPrevious);
+      setOrders(response.items);
       setIsProceed(false);
     } catch (err) {
       console.log(err);
@@ -157,9 +156,9 @@ export default function MyStoreOrdersPage() {
         <td className={classes.tdcontent}>{row.email}</td>
         <td className={classes.tdcontent}>{row.product}</td>
         <td className={classes.tdcontent}>
-          {moment(row.timestamp).format("MM/DD/YYYY h:mm a")}
+          {moment(row.created_date).format("MM/DD/YYYY h:mm a")}
           <Text size={12} c="dimmed">
-            ({moment(row.timestamp).fromNow()})
+            ({moment(row.created_date).fromNow()})
           </Text>
         </td>
         <td className={classes.tdcontent}>{row.payment_method}</td>

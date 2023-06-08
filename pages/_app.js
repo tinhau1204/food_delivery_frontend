@@ -61,12 +61,12 @@ function MyApp({ Component, pageProps }) {
         <>
           {isSeller ? (
             //<Provider store={store}>
+            // Alert: Mantine v6.0 only need 1 <Notification/> before <Component/> rendering //
             <MantineProvider
               theme={{ colorScheme: "dark" }}
               withGlobalStyles
               withNormalizeCSS
             >
-              //Mantine v6.0 only need 1 Notification before Component
               <Notifications />
               {!path.includes("/customer") && !path.includes("/seller") && (
                 <NavigationBar />

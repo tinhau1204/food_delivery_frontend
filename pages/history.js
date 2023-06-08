@@ -112,7 +112,7 @@ export default function Orders() {
   const [payment, setPayment] = useState("");
   const [price, setPrice] = useState("");
   const [ship, setShip] = useState("");
-  const [timestamp, setTimestamp] = useState("");
+  const [createdDate, setCreatedDate] = useState("");
   // const [userId, setUserId] = useState("");
   const [detail, setDetail] = useState([]);
   const [orderComment, setOrderComment] = useState([]);
@@ -177,7 +177,7 @@ export default function Orders() {
       setAddress(data.address);
       setPayment(data.payment_method);
       setShip(data.ship_fee);
-      setTimestamp(data.timestamp);
+      setCreatedDate(data.created_date);
       setDetail(data.order_detail);
     } catch (err) {
       console.log(err);
@@ -284,8 +284,8 @@ export default function Orders() {
             {Intl.NumberFormat().format(Number(row.totalprice))}
           </td>
           <td style={{ verticalAlign: "middle" }}>
-            {moment(row.timestamp).format("MM/DD/YYYY h:mm a")}{" "}
-            <Text c="dimmed">({moment(row.timestamp).fromNow()})</Text>
+            {moment(row.created_date).format("MM/DD/YYYY h:mm a")}{" "}
+            <Text c="dimmed">({moment(row.created_date).fromNow()})</Text>
           </td>
           <td style={{ verticalAlign: "middle" }}>{row.payment_method}</td>
           <td style={{ verticalAlign: "middle" }}>

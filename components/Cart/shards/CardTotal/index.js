@@ -83,7 +83,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       address: address,
       order_detail: "",
       product_count: parseInt(cart.length),
-      timestamp: new Date().toISOString(),
+      created_date: new Date().toISOString(),
     };
 
     cart.forEach((Value) => {

@@ -53,7 +53,7 @@ const RegisterPage = (props) => {
       password: "",
       role_id: "CUS",
       id: makeid(10),
-      timestamp: Date.now().toString(),
+      created_date: Date.now().toString(),
     },
     schema: joiResolver(registerSchema),
   });

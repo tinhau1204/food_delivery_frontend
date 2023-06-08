@@ -49,7 +49,7 @@ function UserReview({ data }) {
                     </Title>
                     <Group>
                       <Text color="grey" size={12}>
-                        {moment(item.timestamp).format("MM/DD/YYYY h:mm a")}
+                        {moment(item.created_date).format("MM/DD/YYYY h:mm a")}
                       </Text>
                       <Text color="grey" size={12}>
                         |

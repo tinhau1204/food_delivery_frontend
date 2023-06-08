@@ -7,6 +7,7 @@ import {
   Group,
   Modal,
   Text,
+  Stack,
   Paper,
   Button,
   FileInput,
@@ -72,12 +73,13 @@ export default function MyStoreAllProductsPage() {
   const [description, setDescription] = useState("");
   const [imageProduct, setImageProduct] = useState("");
   const [price, setPrice] = useState(0);
-  const test = 50;
+  const [stock, setStock] = useState(0);
 
   // check if empty
   const [emptyName, setEmptyName] = useState(false);
   const [emptyDescription, setEmptyDescription] = useState(false);
   const [emptyPrice, setEmptyPrice] = useState(false);
+  const [emptyStock, setEmptyStock] = useState(false);
   const [emptyType, setEmptyType] = useState(false);
 
   // type of product
@@ -95,15 +97,27 @@ export default function MyStoreAllProductsPage() {
       if (response.data.length > 0) {
         const dataArray = [];
         for (let i = 0; i < response.data.length; i++) {
-          const { id, name, description, price, type, image } =
-            response.data[i];
+          const {
+            id,
+            name,
+            description,
+            price,
+            stock,
+            type,
+            image,
+            created_date,
+            updated_date,
+          } = response.data[i];
           const data = {
             product_id: id,
             name: name,
             description: description,
             price: price,
+            stock: stock,
             image: image,
             type: type,
+            created_date: created_date,
+            updated_date: updated_date,
           };
 
           dataArray.push(data);
@@ -129,7 +143,7 @@ export default function MyStoreAllProductsPage() {
         value: "",
         label: "",
       };
-      data.value = types[i].id;
+      data.value = types[i].name;
       data.label = types[i].name;
 
       typeArray.push(data);
@@ -138,33 +152,17 @@ export default function MyStoreAllProductsPage() {
     setTypeProduct(typeArray);
   }
 
-  // async function getProductInfo(product_id) {
-  //   try {
-  //     const [response, err] = await getProductById(product_id);
-
-  //     const { name, type_id, description, image, price } = response[0];
-  //     setNameProduct(name);
-  //     setDescription(description);
-  //     setPrice(price);
-  //     setTypeChosen(type_id);
-  //     setFileUrl(process.env.NEXT_PUBLIC_IPFS_URL + image);
-  //     setImageProduct(image);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
   async function getProductInfo(index) {
     try {
-      const { name, type_id, description, image, price } = productArray[index];
-      console.log(productArray[index]);
-      console.log(name, type_id, description, image, price);
-      // setNameProduct(name);
-      // setDescription(description);
-      // setPrice(price);
-      // setTypeChosen(type_id);
-      // setFileUrl(process.env.NEXT_PUBLIC_IPFS_URL + image);
-      // setImageProduct(image);
+      const { name, type, description, image, price, stock } =
+        productArray[index];
+      setNameProduct(name);
+      setDescription(description);
+      setPrice(price);
+      setStock(stock);
+      setTypeChosen(type);
+      setFileUrl(process.env.NEXT_PUBLIC_IPFS_URL + image);
+      setImageProduct(image);
     } catch (err) {
       console.log(err);
     }
@@ -176,14 +174,15 @@ export default function MyStoreAllProductsPage() {
   }, []);
 
   function ClearContent() {
-    setDescription("");
-    setPrice(0);
-    setNameProduct("");
-    setImageProduct("");
-    setTypeChosen("");
+    setOpened(false);
     setTimeout(() => {
-      setOpened(false);
-    }, 500);
+      setDescription("");
+      setPrice(0);
+      setStock(0);
+      setNameProduct("");
+      setImageProduct("");
+      setTypeChosen("");
+    }, 200);
   }
 
   async function editProductInfo() {
@@ -258,6 +257,7 @@ export default function MyStoreAllProductsPage() {
         <td className={classes.tdcontent}> {item.product_id}</td>
         <td className={classes.tdcontent}>{item.name}</td>
         <td className={classes.tdcontent}>$ {item.price}</td>
+        <td className={classes.tdcontent}>{item.stock}</td>
         <td className={classes.tdcontent}>{item.type}</td>
         <td className={classes.tdcontent}>
           <Button
@@ -266,7 +266,6 @@ export default function MyStoreAllProductsPage() {
               setOpened(true);
               setIdProduct(item.product_id);
               getProductInfo(index);
-              //getProductInfo(item.product_id);
             }}
           >
             <Icon size={22} stroke={1.5} />
@@ -302,6 +301,7 @@ export default function MyStoreAllProductsPage() {
                 <th style={{ width: "10%" }}>ID</th>
                 <th style={{ width: "40%" }}>Name</th>
                 <th style={{ width: "20%" }}>Price</th>
+                <th style={{ width: "20%" }}>Stock</th>
                 <th style={{ width: "20%" }}>Group</th>
                 <th style={{ width: "10%" }}>Action</th>
               </tr>
@@ -320,7 +320,7 @@ export default function MyStoreAllProductsPage() {
             size="auto"
             onClose={() => ClearContent()}
           >
-            <Paper>
+            <Paper ml={10}>
               <Text
                 className={classes.title}
                 component="span"
@@ -339,7 +339,6 @@ export default function MyStoreAllProductsPage() {
                     label="Your product's image"
                     placeholder="Pick an image of your product"
                     required
-                    mt="md"
                     value={file}
                     onChange={(value) => {
                       if (value) {
@@ -348,11 +347,15 @@ export default function MyStoreAllProductsPage() {
                       }
                     }}
                   />
-                  <Group mt="md">
-                    <Image src={fileUrl} height={400} width={400} alt={""} />
-                  </Group>
+                  <Image
+                    mt="md"
+                    src={fileUrl}
+                    height={320}
+                    width={320}
+                    alt={""}
+                  />
                 </Paper>
-                <Paper ml={40}>
+                <Paper ml={10} mr={10}>
                   <TextInput
                     placeholder="What is your product's name?"
                     label="Name of the product"
@@ -400,6 +403,7 @@ export default function MyStoreAllProductsPage() {
                     mt="md"
                     error={emptyType}
                     data={typeProduct}
+                    defaultValue={typeChosen}
                     value={typeChosen}
                     onChange={(value) => setTypeChosen(value)}
                   />
@@ -415,7 +419,7 @@ export default function MyStoreAllProductsPage() {
                     radius="md"
                     mt="md"
                     withAsterisk
-                    defaultValue={price}
+                    defaultValue={Number(price)}
                     precision={2}
                     min={0}
                     parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
@@ -430,6 +434,30 @@ export default function MyStoreAllProductsPage() {
                   {emptyPrice ? (
                     <Text fz="xs" c="red">
                       Price must higher than 0
+                    </Text>
+                  ) : (
+                    <></>
+                  )}
+                  <NumberInput
+                    label="Stock"
+                    radius="md"
+                    mt="md"
+                    withAsterisk
+                    defaultValue={Number(stock)}
+                    precision={0}
+                    min={0}
+                    parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+                    onChange={(value) => setStock(value)}
+                    formatter={(value) =>
+                      !Number.isNaN(parseInt(value))
+                        ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : "$ "
+                    }
+                    error={emptyStock}
+                  ></NumberInput>
+                  {emptyStock ? (
+                    <Text fz="xs" c="red">
+                      Stock must higher than 0
                     </Text>
                   ) : (
                     <></>

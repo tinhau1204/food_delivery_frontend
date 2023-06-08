@@ -6,6 +6,7 @@ import {
   NumberInput,
   Paper,
   Select,
+  Stack,
   Text,
   Textarea,
   TextInput,
@@ -31,6 +32,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
   },
   contentPaper: {
+    width: "800px",
     backgroundColor: "#121216",
     borderBottomLeftRadius: "8px",
     borderBottomRightRadius: "8px",
@@ -53,11 +55,13 @@ export default function MyStoreNewProductPage() {
   const [nameProduct, setNameProduct] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
+  const [stock, setStock] = useState(0);
 
   // check if empty
   const [emptyName, setEmptyName] = useState(false);
   const [emptyDescription, setEmptyDescription] = useState(false);
   const [emptyPrice, setEmptyPrice] = useState(false);
+  const [emptyStock, setEmptyStock] = useState(false);
   const [emptyType, setEmptyType] = useState(false);
 
   // type of product
@@ -149,6 +153,10 @@ export default function MyStoreNewProductPage() {
     setEmptyImage(false);
     setEmptyType(false);
 
+    // Create product leads to created_date == updated_date
+    const created_date = new Date().toISOString();
+    const updated_date = created_date;
+
     //save image into ipfs
     const fileAdded = await client.add(file);
     const data = {
@@ -158,6 +166,9 @@ export default function MyStoreNewProductPage() {
       type_id: typeChosen,
       image: fileAdded.path,
       price: price.toString(),
+      stock: stock.toString(),
+      created_date: created_date,
+      updated_date: updated_date,
     };
 
     try {
@@ -179,11 +190,7 @@ export default function MyStoreNewProductPage() {
 
   return (
     <div className={classes.root}>
-      <Paper
-        p="xl"
-        //radius="md"
-        className={classes.contentPaper}
-      >
+      <Paper p="xl" className={classes.contentPaper}>
         <Text
           className={classes.title}
           component="span"
@@ -195,12 +202,11 @@ export default function MyStoreNewProductPage() {
           Product Information
         </Text>
         <Group position="apart">
-          <Paper style={{ backgroundColor: "#121216" }}>
+          <Paper mt={20} style={{ backgroundColor: "#121216" }}>
             <FileInput
               label="Your product's image"
               placeholder="Pick an image of your product"
               required
-              mt="md"
               error={emptyImage}
               value={file}
               onChange={(value) => {
@@ -210,18 +216,11 @@ export default function MyStoreNewProductPage() {
                 }
               }}
             />
-            {emptyImage ? (
-              <Text fz="xs" c="red">
-                Image is required
-              </Text>
-            ) : (
-              <></>
-            )}
-            <Group mt="md">
-              <Image src={fileUrl} height={400} width={400} alt={""} />
+            <Group mt={30}>
+              <Image src={fileUrl} height={320} width={320} alt={""} />
             </Group>
           </Paper>
-          <Paper ml={30} mt={85} mr={10} style={{ backgroundColor: "#121216" }}>
+          <Paper mt={20} style={{ backgroundColor: "#121216" }}>
             <TextInput
               placeholder="What is your product's name?"
               label="Name of the product"
@@ -297,10 +296,34 @@ export default function MyStoreNewProductPage() {
             ) : (
               <></>
             )}
-            <Button mt={40} fullWidth onClick={newProduct} loading={loading}>
-              Create
-            </Button>
+            <NumberInput
+              label="Stock"
+              radius="md"
+              mt="lg"
+              withAsterisk
+              defaultValue={0}
+              precision={0}
+              min={0}
+              parser={(value) => value.replace(/\$\s?|(,*)/g, "")}
+              onChange={(value) => setStock(value)}
+              formatter={(value) =>
+                !Number.isNaN(parseInt(value))
+                  ? `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                  : "$ "
+              }
+              error={emptyStock}
+            ></NumberInput>
+            {emptyStock ? (
+              <Text fz="xs" c="red">
+                Stock must higher than 0
+              </Text>
+            ) : (
+              <></>
+            )}
           </Paper>
+          <Button mt={10} fullWidth onClick={newProduct} loading={loading}>
+            Create
+          </Button>
         </Group>
       </Paper>
     </div>

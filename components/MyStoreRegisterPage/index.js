@@ -110,7 +110,7 @@ export default function MyStoreRegisterPage(props) {
     setEmptyPassword(false);
 
     // create account
-    const timestamp = new Date().toISOString();
+    const created_date = new Date().toISOString();
     const account_id = genRandonString();
 
     const data = {
@@ -119,7 +119,7 @@ export default function MyStoreRegisterPage(props) {
       name: name,
       email: email,
       password: password,
-      timestamp: timestamp,
+      created_date: created_date,
     };
 
     try {
@@ -190,7 +190,7 @@ export default function MyStoreRegisterPage(props) {
     setEmptyType(false);
 
     const storeId = genRandonString();
-    const timestamp = new Date().toISOString();
+    const created_date = new Date().toISOString();
 
     // Send image into IPFS
     const fileAdded = await client.add(file);
@@ -206,7 +206,7 @@ export default function MyStoreRegisterPage(props) {
         description: description,
         image: fileAdded.path,
         type_id: typeChosen,
-        timestamp: timestamp,
+        created_date: created_date,
       };
 
       const response = await axios.post(
