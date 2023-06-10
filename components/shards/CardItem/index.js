@@ -72,9 +72,9 @@ function CardItem({
             <div
               className={clsx(
                 {
-                  [styles.cornerRibbonChildHot]: type == "hot",
-                  [styles.cornerRibbonChildSale]: type == "sale",
-                  [styles.cornerRibbonChildNew]: type == "new",
+                  [styles.cornerRibbonChildHot]: trending == "hot",
+                  [styles.cornerRibbonChildSale]: trending == "sale",
+                  [styles.cornerRibbonChildNew]: trending == "new",
                 },
                 styles.cornerRibbonChild,
               )}

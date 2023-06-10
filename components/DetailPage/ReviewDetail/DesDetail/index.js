@@ -36,7 +36,6 @@ function DesDetail({ storeinfo, product_id }) {
         store_id: storeinfo.sid,
         product_id: id,
       };
-      // console.log(value);
       const [data, error] = await getRandomProducts(value);
 
       if (data) {
@@ -48,7 +47,7 @@ function DesDetail({ storeinfo, product_id }) {
     };
 
     getRandProducts();
-  }, []);
+  }, [id]);
 
   return (
     <>

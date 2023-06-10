@@ -33,6 +33,7 @@ function DetailPage({ product_id }) {
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
   const router = useRouter();
+  const [productId, setProductId] = useState("");
   var { id } = router.query;
 
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
@@ -56,6 +57,7 @@ function DetailPage({ product_id }) {
 
   useEffect(() => {
     const getProduct = async () => {
+      setProductId(id);
       const [data, error] = await getProductDetailById(id);
 
       if (data) {
@@ -197,7 +199,7 @@ function DetailPage({ product_id }) {
         <ReviewDetail
           store={productDetail.store}
           store_id={productDetail.store.sid}
-          product_id={id}
+          product_id={productId}
         />
       </Stack>
     );
