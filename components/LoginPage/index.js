@@ -18,6 +18,7 @@ import MyStoreLoginPage from "../MyStoreLoginPage";
 import styles from "./styles.module.scss";
 import { BiUserCircle } from "react-icons/bi";
 import { HiLockClosed } from "react-icons/hi";
+import { SlArrowLeft } from "react-icons/sl";
 //import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import loginSchema from "./validate";
 import Link from "next/link";
@@ -100,6 +101,7 @@ export default function LoginPage(props) {
       ) : (
         ""
       )}
+
       <form className={styles.container} onSubmit={form.onSubmit(handleSubmit)}>
         <Group
           style={{
@@ -125,49 +127,104 @@ export default function LoginPage(props) {
               zIndex: 2,
             }}
           >
-            <Paper
-              shadow="md"
-              p="md"
-              radius="md"
-              withBorder
-              style={{ width: 300, borderColor: "#27ca7d" }}
-            >
-              <Text weight={700} size="xl" align="center">
-                Login
-              </Text>
-              <Stack>
-                <TextInput
-                  placeholder="Email"
-                  label="Email"
-                  icon={<BiUserCircle size={20} color="#27ca7d" />}
-                  required
-                  {...form.getInputProps("email")}
-                />
-                <PasswordInput
-                  placeholder="Password"
-                  label="Password"
-                  icon={<HiLockClosed size={20} color="#27ca7d" />}
-                  required
-                  {...form.getInputProps("password")}
-                />
-                <Link href="/customer/register">
-                  <a style={{ color: "#61afef", fontSize: 13 }}>
-                    Create a new account?
-                  </a>
-                </Link>
-                <Button variant="outline" color="teal" type="submit">
-                  Login
+            <Group position="apart" spacing="xs" w={300}>
+              <Group position="left" spacing={10}>
+                <Paper
+                  shadow="md"
+                  p={8}
+                  radius="md"
+                  withBorder
+                  style={{ width: 120, borderColor: "#27ca7d" }}
+                >
+                  <Group position="center" spacing={10}>
+                    <Paper
+                      p={12}
+                      radius="md"
+                      style={{ width: "min-content", background: "#27ca7e91" }}
+                    />
+                    <Paper
+                      p={12}
+                      radius="md"
+                      style={{ width: "min-content", background: "#20a86991" }}
+                    />
+                    <Paper
+                      p={12}
+                      radius="md"
+                      style={{ width: "min-content", background: "#156b43" }}
+                    />
+                  </Group>
+                </Paper>
+              </Group>
+              <Link href="/">
+                <Button
+                  href="/"
+                  style={{
+                    width: "max-content",
+                    height: "44px",
+                    background: "#27ca7e91",
+                  }}
+                >
+                  <SlArrowLeft
+                    size={18}
+                    color="white"
+                    style={{ marginRight: "10px" }}
+                  />
+                  <Text
+                    style={{
+                      color: "white",
+                      fontFamily: " Bahnschrift",
+                    }}
+                  >
+                    Homepage
+                  </Text>
                 </Button>
-                <Center>
-                  Cooperate with our team?
-                  <Link href="/seller/login">
-                    <a style={{ color: "#61afef", paddingLeft: "10px" }}>
-                      Seller
+              </Link>
+            </Group>
+            <Stack>
+              <Paper
+                shadow="md"
+                p="md"
+                radius="md"
+                withBorder
+                style={{ width: 300, borderColor: "#27ca7d" }}
+              >
+                <Text weight={700} size="xl" align="center">
+                  Login
+                </Text>
+                <Stack>
+                  <TextInput
+                    placeholder="Email"
+                    label="Email"
+                    icon={<BiUserCircle size={20} color="#27ca7d" />}
+                    required
+                    {...form.getInputProps("email")}
+                  />
+                  <PasswordInput
+                    placeholder="Password"
+                    label="Password"
+                    icon={<HiLockClosed size={20} color="#27ca7d" />}
+                    required
+                    {...form.getInputProps("password")}
+                  />
+                  <Link href="/customer/register">
+                    <a style={{ color: "#61afef", fontSize: 13 }}>
+                      Create a new account?
                     </a>
                   </Link>
-                </Center>
-              </Stack>
-            </Paper>
+                  <Button variant="outline" color="teal" type="submit">
+                    Login
+                  </Button>
+                  <Center>
+                    Cooperate with our team?
+                    <Link href="/seller/login">
+                      <a style={{ color: "#61afef", paddingLeft: "10px" }}>
+                        Seller
+                      </a>
+                    </Link>
+                  </Center>
+                </Stack>
+              </Paper>
+            </Stack>
           </Group>
         </Group>
       </form>

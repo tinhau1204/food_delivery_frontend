@@ -116,7 +116,7 @@ function WriteReview({ orderId, orderComment }) {
             </Group>
           ))}
         </Radio.Group>
-        <Text color="black">Previous comment</Text>
+        <Text color="white">Previous comment</Text>
         <div
           style={{
             border: "1px solid #ccc",

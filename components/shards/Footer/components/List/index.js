@@ -38,7 +38,7 @@ export function HorizontalList({ data }) {
         >
           {index === 0 ? (
             <Center>
-              <Text weight={700} color="#0a6b4e">
+              <Text weight={700} color="white">
                 {item.title}
               </Text>
             </Center>

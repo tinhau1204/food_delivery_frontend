@@ -128,7 +128,7 @@ function StoreDetailPage() {
                 {storedetail.store[0].type_name}
               </Badge>
               <Group mt={20}>
-                <Text color="black" size={16}>
+                <Text color="white" size={16}>
                   Address:
                 </Text>
                 <Text
@@ -143,7 +143,7 @@ function StoreDetailPage() {
                 </Text>
               </Group>
               <Text
-                color="black"
+                color="white"
                 size={18}
                 mt={20}
                 style={{ fontWeight: "bold" }}
@@ -151,7 +151,7 @@ function StoreDetailPage() {
                 Description
               </Text>
               <Text
-                color="black"
+                color="white"
                 size={14}
                 style={{ maxWidth: 340, overflowWrap: "break-word" }}
               >

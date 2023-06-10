@@ -75,82 +75,106 @@ function HomePage() {
     setFilterProduct(filter);
   };
   return (
-    <Paper p="lg">
-      <Group align="flex-start">
-        <Stack align="center">
-          <TextInput
-            placeholder="Search"
-            icon={<BiSearch />}
-            rightSection={<AiOutlineArrowRight color="teal" />}
-            size="sm"
-            style={{ width: 280 }}
-          />
-          <Category
-            onClickCate={(val) => handleFilter(val)}
-            getType={dataProduct}
-          />
-        </Stack>
-        <Grid style={{ flex: 1 }} columns={12}>
-          {filterProduct?.length === 0
-            ? dataProduct
-                .slice(
-                  activePage !== 1 ? limitProduct * (activePage - 1) : 0,
-                  activePage * limitProduct,
-                )
-                .map((item, index) => (
-                  <Grid.Col key={item.pid} span={4}>
-                    <CardItem
-                      pid={item.pid}
-                      ordered={item.ord_amount}
-                      store_name={item.store_name}
-                      description={item.description}
-                      type={item.type}
-                      name={item.name}
-                      image={item.image}
-                      price={item.price}
-                      hidden={false}
-                      onClick={() => handleAddToCart(item)}
-                    />
-                  </Grid.Col>
-                ))
-            : filterProduct
-                .slice(
-                  activePage !== 1 ? limitProduct * (activePage - 1) : 0,
-                  activePage * limitProduct,
-                )
-                .map((item, index) => (
-                  <Grid.Col key={item.pid} span={4}>
-                    <CardItem
-                      pid={item.pid}
-                      ordered={item.ord_amount}
-                      store_name={item.store_name}
-                      description={item.description}
-                      type={item.type}
-                      name={item.name}
-                      image={item.image}
-                      price={item.price}
-                      hidden={false}
-                      onClick={() => handleAddToCart(item)}
-                    />
-                  </Grid.Col>
-                ))}
-        </Grid>
-      </Group>
-      <Pagination
-        className={styles.pagination}
-        styles={(theme) => ({
-          item: {
-            "&[data-active]": {
-              backgroundImage: theme.fn.gradient({ from: "green", to: "teal" }),
+    <>
+      <Paper p="lg">
+        <Group align="flex-start">
+          <Stack align="center">
+            <TextInput
+              placeholder="Search"
+              icon={<BiSearch />}
+              rightSection={<AiOutlineArrowRight color="teal" />}
+              size="sm"
+              style={{ width: 280 }}
+            />
+            <Category
+              onClickCate={(val) => handleFilter(val)}
+              getType={dataProduct}
+            />
+          </Stack>
+          <Grid style={{ flex: 1 }} columns={12}>
+            {filterProduct?.length === 0
+              ? dataProduct
+                  .slice(
+                    activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                    activePage * limitProduct,
+                  )
+                  .map((item, index) => (
+                    <Grid.Col key={item.pid} span={4}>
+                      {index < 2 ? (
+                        <CardItem
+                          pid={item.pid}
+                          ordered={item.ord_amount}
+                          store_name={item.store_name}
+                          description={item.description}
+                          type={item.type}
+                          name={item.name}
+                          image={item.image}
+                          price={item.price}
+                          stock={item.stock}
+                          trending={"hot"}
+                          hidden={false}
+                          onClick={() => handleAddToCart(item)}
+                        />
+                      ) : (
+                        <CardItem
+                          pid={item.pid}
+                          ordered={item.ord_amount}
+                          store_name={item.store_name}
+                          description={item.description}
+                          type={item.type}
+                          name={item.name}
+                          image={item.image}
+                          price={item.price}
+                          stock={item.stock}
+                          trending={"new"}
+                          hidden={false}
+                          onClick={() => handleAddToCart(item)}
+                        />
+                      )}
+                    </Grid.Col>
+                  ))
+              : filterProduct
+                  .slice(
+                    activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                    activePage * limitProduct,
+                  )
+                  .map((item, index) => (
+                    <Grid.Col key={item.pid} span={4}>
+                      <CardItem
+                        pid={item.pid}
+                        ordered={item.ord_amount}
+                        store_name={item.store_name}
+                        description={item.description}
+                        type={item.type}
+                        name={item.name}
+                        image={item.image}
+                        price={item.price}
+                        hidden={false}
+                        onClick={() => handleAddToCart(item)}
+                      />
+                    </Grid.Col>
+                  ))}
+          </Grid>
+        </Group>
+        <Pagination
+          className={styles.pagination}
+          styles={(theme) => ({
+            item: {
+              "&[data-active]": {
+                backgroundImage: theme.fn.gradient({
+                  from: "green",
+                  to: "teal",
+                }),
+              },
             },
-          },
-        })}
-        total={totalPage}
-        radius="xl"
-        page={activePage}
-        onChange={setPage}
-      />
-    </Paper>
+          })}
+          total={totalPage}
+          radius="xl"
+          page={activePage}
+          onChange={setPage}
+        />
+      </Paper>
+    </>
   );
 }
 

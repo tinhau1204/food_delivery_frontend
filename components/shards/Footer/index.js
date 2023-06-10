@@ -91,11 +91,6 @@ function Footer() {
             <List
               data={[
                 {
-                  icon: <CiPhone size={18} color={primaryColor} />,
-                  space: 10,
-                  title: "(xxx) xxx-xxxx",
-                },
-                {
                   icon: <CiMail size={18} color={primaryColor} />,
                   space: 10,
                   title: "hcmute@student.edu.vn",

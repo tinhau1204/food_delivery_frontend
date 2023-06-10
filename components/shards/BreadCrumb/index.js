@@ -60,7 +60,7 @@ function BreadCrumb({ name }) {
       </Group>
     ));
   return (
-    <Paper p="lg" className={styles.wrapper}>
+    <Paper mt={5} p="lg" className={styles.wrapper}>
       <Group align="center" spacing="none">
         <ActionIcon
           variant="transparent"

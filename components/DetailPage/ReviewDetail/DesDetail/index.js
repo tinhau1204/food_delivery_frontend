@@ -15,14 +15,20 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { getRandomProducts } from "@/lib/api/products";
 
-function DesDetail({ storeinfo }) {
+function DesDetail({ storeinfo, product_id }) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   const router = useRouter();
-  const { id } = router.query;
+  var { id } = router.query;
 
   const [loading, setLoading] = useState(false);
   const [randproduct, setRandProduct] = useState([]);
+
+  useEffect(() => {
+    if (id == null || id == undefined) {
+      id = product_id;
+    }
+  }, []);
 
   useEffect(() => {
     const getRandProducts = async () => {
@@ -30,7 +36,7 @@ function DesDetail({ storeinfo }) {
         store_id: storeinfo.sid,
         product_id: id,
       };
-      console.log(value);
+      // console.log(value);
       const [data, error] = await getRandomProducts(value);
 
       if (data) {
@@ -108,7 +114,7 @@ function DesDetail({ storeinfo }) {
                   Address:
                 </Text>
                 <Text
-                  color="black"
+                  color="white"
                   size={12}
                   style={{
                     maxWidth: 240,
@@ -133,7 +139,7 @@ function DesDetail({ storeinfo }) {
             </Stack>
           </Group>
         </Group>
-        <Title color="black" weight={600} size={20}>
+        <Title color="white" weight={600} size={20}>
           Other products you may like:
         </Title>
       </Stack>

@@ -9,8 +9,8 @@ import {
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
 import { getProductDetailById } from "@/lib/api/products";
-import styles from "./styles.module.scss";
-import { CountingStar } from "../shards/CardItem/components/StarRating";
+// import styles from "./styles.module.scss";
+// import { CountingStar } from "../shards/CardItem/components/StarRating";
 import { BsDot } from "react-icons/bs";
 import SelectDetail from "./SelectDetail";
 import {
@@ -23,7 +23,8 @@ import { getWishlist, addToWishlist } from "@/redux/wishlist";
 import { useDispatch, useSelector } from "react-redux";
 import ReviewDetail from "./ReviewDetail";
 import { useRouter } from "next/router";
-function DetailPage() {
+
+function DetailPage({ product_id }) {
   const [quantity, setQuantity] = useState(1);
   const [inWishlist, setInWishlist] = useState(false);
   const { cart } = useSelector(getCart);
@@ -32,11 +33,7 @@ function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [productDetail, setDataDetail] = useState({});
   const router = useRouter();
-  const { id } = router.query;
-  // console.log("id page", id);
-  // console.log("wishlist", wishlist);
-  // console.log("cart", cart);
-  // console.log("productDetail", productDetail);
+  var { id } = router.query;
 
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
@@ -52,12 +49,16 @@ function DetailPage() {
   };
 
   useEffect(() => {
+    if (id == null || id == undefined) {
+      id = product_id;
+    }
+  }, []);
+
+  useEffect(() => {
     const getProduct = async () => {
       const [data, error] = await getProductDetailById(id);
 
       if (data) {
-        console.log("Product detail", data);
-        // console.log(data.info.name);
         setDataDetail(data);
         setLoading(false);
       } else {
@@ -68,10 +69,10 @@ function DetailPage() {
     getProduct();
   }, [id]);
 
-  console.log(
-    "check",
-    wishlist.includes((item) => item.pid === Number(id)),
-  );
+  // console.log(
+  //   "check",
+  //   wishlist.includes((item) => item.pid === Number(id)),
+  // );
 
   if (loading)
     return (
@@ -177,7 +178,7 @@ function DetailPage() {
               </Button>
             </Group>
             <Text
-              color="black"
+              color="white"
               size={18}
               mt={20}
               style={{ fontWeight: "bold" }}
@@ -185,7 +186,7 @@ function DetailPage() {
               Description
             </Text>
             <Text
-              color="black"
+              color="white"
               size={14}
               style={{ maxWidth: 340, overflowWrap: "break-word" }}
             >
@@ -195,7 +196,8 @@ function DetailPage() {
         </Group>
         <ReviewDetail
           store={productDetail.store}
-          storeid={productDetail.store.sid}
+          store_id={productDetail.store.sid}
+          product_id={id}
         />
       </Stack>
     );

@@ -65,7 +65,7 @@ function UserReview({ data }) {
                   <Group spacing="none">
                     <CountingSmallStar count={item.star} />
                   </Group>
-                  <Text color="black" size="sm">
+                  <Text color="white" size="sm">
                     {item.comment}
                   </Text>
                 </Stack>
