@@ -217,7 +217,13 @@ export default function MyStoreNewProductPage() {
               }}
             />
             <Group mt={30}>
-              <Image src={fileUrl} height={320} width={320} alt={""} />
+              <Image
+                loading="lazy"
+                src={fileUrl}
+                height={320}
+                width={320}
+                alt={""}
+              />
             </Group>
           </Paper>
           <Paper mt={20} style={{ backgroundColor: "#121216" }}>

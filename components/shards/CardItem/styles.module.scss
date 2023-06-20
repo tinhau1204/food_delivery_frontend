@@ -1,12 +1,26 @@
 @import "../../../styles/scss/mixin";
 @import "../../../styles/scss/variables";
+
+$cardHeight: 420px;
+$cardWidth: 300px;
+$imgHeight: calc($cardHeight - 240px);
+$imgWidth: calc($cardWidth - 40px);
+
+:export{
+  imgHeight: $imgHeight;
+  imgWidth: $imgWidth;
+}
+
 .card {
-  // width: 280px;
-  // height: 400px;
-  background-color: #25262bb5;
+  width: $cardWidth;
+  height: $cardHeight;
+  border: 2px solid #25262bb5;
+  background-color: #25262b;
   position: relative;
   transition: 0.15s ease-out;
 }
+
+
 
 .card:hover {
   border: 2px solid $primary !important;
@@ -32,13 +46,21 @@
   top: 1rem;
   /* Size */
   height: 1.4rem;
-  width: 5.656rem;
+  width: 7.2rem;
   /* Displayed diagonally */
-  transform: translate(-32px, -5px) rotate(-45deg);
+  transform: translate(-54px, -5px) rotate(-45deg);
+  box-shadow: 0px 4px 6px #1c1a1a;
   /* Background color */
   // background-color: #d1d5db;
   /* Centerize the text content */
   text-align: center;
+}
+
+.nameNavigate:hover {
+  line-height: normal;
+  text-decoration: underline;
+  color: $primary;
+  cursor: pointer;
 }
 
 .cornerRibbonChildHot {
@@ -63,14 +85,60 @@
   line-height: normal;
 }
 
-.nameNavigate:hover {
-  line-height: normal;
-  text-decoration: underline;
-  color: $primary;
-  cursor: pointer;
-}
-
 .buttonAdd {
-  width: 7.6vw;
+  width: 7.5vw;
   height: 2.1vw;
 }
+
+// Store_name
+.borderBox{
+  width: fit-content;
+  padding: 3px 8px 3px 8px;
+  border-radius: 5px;
+}
+
+// Price, button
+.bottomSection{
+  position: relative;
+  top: 10px;
+  margin-bottom: 10px;
+}
+
+.imageButton {
+  z-Index: 2;
+  position: relative;
+  bottom: 120px;
+  margin: auto;
+}
+
+.image{
+  z-Index: 1;
+  object-fit: cover;
+  border-Radius: 5px;
+  transition: opacity .5s ease;
+}
+
+.imageFrontContainer{
+  width: $imgWidth;
+  height: $imgHeight;
+  border: 1px solid #25262bb5;
+  border-radius: 5px;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.cardSection {
+  width: $imgWidth;
+  height: $imgHeight;
+  padding: 1.7rem 1.2rem 1.7rem 0.9rem;
+}
+
+.imageBackContainer{
+  position: relative;
+  bottom: 22px;
+  right: 22px;
+  width: fit-content;
+  height: fit-content;
+  overflow: hidden;
+}
+

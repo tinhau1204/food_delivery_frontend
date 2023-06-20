@@ -336,8 +336,8 @@ export default function MyStoreRegisterPage(props) {
             )}
             <Text color="dimmed" size="sm" align="center" mt="md">
               Already has account?{" "}
-              <Link href="/seller/login">
-                <a className={styles.link}> Login </a>
+              <Link href="/seller/login" className={styles.link}>
+                Login
               </Link>
             </Text>
             <Button fullWidth mt="xs" onClick={Register} loading={loading}>
@@ -450,7 +450,13 @@ export default function MyStoreRegisterPage(props) {
               <></>
             )}
             <Group mt="md">
-              <Image src={fileUrl} height={300} width={300} alt={""} />
+              <Image
+                loading="lazy"
+                src={fileUrl}
+                height={300}
+                width={300}
+                alt={""}
+              />
             </Group>
             <Button fullWidth mt="xs" onClick={RegisterStore} loading={loading}>
               Create Store

@@ -280,7 +280,13 @@ export default function MyStoreOrdersPage() {
                       mr={2}
                       size="xs"
                     >
-                      <Image src={arrowleft} width={10} height={10} alt={""} />
+                      <Image
+                        loading="lazy"
+                        src={arrowleft}
+                        width={10}
+                        height={10}
+                        alt={""}
+                      />
                     </Button>
                   </li>
                   <li>
@@ -307,7 +313,13 @@ export default function MyStoreOrdersPage() {
                       mr={2}
                       size="xs"
                     >
-                      <Image src={arrowright} width={10} height={10} alt={""} />
+                      <Image
+                        loading="lazy"
+                        src={arrowright}
+                        width={10}
+                        height={10}
+                        alt={""}
+                      />
                     </Button>
                   </li>
                   <li>
@@ -375,7 +387,13 @@ export default function MyStoreOrdersPage() {
                       mr={2}
                       size="xs"
                     >
-                      <Image src={arrowleft} width={10} height={10} alt={""} />
+                      <Image
+                        loading="lazy"
+                        src={arrowleft}
+                        width={10}
+                        height={10}
+                        alt={""}
+                      />
                     </Button>
                   </li>
                   <li>
@@ -402,7 +420,13 @@ export default function MyStoreOrdersPage() {
                       mr={2}
                       size="xs"
                     >
-                      <Image src={arrowright} width={10} height={10} alt={""} />
+                      <Image
+                        loading="lazy"
+                        src={arrowright}
+                        width={10}
+                        height={10}
+                        alt={""}
+                      />
                     </Button>
                   </li>
                   <li>

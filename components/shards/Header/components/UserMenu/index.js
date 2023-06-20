@@ -24,19 +24,7 @@ export default function UserMenu({ isUser, name, onLogout }) {
   return (
     <Menu position="bottom-end">
       <Menu.Target>
-        <div
-          variant="subtle"
-          size="md"
-          styles={() => ({
-            margin: 5,
-            width: "fit-content",
-            border: "0.5px solid #27ca7d",
-            borderRadius: 5,
-            "&:hover": {
-              backgroundColor: "white",
-            },
-          })}
-        >
+        <div>
           <User name={name} />
         </div>
       </Menu.Target>

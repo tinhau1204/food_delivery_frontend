@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import { Avatar, Stack, Grid } from "@mantine/core";
+import { Stack, Grid } from "@mantine/core";
 import { ListIcon } from "../Header/components/Menu";
 import {
   CiFacebook,
@@ -20,8 +20,8 @@ import styles from "./styles.module.scss";
 function Footer() {
   const primaryColor = "#008080";
 
-  const [html, setHTML] = useState({ __html: "" });
-  const chatbot_url = process.env.NEXT_PUBLIC_CHATBOT_API;
+  // const [html, setHTML] = useState({ __html: "" });
+  // const chatbot_url = process.env.NEXT_PUBLIC_CHATBOT_API;
 
   // useEffect(() => {
   //   const getChatBot = () => {

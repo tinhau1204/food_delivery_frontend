@@ -1,11 +1,8 @@
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { getAllProducts } from "@/lib/api/products";
-import CardItem from "../shards/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCart, addToCart, updateCart } from "@/redux/cart";
 import styles from "./styles.module.scss";
-import Category from "../shards/Category";
+import dynamic from "next/dynamic";
 import {
   Grid,
   Group,
@@ -16,32 +13,30 @@ import {
   Stack,
   TextInput,
 } from "@mantine/core";
-import { BiSearch } from "react-icons/bi";
-import { AiOutlineArrowRight } from "react-icons/ai";
 import { checkLoginCookie } from "@/lib/api/cookie";
-//import BreadCrumb from "../shards/BreadCrumb";
-//import useSWR from "swr";
+import Category from "../shards/Category";
+import { getAllProducts } from "@/lib/api/products";
+//import CardItem from "../shards/CardItem";
+const CardItem = dynamic(() => import("../shards/CardItem"));
 
 function HomePage() {
   let [dataProduct, setDataproduct] = useState([]);
   const [filterProduct, setFilterProduct] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [activePage, setPage] = useState(1);
   const limitProduct = 9;
   const totalPage = Math.ceil(
     (filterProduct.length != 0 ? filterProduct.length : dataProduct.length) /
       limitProduct,
   );
-  // const {data, error, isLoading} = useSWR("/menu/get-all-products", getAllProducts);
-  let check = dataProduct.length;
+
   useEffect(() => {
-    setLoading(false);
     const getProduct = async () => {
       const [data, error] = await getAllProducts();
 
       if (data) {
         setDataproduct(data);
-        setLoading(true);
+        setLoading(false);
       }
     };
 
@@ -52,6 +47,17 @@ function HomePage() {
   const [cateName, setCateName] = useState("");
   const dispatch = useDispatch();
   const { cart } = useSelector(getCart);
+  const skeletonArray = [
+    { pid: 0 },
+    { pid: 1 },
+    { pid: 2 },
+    { pid: 3 },
+    { pid: 4 },
+    { pid: 5 },
+    { pid: 6 },
+    { pid: 7 },
+    { pid: 8 },
+  ];
 
   const handleAddToCart = (product) => {
     if (checkLoginCookie()) {
@@ -78,82 +84,75 @@ function HomePage() {
     <>
       <Paper p="lg">
         <Group align="flex-start">
-          <Stack align="center">
-            <TextInput
-              placeholder="Search"
-              icon={<BiSearch />}
-              rightSection={<AiOutlineArrowRight color="teal" />}
-              size="sm"
-              style={{ width: 280 }}
-            />
+          <Stack align="center" w={300}>
             <Category
               onClickCate={(val) => handleFilter(val)}
               getType={dataProduct}
             />
           </Stack>
-          <Grid style={{ flex: 1 }} columns={12}>
-            {filterProduct?.length === 0
-              ? dataProduct
-                  .slice(
-                    activePage !== 1 ? limitProduct * (activePage - 1) : 0,
-                    activePage * limitProduct,
-                  )
-                  .map((item, index) => (
-                    <Grid.Col key={item.pid} span={4}>
-                      {index < 2 ? (
-                        <CardItem
-                          pid={item.pid}
-                          ordered={item.ord_amount}
-                          store_name={item.store_name}
-                          description={item.description}
-                          type={item.type}
-                          name={item.name}
-                          image={item.image}
-                          price={item.price}
-                          stock={item.stock}
-                          trending={"hot"}
-                          hidden={false}
-                          onClick={() => handleAddToCart(item)}
-                        />
-                      ) : (
-                        <CardItem
-                          pid={item.pid}
-                          ordered={item.ord_amount}
-                          store_name={item.store_name}
-                          description={item.description}
-                          type={item.type}
-                          name={item.name}
-                          image={item.image}
-                          price={item.price}
-                          stock={item.stock}
-                          trending={"new"}
-                          hidden={false}
-                          onClick={() => handleAddToCart(item)}
-                        />
-                      )}
-                    </Grid.Col>
-                  ))
-              : filterProduct
-                  .slice(
-                    activePage !== 1 ? limitProduct * (activePage - 1) : 0,
-                    activePage * limitProduct,
-                  )
-                  .map((item, index) => (
-                    <Grid.Col key={item.pid} span={4}>
-                      <CardItem
-                        pid={item.pid}
-                        ordered={item.ord_amount}
-                        store_name={item.store_name}
-                        description={item.description}
-                        type={item.type}
-                        name={item.name}
-                        image={item.image}
-                        price={item.price}
-                        hidden={false}
-                        onClick={() => handleAddToCart(item)}
-                      />
-                    </Grid.Col>
-                  ))}
+          <Grid style={{ flex: 1, marginLeft: "40px" }} columns={12}>
+            {!loading ? (
+              <>
+                {console.log("Load", loading)}
+                {filterProduct?.length === 0
+                  ? dataProduct
+                      .slice(
+                        activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                        activePage * limitProduct,
+                      )
+                      .map((item, index) => (
+                        <Grid.Col key={item.pid} span={4} mb={10}>
+                          <CardItem
+                            pid={item.pid}
+                            ordered={item.ord_amount}
+                            store_name={item.store_name}
+                            description={item.description}
+                            type={item.type}
+                            name={item.name}
+                            image={item.image}
+                            price={item.price}
+                            stock={item.stock}
+                            loading={loading}
+                            trending={item.ord_amount > 4 ? "hot" : "new"}
+                            hidden={false}
+                            onClick={() => handleAddToCart(item)}
+                          />
+                        </Grid.Col>
+                      ))
+                  : filterProduct
+                      .slice(
+                        activePage !== 1 ? limitProduct * (activePage - 1) : 0,
+                        activePage * limitProduct,
+                      )
+                      .map((item, index) => (
+                        <Grid.Col key={item.pid} span={4}>
+                          <CardItem
+                            pid={item.pid}
+                            ordered={item.ord_amount}
+                            store_name={item.store_name}
+                            description={item.description}
+                            type={item.type}
+                            name={item.name}
+                            image={item.image}
+                            price={item.price}
+                            stock={item.stock}
+                            loading={loading}
+                            hidden={false}
+                            onClick={() => handleAddToCart(item)}
+                          />
+                        </Grid.Col>
+                      ))}
+              </>
+            ) : (
+              <>
+                {console.log("Skeleton load", loading)}
+                {skeletonArray.map((item, index) => (
+                  <Grid.Col key={item.pid} span={4}>
+                    <CardItem loading={loading} image={""} />
+                  </Grid.Col>
+                ))}
+              </>
+            )}
           </Grid>
         </Group>
         <Pagination

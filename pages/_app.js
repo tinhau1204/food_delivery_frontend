@@ -1,29 +1,35 @@
+import dynamic from "next/dynamic";
 import "../styles/globals.css";
 import { MantineProvider } from "@mantine/core";
 import React from "react";
 import { useEffect, useState, useMemo } from "react";
 import "../styles/reset.css";
-import Header from "@/components/shards/Header";
-import Footer from "@/components/shards/Footer";
-import NavigationBar from "@/components/MyStorePage/NavigationBar";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
-import store from "@/redux";
-import BreadCrumb from "@/components/shards/BreadCrumb";
 import { Notifications } from "@mantine/notifications";
 import { Loader } from "@mantine/core";
+import store from "@/redux";
+// Using lazy loading for components (optional)
+import Header from "@/components/shards/Header";
+//import Footer from "@/components/shards/Footer";
+const Footer = dynamic(() => import("@/components/shards/Footer"));
+import NavigationBar from "@/components/MyStorePage/NavigationBar";
+import BreadCrumb from "@/components/shards/BreadCrumb";
+//
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [pageloader, setPageLoader] = useState(true);
   const path = router.pathname;
-  const [isSeller, setIsSeller] = useState();
+  const [isSeller, setIsSeller] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setPageLoader(false);
-    }, 1000);
-  });
+    if (process.env.NODE_ENV == "development") {
+      setTimeout(() => {
+        setPageLoader(false);
+      }, 500);
+    }
+  }, []);
 
   useMemo(() => {
     if (path.includes("seller") || path.includes("mystore")) {

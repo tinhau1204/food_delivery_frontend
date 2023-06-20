@@ -35,7 +35,7 @@ function paymentsuccess() {
         p={10}
       >
         <div style={{ width: 250, marginLeft: "auto", marginRight: "auto" }}>
-          <Image src="/images/check.gif" />
+          <Image loading="lazy" src="/images/check.gif" />
         </div>
 
         <Title align="center" size={20} color="white">

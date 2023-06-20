@@ -18,7 +18,12 @@ function CardStore({
   return (
     <Card shadow="sm" p="lg" radius="md" className={styles.card}>
       <Card.Section>
-        <Image src={img_load + image} height={160} alt={`${name} image`} />
+        <Image
+          loading="lazy"
+          src={img_load + image}
+          height={160}
+          alt={`${name} image`}
+        />
       </Card.Section>
       <Group position="apart" mt="md" mb="xs">
         <Text

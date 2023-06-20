@@ -12,7 +12,7 @@ export default function MainMenu({ data }) {
     <Group>
       {data.map((item, index) => (
         <Container key={index}>
-          <Link href={item.path} passhref>
+          <Link href={item.path} passhref="true">
             <Text
               className={clsx(styles.text)}
               weight={600}
@@ -37,13 +37,11 @@ export function ListIcon({ data }) {
             variant="transparent"
             component="a"
             href={item.path}
-            passhref
+            passhref="true"
             target="_blank"
             color="white"
           >
-            {/* <Link href={item.path} passhref> */}
             {item.icon}
-            {/* </Link> */}
           </ActionIcon>
         </Container>
       ))}

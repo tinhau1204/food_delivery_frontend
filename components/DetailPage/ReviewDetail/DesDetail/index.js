@@ -15,7 +15,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { getRandomProducts } from "@/lib/api/products";
 
-function DesDetail({ storeinfo, product_id }) {
+function DesDetail({ storeinfo }) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
 
   const router = useRouter();
@@ -23,12 +23,6 @@ function DesDetail({ storeinfo, product_id }) {
 
   const [loading, setLoading] = useState(false);
   const [randproduct, setRandProduct] = useState([]);
-
-  useEffect(() => {
-    if (id == null || id == undefined) {
-      id = product_id;
-    }
-  }, []);
 
   useEffect(() => {
     const getRandProducts = async () => {

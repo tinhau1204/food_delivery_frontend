@@ -10,7 +10,10 @@ import {
   Title,
 } from "@mantine/core";
 import { introduceData, provides } from "./data";
-import * as Bs from "react-icons/bs";
+import {
+  BsFillArrowLeftCircleFill,
+  BsFillArrowRightCircleFill,
+} from "react-icons/bs";
 import ProvideCard from "../shards/ProvideBox";
 function AboutUsPage() {
   // console.log("user", JSON.parse(sessionStorage.getItem("user")));
@@ -18,8 +21,14 @@ function AboutUsPage() {
   return (
     <div className={styles.container}>
       <Group grow>
-        <div className={styles.imageContainer}>
-          <Image src={active.image} fit="cover" width={400} height={400} />
+        <div className={styles.imageFrontContainer}>
+          <Image
+            loading="lazy"
+            src={active.image}
+            fit="cover"
+            width={400}
+            height={400}
+          />
           <div className={styles.activeButtonGroup}>
             {introduceData.map((info) => (
               <div
@@ -45,7 +54,7 @@ function AboutUsPage() {
                 onClick={() => setActive((pre) => introduceData[pre.id - 1])}
                 disabled={active.id === 0}
               >
-                <Bs.BsFillArrowLeftCircleFill
+                <BsFillArrowLeftCircleFill
                   color={active.id === 0 ? "gray" : "#3bd884"}
                   size={30}
                 />
@@ -55,7 +64,7 @@ function AboutUsPage() {
                 disabled={active.id === 2}
                 className={styles.arrowButton}
               >
-                <Bs.BsFillArrowRightCircleFill
+                <BsFillArrowRightCircleFill
                   color={active.id === 2 ? "gray" : "#3bd884"}
                   size={30}
                 />

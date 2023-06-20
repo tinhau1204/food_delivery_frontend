@@ -170,6 +170,7 @@ export default function LoginPage(props) {
                     style={{ marginRight: "10px" }}
                   />
                   <Text
+                    size={16}
                     style={{
                       color: "white",
                       fontFamily: " Bahnschrift",
@@ -206,20 +207,22 @@ export default function LoginPage(props) {
                     required
                     {...form.getInputProps("password")}
                   />
-                  <Link href="/customer/register">
-                    <a style={{ color: "#61afef", fontSize: 13 }}>
-                      Create a new account?
-                    </a>
+                  <Link
+                    href="/customer/register"
+                    style={{ color: "#61afef", fontSize: 13 }}
+                  >
+                    Create a new account?
                   </Link>
                   <Button variant="outline" color="teal" type="submit">
                     Login
                   </Button>
                   <Center>
                     Cooperate with our team?
-                    <Link href="/seller/login">
-                      <a style={{ color: "#61afef", paddingLeft: "10px" }}>
-                        Seller
-                      </a>
+                    <Link
+                      href="/seller/login"
+                      style={{ color: "#61afef", paddingLeft: "10px" }}
+                    >
+                      Seller
                     </Link>
                   </Center>
                 </Stack>

@@ -9,9 +9,7 @@ import {
   Group,
   ActionIcon,
   Image,
-  Avatar,
   Stack,
-  Menu,
   ScrollArea,
   Indicator,
   Select,
@@ -23,11 +21,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineUser,
 } from "react-icons/ai";
-import {
-  MdKeyboardArrowDown,
-  MdKeyboardArrowUp,
-  MdLocationOn,
-} from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { GrLocation, GrApps } from "react-icons/gr";
 import { CiFacebook, CiTwitter, CiInstagram, CiYoutube } from "react-icons/ci";
 import { ImWhatsapp } from "react-icons/im";
@@ -154,7 +148,7 @@ function Header() {
           justify="center"
           columns={12}
         >
-          <Grid.Col span={1}>
+          <Grid.Col span={2}>
             <Link href="/">
               <Image
                 size="md"
@@ -250,19 +244,18 @@ function Header() {
               defaultValue={data[0]}
             />
           </Grid.Col>
-          {/* action icon */}
+          {/* action icon: Wish list & Cart */}
           <Grid.Col span={3}>
             <Group spacing="xs" grow position="center">
-              <ActionIcon size="lg" variant="subtle" color="teal">
-                <Link href="/wishlist" passHref>
+              <ActionIcon size={36} variant="subtle" color="teal">
+                <Link href="/wishlist" passhref="true">
                   <Group spacing="xs">
                     <Indicator
                       color="green"
                       label={wishlist.length + ""}
-                      dot={false}
-                      showZero={false}
-                      overflowCount={999}
+                      //dot="false"
                       inline
+                      mr={5}
                       size={20}
                       radius="xl"
                     >
@@ -273,15 +266,16 @@ function Header() {
                 </Link>
               </ActionIcon>
 
-              <ActionIcon size="lg" variant="subtle" color="teal">
-                <Link href="/cart" passHref>
+              <ActionIcon size={36} variant="subtle" color="teal">
+                <Link href="/cart" passhref="true">
                   <Group spacing="xs">
                     <Indicator
                       color="green"
                       label={cart.length + ""}
-                      dot={false}
-                      showZero={false}
-                      overflowCount={999}
+                      mr={5}
+                      //dot="false"
+                      //showZero="false"
+                      //overflowCount={999}
                       inline
                       size={22}
                     >
@@ -291,24 +285,26 @@ function Header() {
                   </Group>
                 </Link>
               </ActionIcon>
-
-              {isUser && Object.keys(isUser).length > 0 ? (
-                <UserMenu
-                  isUser={isUser.role}
-                  name={isUser.name}
-                  onLogout={() => setUser(undefined)}
-                />
-              ) : (
-                <ActionIcon size="sx" variant="subtle" color="teal">
-                  <Link href="/customer/login" replace>
-                    <Group spacing="xs">
-                      <AiOutlineUser size={20} />
-                      <Text>Account</Text>
-                    </Group>
-                  </Link>
-                </ActionIcon>
-              )}
             </Group>
+          </Grid.Col>
+          {/* button: User's name */}
+          <Grid.Col span={2}>
+            {isUser && Object.keys(isUser).length > 0 ? (
+              <UserMenu
+                isUser={isUser.role}
+                name={isUser.name}
+                onLogout={() => setUser(undefined)}
+              />
+            ) : (
+              <ActionIcon size="sx" variant="subtle" color="teal">
+                <Link href="/customer/login" replace>
+                  <Group spacing="xs">
+                    <AiOutlineUser size={20} />
+                    <Text>Account</Text>
+                  </Group>
+                </Link>
+              </ActionIcon>
+            )}
           </Grid.Col>
         </Grid>
       </Paper>

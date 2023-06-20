@@ -3,7 +3,6 @@ import {
   createStyles,
   Navbar,
   Group,
-  NavLink,
   Button,
   Box,
   Avatar,
@@ -211,10 +210,10 @@ export default function NavigationBar() {
       <Navbar.Section>
         <Group position="left" className={classes.header}>
           <Image
+            loading="lazy"
             src={"/images/logo.png"}
-            height="30%"
-            width="30%"
-            layout="fixed"
+            height={100}
+            width={100}
             alt={""}
           />
           <Text className={styles.headertitle} size={20} color="#27ca7d">

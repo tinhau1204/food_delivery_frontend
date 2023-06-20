@@ -5,7 +5,6 @@ import {
   BackgroundImage,
   Text,
   Stack,
-  BreadCrumbs,
   Anchor,
   Title,
   Group,

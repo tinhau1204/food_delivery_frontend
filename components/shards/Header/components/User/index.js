@@ -1,18 +1,26 @@
 import { forwardRef } from "react";
-import { UnstyledButton, Group, Avatar, Text } from "@mantine/core";
+import { LuUser } from "react-icons/lu";
+import { Button, Group, Avatar, Text } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { getUser } from "@/redux/user";
 const User = ({ name, ref, ...buttonProps }) => {
   let user = {
     displayName: name,
-    photoURL:
-      "https://images.glints.com/unsafe/140x140/glints-dashboard.s3.amazonaws.com/profile-picture-default/13.jpg",
+    // photoURL:
+    //   "https://images.glints.com/unsafe/140x140/glints-dashboard.s3.amazonaws.com/profile-picture-default/13.jpg",
   };
 
   return (
-    <UnstyledButton ref={ref} {...buttonProps}>
-      <Group spacing="xs" style={{ width: "max-content" }}>
-        {!user?.photoURL ? (
+    <Button
+      size="sm"
+      leftIcon={<LuUser size={20} />}
+      variant="subtle"
+      color="teal"
+      ref={ref}
+      {...buttonProps}
+      styles={{ backgroundColor: "red" }}
+    >
+      {/* {!user?.photoURL ? (
           <Avatar
             radius="lg"
             src={user?.photoURL}
@@ -26,13 +34,13 @@ const User = ({ name, ref, ...buttonProps }) => {
             src={user.photoURL}
             alt={`${user.displayName} avatar`}
           />
-        )}
-        <div>
-          <Text color="teal">{user?.displayName ?? ""}</Text>
-        </div>
-      </Group>
-    </UnstyledButton>
+        )} */}
+
+      <Text transform="capitalize" size={16} fw={400} color="27ca7d">
+        {user?.displayName ?? ""}
+      </Text>
+    </Button>
   );
 };
 
-export default forwardRef(User);
+export default User;

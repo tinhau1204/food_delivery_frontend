@@ -2,14 +2,14 @@ import React from "react";
 import { Alert, Button, Center } from "@mantine/core";
 import MyStoreAllProductsPage from "components/MyStoreAllProductsPage";
 import MyStoreAllProductsTypePage from "components/MyStoreAllProductsTypesPage";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import AlertPopup from "../shards/AlertPopup";
 import Link from "next/link";
 
 export default function MyStorePage() {
   const [isLogin, setIsLogin] = useState(false);
 
-  useMemo(() => {
+  useEffect(() => {
     if (document.cookie.indexOf("Sel") > -1) {
       setIsLogin(true);
     } else {

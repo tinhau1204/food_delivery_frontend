@@ -141,10 +141,9 @@ export default function MyStoreLoginPage() {
                 pathname: "/seller/register",
               }}
               shallow={true}
+              style={{ color: "#61afef", fontSize: 13 }}
             >
-              <a style={{ color: "#61afef", fontSize: 13 }}>
-                Create a new account?
-              </a>
+              Create a new account?
             </Link>
           </Group>
 
@@ -153,8 +152,11 @@ export default function MyStoreLoginPage() {
           </Button>
           <Center style={{ paddingTop: "10px" }}>
             Want to browse and order ?
-            <Link href="/customer/login">
-              <a style={{ color: "#61afef", paddingLeft: "10px" }}>Customer</a>
+            <Link
+              href="/customer/login"
+              style={{ color: "#61afef", paddingLeft: "10px" }}
+            >
+              Customer
             </Link>
           </Center>
         </Paper>

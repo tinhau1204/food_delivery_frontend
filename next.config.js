@@ -2,21 +2,20 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  experimental: {
-    modularizeImports: {
-      lodash: {
-        transform: "lodash/{{member}}",
-      },
-      "@mui/material": {
-        transform: "@mui/material/{{member}}",
-      },
-      "@mui/lab": {
-        transform: "@mui/lab/{{member}}",
-      },
-      "@mui/icons-material/?(((\\w*)?/?)*)": {
-        transform: "@mui/icons-material/{{ matches.[1] }}/{{member}}",
-      },
-    },
+  output: "standalone",
+  images: {
+    domains: ["localhost", "mustifi.infura-ipfs.io"],
+    loader: "custom",
+    unoptimized: false,
+    formats: ["image/avif", "image/webp"],
+    // remotePatterns: [
+    //   {
+    //     protocol: "https",
+    //     hostname: "mustifi.infura-ipfs.io",
+    //     port: "",
+    //     pathname: "/ipfs/**",
+    //   },
+    // ],
   },
 };
 

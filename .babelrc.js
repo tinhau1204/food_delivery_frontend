@@ -1,22 +1,3 @@
-const plugins = [
-  [
-    "babel-plugin-import",
-    {
-      libraryName: "@mui/material",
-      libraryDirectory: "",
-      camel2DashComponentName: false,
-    },
-    "core",
-  ],
-  [
-    "babel-plugin-import",
-    {
-      libraryName: "@mui/icons-material",
-      libraryDirectory: "",
-      camel2DashComponentName: false,
-    },
-    "icons",
-  ],
-];
+const plugins = [["babel-plugin-direct-import", { modules: ["react-icons"] }]];
 
-module.exports = plugins;
+module.exports = { plugins };

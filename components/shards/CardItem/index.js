@@ -1,24 +1,37 @@
+//import dynamic from "next/dynamic";
 import React, { useState, useEffect } from "react";
 import {
   Card,
-  Image,
   ActionIcon,
   Text,
   Button,
   Group,
   Stack,
-  Modal,
+  Skeleton,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+//import { useDisclosure } from "@mantine/hooks";
 //import StarRating, { CountingStar } from "./components/StarRating";
 import { BiDetail } from "react-icons/bi";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiFillHeart,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
+import { BsBoxSeam } from "react-icons/bs";
+import { RiArrowGoBackFill } from "react-icons/ri";
 import clsx from "classnames";
-import styles from "./styles.module.scss";
+import { getCart, addToCart, updateCart } from "@/redux/cart";
+import styles, { imgHeight, imgWidth } from "./styles.module.scss";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { getWishlist, addToWishlist } from "@/redux/wishlist";
-import DetailPage from "@/components/DetailPage";
+import Image from "next/image";
+//import DetailPage from "@/components/DetailPage";
+//const DetailPage = dynamic(() => import("@/components/DetailPage"));
+import { useHover } from "@mantine/hooks";
+import { useRouter } from "next/router";
+import SelectDetail from "@/components/DetailPage/SelectDetail";
+
 function CardItem({
   pid,
   type,
@@ -29,46 +42,61 @@ function CardItem({
   image,
   ordered,
   trending,
+  loading,
   hidden,
   onClick,
 }) {
   const img_load = process.env.NEXT_PUBLIC_IPFS_URL;
   const [addWishlist, setAddWishlist] = useState(false);
   const { wishlist } = useSelector(getWishlist);
-  const [opened, { open, close }] = useDisclosure(false);
+  const { hovered, ref } = useHover();
+  const [isFlipped, setIsFlipped] = useState(false);
   const dispatch = useDispatch();
-  const cardHeight = 400;
-  const cardWidth = 280;
-  const imgHeight = cardHeight - 210;
-  const imgWidth = cardWidth - 40;
+  const router = useRouter();
+  // Get card size = style scss
+  const numbImgHeight = parseFloat(imgHeight.split("px")[0]);
+  const numbImgWidth = parseFloat(imgWidth.split("px")[0]);
+  //
+  const { cart } = useSelector(getCart);
+  const [quantity, setQuantity] = useState(1);
+
+  const productData = { pid, type, name, price, store_name, image };
 
   const toggleWishlist = () => {
     setAddWishlist(!addWishlist);
-    dispatch(
-      addToWishlist({ pid, type, name, price, store_name, image, ordered }),
-    );
+    dispatch(addToWishlist(productData));
+  };
+
+  const handleAddToCart = (product) => {
+    if (cart.some((item) => item.pid === product.pid)) {
+      var oldItem = cart.find((item) => item.pid === product.pid);
+      var newItem = { ...oldItem, amount: oldItem.amount + quantity };
+      dispatch(updateCart(newItem));
+    } else {
+      var newItem = { ...product, amount: quantity };
+      dispatch(addToCart(newItem));
+    }
   };
 
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Authentication">
-        <DetailPage product_id={pid} />
-      </Modal>
       <Card
         shadow="sm"
         p="lg"
         radius="md"
         style={{
-          width: cardWidth,
-          //minHeight: name.length > 27 ? cardHeight + 20 : cardHeight,
-          minHeight: cardHeight,
-
-          border: "2px solid #25262bb5",
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
         }}
         className={styles.card}
       >
         {!hidden && (
-          <div className={styles.cornerRibbon}>
+          <div
+            className={styles.cornerRibbon}
+            style={{
+              display: isFlipped ? "none" : "inline-block",
+              visibility: loading ? "hidden" : "visible",
+            }}
+          >
             <div
               className={clsx(
                 {
@@ -93,6 +121,10 @@ function CardItem({
           <ActionIcon
             onClick={toggleWishlist}
             variant="transparent"
+            style={{
+              display: isFlipped ? "none" : "inline-block",
+              visibility: loading ? "hidden" : "visible",
+            }}
             className={styles.rightSection}
             color={wishlist.find((item) => item.pid === pid) ? "red" : "gray"}
           >
@@ -104,146 +136,281 @@ function CardItem({
           </ActionIcon>
         )}
         <Card.Section
+          className={styles.cardSection}
           style={{
-            width: imgWidth,
-            height: imgHeight - 5,
-            padding: "1.7rem 1.2rem 1.7rem 0.9rem",
-            marginBottom: "2.5rem",
+            display: isFlipped ? "none" : "inline-block",
           }}
         >
+          <Skeleton
+            radius={5}
+            w={numbImgWidth}
+            h={numbImgHeight}
+            visible={loading}
+          >
+            <div ref={ref} className={styles.imageFrontContainer}>
+              <Image
+                priority
+                loader={({ src }) => src}
+                src={
+                  loading ? "/images/default-thumbnail.jpg" : img_load + image
+                }
+                alt="/images/default-thumbnail.jpg"
+                width={numbImgWidth}
+                height={numbImgHeight}
+                className={styles.image}
+                style={{
+                  transform: hovered ? "scale(1.01)" : "scale(1)",
+                  filter: hovered ? "blur(2px)" : "blur(0px)",
+                  opacity: 0,
+                }}
+                onLoadingComplete={(img) => img.style.removeProperty("opacity")}
+              />
+              <Button
+                variant="filled"
+                className={styles.imageButton}
+                style={{
+                  display: hovered ? "block" : "none",
+                  opacity: hovered ? 1 : 0,
+                }}
+                color="#156b43"
+                onClick={() => router.push("/detail?id=" + pid)}
+              >
+                View Detail
+              </Button>
+            </div>
+          </Skeleton>
+        </Card.Section>
+
+        {!isFlipped ? (
+          <Stack spacing={5}>
+            <div style={{ height: "50px" }}>
+              <Text size={16} lineClamp={2} weight={500} color="#ffffffe3">
+                {name}
+              </Text>
+            </div>
+            <Skeleton radius={5} visible={loading}>
+              <Group position="left">
+                <Stack spacing={5} w={120}>
+                  <Text
+                    size={12}
+                    color="#ffffffe3"
+                    tt="capitalize"
+                    sx={{ fontFamily: "Bahnschrift" }}
+                  >
+                    TYPE
+                  </Text>
+                  <div
+                    className={styles.borderBox}
+                    style={{
+                      background: "#353a3c",
+                    }}
+                  >
+                    <Text
+                      size={14}
+                      color="#00bfff"
+                      tt="capitalize"
+                      fw={400}
+                      sx={{ fontFamily: "Bahnschrift" }}
+                    >
+                      {type}
+                    </Text>
+                  </div>
+                </Stack>
+                <Stack spacing={5} w={120}>
+                  <Text
+                    size={12}
+                    color="#ffffffe3"
+                    tt="capitalize"
+                    sx={{ fontFamily: "Bahnschrift" }}
+                  >
+                    STORE
+                  </Text>
+                  <div
+                    className={styles.borderBox}
+                    style={{
+                      background: "#353a3c",
+                    }}
+                  >
+                    <Text
+                      size={14}
+                      align="center"
+                      color="#ddddddf2"
+                      tt="capitalize"
+                      lineClamp={1}
+                      sx={{ fontFamily: "Bahnschrift" }}
+                    >
+                      {store_name}
+                    </Text>
+                  </div>
+                </Stack>
+              </Group>
+            </Skeleton>
+            <Group className={styles.bottomSection} position="apart">
+              <Skeleton
+                width="fit-content"
+                style={{ minWidth: "106px" }}
+                radius={5}
+                visible={loading}
+              >
+                <Text
+                  pt={5}
+                  size={32}
+                  weight={600}
+                  c="#ffffffe8"
+                  sx={{ fontFamily: "Bahnschrift" }}
+                >
+                  ${price != undefined ? String(price) : String(0.0)}
+                </Text>
+              </Skeleton>
+              <Skeleton width="fit-content" radius={5} visible={loading}>
+                {!hidden ? (
+                  <Button
+                    className={styles.buttonAdd}
+                    leftIcon={<BiDetail />}
+                    variant="light"
+                    color="teal"
+                    onClick={() => setIsFlipped(true)}
+                  >
+                    Select
+                  </Button>
+                ) : (
+                  <></>
+                )}
+              </Skeleton>
+            </Group>
+          </Stack>
+        ) : (
           <div
             style={{
-              width: imgWidth,
-              height: imgHeight,
-              border: "1px solid #25262bb5",
-              borderRadius: 5,
+              transform: "rotateY(180deg)",
             }}
           >
-            <Image
-              src={img_load + image}
-              alt="image"
-              width="100%"
-              height="100%"
-              styles={{
-                root: { height: "100%" },
-                figure: { width: "100%", height: "100%" },
-                imageWrapper: { width: "100%", height: "100%" },
-                objectFit: "cover",
-              }}
-            />
-          </div>
-        </Card.Section>
-        <Link href={"/detail" + "?id=" + pid} passhref>
-          <Text
-            size="md"
-            weight={500}
-            className={styles.nameNavigate}
-            h="2.555rem"
-          >
-            {name}
-          </Text>
-        </Link>
-        <Stack spacing={10}>
-          <Group position="apart">
-            <Text
-              size={13}
-              weight={500}
-              pl={8}
-              pr={8}
-              pt={3}
-              pb={3}
-              align="center"
-              color="grey"
-              style={{
-                border: "1px solid grey",
-                borderRadius: "5px",
-              }}
-            >
-              {type}
-            </Text>
-            <Text
-              size={13}
-              weight={500}
-              pl={8}
-              pr={8}
-              pt={3}
-              pb={3}
-              align="center"
-              color="grey"
-            >
-              {store_name}
-            </Text>
-          </Group>
-          <Group position="apart" spacing={1} mb={1}>
-            <Text
-              size={13}
-              weight={500}
-              color="#67bcee"
-              pl={8}
-              pr={8}
-              pt={3}
-              pb={3}
-              align="center"
-              style={{
-                width: "48%",
-                border: "1px solid #67bcee",
-                borderRadius: "5px",
-              }}
-            >
-              Stock &nbsp; {stock}
-            </Text>
-            {!hidden && (
-              <Text
-                size={13}
-                weight={500}
-                color="#27ca7d"
-                pl={8}
-                pr={8}
-                pt={3}
-                pb={3}
-                align="center"
+            <div className={styles.imageBackContainer}>
+              <Image
+                priority
+                loader={({ src }) => src}
+                src={
+                  loading ? "/images/default-thumbnail.jpg" : img_load + image
+                }
+                alt="/images/default-thumbnail.jpg"
+                width={300}
+                height={200}
+                className={styles.image}
                 style={{
-                  width: "48%",
-                  border: "1px solid #27ca7d",
-                  borderRadius: "5px",
+                  border: "2px solid #27ca7e",
                 }}
-              >
-                Ordered &nbsp; {ordered != null ? ordered : "0"}
-              </Text>
-            )}
-          </Group>
-        </Stack>
-        <Group
-          position="apart"
-          style={{
-            position: "relative",
-            top: "10px",
-          }}
-        >
-          <Text
-            pt={5}
-            size={34}
-            weight={600}
-            style={{
-              fontFamily: "Bahnschrift",
-            }}
-          >
-            ${String(price)}
-          </Text>
-          {!hidden ? (
-            <Button
-              className={styles.buttonAdd}
-              leftIcon={<BiDetail />}
-              variant="light"
-              color="teal"
-              onClick={open}
+              />
+            </div>
+            <Stack
+              justify="space-around"
+              style={{
+                position: "relative",
+                height: "10.325rem",
+                bottom: "14px",
+              }}
             >
-              Choose
-            </Button>
-          ) : (
-            <></>
-          )}
-        </Group>
+              <Stack spacing={1}>
+                <Group
+                  className={styles.borderBox}
+                  style={{
+                    margin: "auto",
+                    background: "#25262b",
+                    position: "relative",
+                    bottom: "0.625rem",
+                    border: "2px solid #27ca7e",
+                  }}
+                >
+                  <Text
+                    size={32}
+                    weight={600}
+                    c="#ffffffe8"
+                    sx={{ fontFamily: "Bahnschrift" }}
+                  >
+                    ${price != undefined ? String(price) : String(0.0)}
+                  </Text>
+                </Group>
+                <Group position="center" spacing={5}>
+                  <Group
+                    spacing={5}
+                    className={styles.borderBox}
+                    style={{
+                      background: "#353a3c",
+                    }}
+                  >
+                    <BsBoxSeam size={15} />
+                    <Text
+                      size={14}
+                      align="center"
+                      color="#dddddd"
+                      tt="capitalize"
+                    >
+                      &nbsp;{stock != null ? stock : "0"}
+                    </Text>
+                  </Group>
+                  <Group
+                    spacing={5}
+                    className={styles.borderBox}
+                    style={{
+                      background: "#353a3c",
+                    }}
+                  >
+                    <AiOutlineShoppingCart size={15} />
+                    <Text
+                      size={14}
+                      align="center"
+                      color="#dddddd"
+                      tt="capitalize"
+                    >
+                      &nbsp;{ordered != null ? ordered : "0"}
+                    </Text>
+                  </Group>
+                </Group>
+              </Stack>
+              <Group position="apart">
+                <Stack spacing={5}>
+                  <Text
+                    size={12}
+                    color="#ffffffe3"
+                    tt="capitalize"
+                    sx={{ fontFamily: "Bahnschrift" }}
+                  >
+                    QUANTITY
+                  </Text>
+                  <SelectDetail
+                    onclickquantity={(item) => setQuantity(item)}
+                    customheight={40}
+                    customwidth={50}
+                  />
+                </Stack>
+              </Group>
+              <Group position="apart" spacing={5}>
+                <Button
+                  color="teal"
+                  variant="light"
+                  style={{ width: "10.625rem", height: "2.1vw" }}
+                  leftIcon={<AiOutlineShoppingCart size={15} />}
+                  onClick={() =>
+                    handleAddToCart({
+                      ...productData,
+                      pid: productData.pid,
+                      amount: quantity,
+                    })
+                  }
+                >
+                  Add
+                </Button>
+                <Button
+                  variant="light"
+                  color="teal"
+                  style={{ height: "2.1vw" }}
+                  onClick={() => setIsFlipped(false)}
+                >
+                  <RiArrowGoBackFill size={15} />
+                </Button>
+              </Group>
+            </Stack>
+          </div>
+        )}
       </Card>
     </>
   );

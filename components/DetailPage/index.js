@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { getProductDetailById } from "@/lib/api/products";
 // import styles from "./styles.module.scss";
 // import { CountingStar } from "../shards/CardItem/components/StarRating";
-import { BsDot } from "react-icons/bs";
+// import { BsDot } from "react-icons/bs";
 import SelectDetail from "./SelectDetail";
 import {
   AiFillHeart,
@@ -24,9 +24,9 @@ import { useDispatch, useSelector } from "react-redux";
 import ReviewDetail from "./ReviewDetail";
 import { useRouter } from "next/router";
 
-function DetailPage({ product_id }) {
+function DetailPage() {
   const [quantity, setQuantity] = useState(1);
-  const [inWishlist, setInWishlist] = useState(false);
+  // const [inWishlist, setInWishlist] = useState(false);
   const { cart } = useSelector(getCart);
   const { wishlist } = useSelector(getWishlist);
   const dispatch = useDispatch();
@@ -50,12 +50,7 @@ function DetailPage({ product_id }) {
   };
 
   useEffect(() => {
-    if (id == null || id == undefined) {
-      id = product_id;
-    }
-  }, []);
-
-  useEffect(() => {
+    console.log(id);
     const getProduct = async () => {
       setProductId(id);
       const [data, error] = await getProductDetailById(id);
@@ -70,11 +65,6 @@ function DetailPage({ product_id }) {
 
     getProduct();
   }, [id]);
-
-  // console.log(
-  //   "check",
-  //   wishlist.includes((item) => item.pid === Number(id)),
-  // );
 
   if (loading)
     return (
@@ -136,10 +126,7 @@ function DetailPage({ product_id }) {
                 {productDetail.info.price + " $"}
               </Title>
             </Group>
-            <SelectDetail
-              onclickquantity={(item) => setQuantity(item)}
-              // onclickweight={(item) => setWeight(item)}
-            />
+            <SelectDetail onclickquantity={(item) => setQuantity(item)} />
             <Group>
               <ActionIcon
                 size="xl"
@@ -160,9 +147,6 @@ function DetailPage({ product_id }) {
                   <AiOutlineHeart size={24} color="white" />
                 )}
               </ActionIcon>
-              {/* <Button color="teal" size="md">
-                Buy Now
-              </Button> */}
               <Button
                 color="teal"
                 variant="light"
@@ -199,7 +183,6 @@ function DetailPage({ product_id }) {
         <ReviewDetail
           store={productDetail.store}
           store_id={productDetail.store.sid}
-          product_id={productId}
         />
       </Stack>
     );

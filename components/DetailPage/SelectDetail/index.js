@@ -3,13 +3,12 @@ import {
   NumberInput,
   ActionIcon,
   NumberInputHandlers,
-  Text,
 } from "@mantine/core";
 import React, { useState, useRef } from "react";
 import styles from "./styles.module.scss";
 import { getCart, addToCart } from "@/redux/cart";
 import { useSelector, useDispatch } from "react-redux";
-function SelectDetail({ onclickquantity, onclickweight }) {
+function SelectDetail({ onclickquantity, customwidth, customheight }) {
   const { cart } = useSelector(getCart);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
@@ -20,10 +19,9 @@ function SelectDetail({ onclickquantity, onclickweight }) {
   const handlersWeight = useRef();
   return (
     <Group>
-      <Text> Quantity:</Text>
       <Group spacing={5}>
         <ActionIcon
-          size={42}
+          size={customheight ? customheight : 42}
           variant="default"
           className={styles.buttonAction}
           onClick={(item) => {
@@ -42,12 +40,12 @@ function SelectDetail({ onclickquantity, onclickweight }) {
           }}
           handlersRef={handlersQuantity}
           max={10}
-          min={0}
+          min={1}
           step={1}
           styles={{
             input: {
-              width: 50,
-              height: 42,
+              width: customwidth ? customwidth : 50,
+              height: customheight ? customheight : 42,
               textAlign: "center",
               borderColor: "#27ca7d",
             },
@@ -55,7 +53,7 @@ function SelectDetail({ onclickquantity, onclickweight }) {
         />
 
         <ActionIcon
-          size={42}
+          size={customheight ? customheight : 42}
           variant="default"
           className={styles.buttonAction}
           onClick={() => handlersQuantity.current.increment()}
