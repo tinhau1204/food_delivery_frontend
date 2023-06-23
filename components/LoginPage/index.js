@@ -106,7 +106,6 @@ export default function LoginPage(props) {
         <Group
           style={{
             filter: isSelLogin ? "blur(8px)" : "blur(0px)",
-            "-webkit-filter": isSelLogin ? "blur(8px)" : "blur(0px)",
           }}
         >
           <Paper shadow="md" radius="lg" style={{ width: "50%" }}>

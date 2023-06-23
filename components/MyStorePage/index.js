@@ -1,7 +1,7 @@
 import React from "react";
-import { Alert, Button, Center } from "@mantine/core";
-import MyStoreAllProductsPage from "components/MyStoreAllProductsPage";
-import MyStoreAllProductsTypePage from "components/MyStoreAllProductsTypesPage";
+// import { Alert, Button, Center } from "@mantine/core";
+// import MyStoreAllProductsPage from "components/MyStoreAllProductsPage";
+// import MyStoreAllProductsTypePage from "components/MyStoreAllProductsTypesPage";
 import { useEffect, useState } from "react";
 import AlertPopup from "../shards/AlertPopup";
 import Link from "next/link";
@@ -24,7 +24,6 @@ export default function MyStorePage() {
           backgroundColor: "grey",
           zIndex: 2,
           filter: "blur(8px)",
-          "-webkit-filter": "blur(8px)",
         }}
       ></div>
       <AlertPopup

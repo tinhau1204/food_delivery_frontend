@@ -48,8 +48,6 @@ const useStyles = createStyles((theme) => ({
     width: "92%",
     marginLeft: "10px",
     paddingTop: theme.spacing.md,
-    // position: "relative",
-    // bottom: 0,
   },
 
   link: {
@@ -195,13 +193,11 @@ export default function NavigationBar() {
     <Navbar
       style={{
         filter: isLogin ? "blur(0px)" : "blur(8px)",
-        "-webkit-filter": isLogin ? "blur(0px)" : "blur(8px)",
         backgroundColor: "#1a1b1e",
         cursor: isLogin ? "auto" : "not-allowed",
         pointerEvents: isLogin ? "auto" : "none",
         borderColor: "#353a3c",
         position: "absolute",
-        height: "-webkit-fill-available",
         zIndex: 0,
         left: 0,
       }}
@@ -210,22 +206,21 @@ export default function NavigationBar() {
       <Navbar.Section>
         <Group position="left" className={classes.header}>
           <Image
-            loading="lazy"
+            priority
+            loader={({ src }) => src}
             src={"/images/logo.png"}
-            height={100}
-            width={100}
-            alt={""}
+            alt="/images/default-thumbnail.jpg"
+            height={30}
+            width={30}
           />
           <Text className={styles.headertitle} size={20} color="#27ca7d">
             FD Store
           </Text>
         </Group>
-        <Box w="inherit" mr="10px" ml="10px" mt="10px" h="75vh">
+        <Box w="inherit" mr="10px" ml="10px" mt="10px" h="35.625rem">
           {links}
         </Box>
-      </Navbar.Section>
-      <Navbar.Section className={classes.footer}>
-        <div>
+        <div className={classes.footer}>
           <UserButton email={email} name={name} />
         </div>
       </Navbar.Section>

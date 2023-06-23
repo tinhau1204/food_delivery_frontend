@@ -86,7 +86,7 @@ $imgWidth: calc($cardWidth - 40px);
 }
 
 .buttonAdd {
-  width: 7.5vw;
+  width: 7.6vw;
   height: 2.1vw;
 }
 
@@ -95,6 +95,30 @@ $imgWidth: calc($cardWidth - 40px);
   width: fit-content;
   padding: 3px 8px 3px 8px;
   border-radius: 5px;
+}
+
+.halfBottomBox{
+    position: relative;
+    border-radius: 5px;
+    margin: auto;
+    padding: 6.42px 20px 3px 20px;
+    background: #25262b;
+    bottom: 0.6725rem;
+  }
+  
+.halfBottomBox:after {
+    content: "" ;
+    position: absolute;
+    margin-left: -1.5px;
+    bottom: 0px;
+    width: 103%;
+    left: 0px;
+    height: 40%;
+    border-bottom: 2px solid #393939;
+    border-left: 1px solid #393939;
+    border-right: 1px solid #393939;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 // Price, button

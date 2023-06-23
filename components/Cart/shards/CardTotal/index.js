@@ -72,7 +72,11 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
   const generateOrderInfo = (account_id, cart, amount, address) => {
     let formatData = [];
 
-    const randomid = genRandomString();
+    const randomid = genRandomString;
+
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime =
+      new Date(Date.now() - tzoffset).toISOString().slice(0, -1) + "+7:00";
 
     let order_info = {
       order_id: randomid,
@@ -83,7 +87,7 @@ const ButtonWrapper = ({ cartdata, amount, currency, showSpinner }) => {
       address: address,
       order_detail: "",
       product_count: parseInt(cart.length),
-      created_date: new Date().toISOString(),
+      created_date: localISOTime,
     };
 
     cart.forEach((Value) => {

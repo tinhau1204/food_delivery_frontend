@@ -153,8 +153,13 @@ export default function MyStoreNewProductPage() {
     setEmptyImage(false);
     setEmptyType(false);
 
-    // Create product leads to created_date == updated_date
-    const created_date = new Date().toISOString();
+    // Create product leads to created_date ==
+
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime =
+      new Date(Date.now() - tzoffset).toISOString().slice(0, -1) + "+7:00";
+
+    const created_date = localISOTime;
     const updated_date = created_date;
 
     //save image into ipfs

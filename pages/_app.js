@@ -35,12 +35,12 @@ function MyApp({ Component, pageProps }) {
     if (path.includes("seller") || path.includes("mystore")) {
       if (isSeller !== true) {
         setIsSeller(true);
-        setPageLoader(true);
+        setPageLoader(false);
       }
     } else {
       if (isSeller !== false) {
         setIsSeller(false);
-        setPageLoader(true);
+        setPageLoader(false);
       }
     }
   }, [path]);

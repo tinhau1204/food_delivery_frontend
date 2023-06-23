@@ -110,7 +110,10 @@ export default function MyStoreRegisterPage(props) {
     setEmptyPassword(false);
 
     // create account
-    const created_date = new Date().toISOString();
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime =
+      new Date(Date.now() - tzoffset).toISOString().slice(0, -1) + "+7:00";
+    const created_date = localISOTime;
     const account_id = genRandonString();
 
     const data = {
@@ -190,7 +193,12 @@ export default function MyStoreRegisterPage(props) {
     setEmptyType(false);
 
     const storeId = genRandonString();
-    const created_date = new Date().toISOString();
+
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
+    var localISOTime =
+      new Date(Date.now() - tzoffset).toISOString().slice(0, -1) + "+7:00";
+
+    const created_date = localISOTime;
 
     // Send image into IPFS
     const fileAdded = await client.add(file);

@@ -6,6 +6,7 @@ import {
   Text,
   Group,
   //ScrollArea,
+  Tooltip,
   Paper,
   Skeleton,
   Button,
@@ -13,18 +14,12 @@ import {
   useMantineTheme,
 } from "@mantine/core";
 import Image from "next/image";
-import arrowleft from "../../public/arrowleft.svg";
-import arrowright from "../../public/arrowright.svg";
+import arrowleft from "/public/vectors/arrowleft.svg";
+import arrowright from "/public/vectors/arrowright.svg";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  IconCheck,
-  IconTruckDelivery,
-  IconBrowserCheck,
-  IconCircleCheck,
-} from "@tabler/icons";
+import { IconCircleCheck } from "@tabler/icons";
 import moment from "moment";
-import { getAllOrdersWithParams } from "@/lib";
+import { getAllOrdersWithParams, orderProceeding } from "@/lib";
 
 const useStyles = createStyles((theme) => ({
   progressBar: {
@@ -88,9 +83,9 @@ export default function MyStoreOrdersPage() {
   const [orderId, setOrderId] = useState("");
   const [productId, setProductId] = useState(0);
   const theme = useMantineTheme();
-  const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
-  const store_id = savedCookie.storeId;
-  const user_id = savedCookie.userId;
+  var savedCookie;
+  var store_id;
+  var user_id;
 
   async function getAllOrders() {
     try {
@@ -112,8 +107,10 @@ export default function MyStoreOrdersPage() {
   }
 
   useEffect(() => {
+    savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+    store_id = savedCookie.storeId;
+    user_id = savedCookie.userId;
     getAllOrders();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function ProceedOrder(order_id, product_id) {
@@ -125,10 +122,7 @@ export default function MyStoreOrdersPage() {
     };
 
     try {
-      const response = await axios.post(
-        process.env.NEXT_PUBLIC_API + "/order/proceed",
-        data,
-      );
+      const response = await orderProceeding(data);
       if (response.data.error) {
         alert(response.data.error);
         setOpened(false);
@@ -145,16 +139,22 @@ export default function MyStoreOrdersPage() {
     }
   }
 
-  const rows = orders.map((row) => {
+  const rows = orders.map((row, index) => {
     let Icon = IconCircleCheck;
 
     return (
-      <tr key={row.id}>
+      <tr key={index}>
         <td className={classes.tdcontent}>
           <Text color={"#61afef"}>{row.id}</Text>
         </td>
-        <td className={classes.tdcontent}>{row.email}</td>
-        <td className={classes.tdcontent}>{row.product}</td>
+        <td className={classes.tdcontent}>
+          <Tooltip label={row.email} color="teal" withArrow>
+            <Text> {String(row.email).split("@gmail.com")[0]}</Text>
+          </Tooltip>
+        </td>
+        <td className={classes.tdcontent}>
+          {row.product} ({row.quantity})
+        </td>
         <td className={classes.tdcontent}>
           {moment(row.created_date).format("MM/DD/YYYY h:mm a")}
           <Text size={12} c="dimmed">
@@ -281,11 +281,12 @@ export default function MyStoreOrdersPage() {
                       size="xs"
                     >
                       <Image
-                        loading="lazy"
+                        priority
+                        loader={({ src }) => src}
+                        alt="/images/default-thumbnail.jpg"
                         src={arrowleft}
                         width={10}
                         height={10}
-                        alt={""}
                       />
                     </Button>
                   </li>
@@ -314,11 +315,12 @@ export default function MyStoreOrdersPage() {
                       size="xs"
                     >
                       <Image
-                        loading="lazy"
+                        priority
+                        loader={({ src }) => src}
+                        alt="/images/default-thumbnail.jpg"
                         src={arrowright}
                         width={10}
                         height={10}
-                        alt={""}
                       />
                     </Button>
                   </li>
@@ -342,10 +344,10 @@ export default function MyStoreOrdersPage() {
               <thead className={classes.thead}>
                 <tr>
                   <th style={{ width: "15%" }}>ID</th>
-                  <th>Users&apos; Email</th>
-                  <th style={{ width: "20%" }}>Product</th>
+                  <th>Customers</th>
+                  <th style={{ width: "20%" }}>Product (Quantity)</th>
                   <th>Timestamp</th>
-                  <th style={{ width: "15%" }}>Payment method</th>
+                  <th style={{ width: "15%" }}>Payment</th>
                   <th style={{ width: "10%" }}>Proceed</th>
                   <th stlye={{ width: "5%" }}>Action</th>
                 </tr>
@@ -388,11 +390,12 @@ export default function MyStoreOrdersPage() {
                       size="xs"
                     >
                       <Image
-                        loading="lazy"
+                        priority
+                        loader={({ src }) => src}
+                        alt="/images/default-thumbnail.jpg"
                         src={arrowleft}
                         width={10}
                         height={10}
-                        alt={""}
                       />
                     </Button>
                   </li>
@@ -421,11 +424,12 @@ export default function MyStoreOrdersPage() {
                       size="xs"
                     >
                       <Image
-                        loading="lazy"
+                        priority
+                        loader={({ src }) => src}
+                        alt="/images/default-thumbnail.jpg"
                         src={arrowright}
                         width={10}
                         height={10}
-                        alt={""}
                       />
                     </Button>
                   </li>

@@ -296,9 +296,6 @@ function CardItem({
                 width={300}
                 height={200}
                 className={styles.image}
-                style={{
-                  border: "2px solid #27ca7e",
-                }}
               />
             </div>
             <Stack
@@ -310,16 +307,7 @@ function CardItem({
               }}
             >
               <Stack spacing={1}>
-                <Group
-                  className={styles.borderBox}
-                  style={{
-                    margin: "auto",
-                    background: "#25262b",
-                    position: "relative",
-                    bottom: "0.625rem",
-                    border: "2px solid #27ca7e",
-                  }}
-                >
+                <Group className={styles.halfBottomBox}>
                   <Text
                     size={32}
                     weight={600}
@@ -366,16 +354,8 @@ function CardItem({
                   </Group>
                 </Group>
               </Stack>
-              <Group position="apart">
-                <Stack spacing={5}>
-                  <Text
-                    size={12}
-                    color="#ffffffe3"
-                    tt="capitalize"
-                    sx={{ fontFamily: "Bahnschrift" }}
-                  >
-                    QUANTITY
-                  </Text>
+              <Group position="apart" mt={10} mb={20}>
+                <Stack spacing={5} style={{ margin: "auto" }}>
                   <SelectDetail
                     onclickquantity={(item) => setQuantity(item)}
                     customheight={40}
@@ -387,7 +367,7 @@ function CardItem({
                 <Button
                   color="teal"
                   variant="light"
-                  style={{ width: "10.625rem", height: "2.1vw" }}
+                  style={{ height: "2.1vw", width: "12.4vw" }}
                   leftIcon={<AiOutlineShoppingCart size={15} />}
                   onClick={() =>
                     handleAddToCart({
@@ -402,7 +382,7 @@ function CardItem({
                 <Button
                   variant="light"
                   color="teal"
-                  style={{ height: "2.1vw" }}
+                  style={{ height: "2.1vw", width: "3.2vw" }}
                   onClick={() => setIsFlipped(false)}
                 >
                   <RiArrowGoBackFill size={15} />
