@@ -31,7 +31,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
   },
   contentPaper: {
-    backgroundColor: "#121216",
+    backgroundColor: "#25262b",
     borderBottomLeftRadius: "8px",
     borderBottomRightRadius: "8px",
   },

@@ -72,6 +72,8 @@ function DesDetail({ storeinfo }) {
               }}
             >
               <Image
+                priority
+                loader={({ src }) => src}
                 fit="cover"
                 height={120}
                 width={200}

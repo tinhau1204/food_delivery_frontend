@@ -201,7 +201,7 @@ export default function MyStoreRegisterPage(props) {
     const created_date = localISOTime;
 
     // Send image into IPFS
-    const fileAdded = await client.add(file);
+    const fileAdded = await IpfsClient.add(file);
     console.log(fileAdded.path);
 
     // Fetch NEXT_PUBLIC_API to create store
@@ -459,7 +459,8 @@ export default function MyStoreRegisterPage(props) {
             )}
             <Group mt="md">
               <Image
-                loading="lazy"
+                priority
+                loader={({ src }) => src}
                 src={fileUrl}
                 height={300}
                 width={300}

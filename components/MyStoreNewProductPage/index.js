@@ -16,7 +16,7 @@ import Image from "next/image";
 import image from "/public/images/default-thumbnail.jpg";
 import { getAllProductsType, createProduct } from "@/lib";
 import axios from "axios";
-import { client } from "../common";
+import { IpfsClient } from "@/lib/api/ipfsClient";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -33,7 +33,7 @@ const useStyles = createStyles((theme) => ({
   },
   contentPaper: {
     width: "800px",
-    backgroundColor: "#121216",
+    backgroundColor: "#25262b",
     borderBottomLeftRadius: "8px",
     borderBottomRightRadius: "8px",
   },
@@ -163,7 +163,8 @@ export default function MyStoreNewProductPage() {
     const updated_date = created_date;
 
     //save image into ipfs
-    const fileAdded = await client.add(file);
+    const fileAdded = await IpfsClient.add(file);
+
     const data = {
       store_id: store_id,
       name: nameProduct,
@@ -207,7 +208,7 @@ export default function MyStoreNewProductPage() {
           Product Information
         </Text>
         <Group position="apart">
-          <Paper mt={20} style={{ backgroundColor: "#121216" }}>
+          <Paper mt={20} style={{ backgroundColor: "#25262b" }}>
             <FileInput
               label="Your product's image"
               placeholder="Pick an image of your product"
@@ -223,7 +224,8 @@ export default function MyStoreNewProductPage() {
             />
             <Group mt={30}>
               <Image
-                loading="lazy"
+                priority
+                loader={({ src }) => src}
                 src={fileUrl}
                 height={320}
                 width={320}
@@ -231,7 +233,7 @@ export default function MyStoreNewProductPage() {
               />
             </Group>
           </Paper>
-          <Paper mt={20} style={{ backgroundColor: "#121216" }}>
+          <Paper mt={20} style={{ backgroundColor: "#25262b" }}>
             <TextInput
               placeholder="What is your product's name?"
               label="Name of the product"

@@ -19,7 +19,7 @@ import {
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
 import axios from "axios";
-import { client } from "../common";
+import { IpfsClient } from "@/lib/api/ipfsClient";
 import { editProduct, getProductById } from "@/lib";
 //import Image from "next/image";
 
@@ -60,8 +60,8 @@ export default function MyStoreAllProductsPage() {
   const { classes } = useStyles();
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
-  const savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
-  const store_id = savedCookie.storeId;
+  var savedCookie;
+  var store_id;
 
   const [file, setFile] = useState(null);
   const [fileUrl, setFileUrl] = useState();
@@ -90,6 +90,9 @@ export default function MyStoreAllProductsPage() {
 
   async function getAllProducts() {
     try {
+      savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+      store_id = savedCookie.storeId;
+
       const response = await axios.get(
         process.env.NEXT_PUBLIC_API + "/menu/get-all-products/" + store_id,
       );
@@ -231,7 +234,7 @@ export default function MyStoreAllProductsPage() {
 
     if (file !== null) {
       //save image into ipfs
-      const fileAdded = await client.add(file);
+      const fileAdded = await IpfsClient.add(file);
       setImageProduct(fileAdded.path);
     }
 
@@ -282,7 +285,7 @@ export default function MyStoreAllProductsPage() {
           p="xl"
           radius="md"
           style={{
-            backgroundColor: "#121216",
+            backgroundColor: "#25262b",
           }}
         >
           <Text
@@ -348,6 +351,8 @@ export default function MyStoreAllProductsPage() {
                     }}
                   />
                   <Image
+                    priority
+                    loader={({ src }) => src}
                     mt="md"
                     src={fileUrl}
                     height={320}

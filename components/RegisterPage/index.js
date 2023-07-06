@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import {
   TextInput,
-  PasswordInput,
+  //PasswordInput,
   Center,
   Button,
   Anchor,
   LoadingOverlay,
   Title,
   Stack,
-  Radio,
+  //Radio,
   SimpleGrid,
-  Text,
+  //Text,
 } from "@mantine/core";
-import MyStoreRegisterPage from "../MyStoreRegisterPage";
+//import MyStoreRegisterPage from "../MyStoreRegisterPage";
 import { joiResolver, useForm } from "@mantine/form";
 import { useRouter } from "next/router";
 import PasswordStrength from "./shards/PasswordStrength";
@@ -20,11 +20,11 @@ import registerSchema from "./validate";
 import styles from "./styles.module.scss";
 import { accountRegister } from "@/lib/api/accounts";
 import { TiTick } from "react-icons/ti";
-import { HiLockClosed } from "react-icons/hi";
+//import { HiLockClosed } from "react-icons/hi";
 import { MdPerson, MdPhone, MdOutlineClose } from "react-icons/md";
 import { showNotification } from "@mantine/notifications";
 import { HiOutlineIdentification } from "react-icons/hi";
-import Link from "next/link";
+//import Link from "next/link";
 
 const RegisterPage = (props) => {
   const [loading, setLoading] = useState(false);

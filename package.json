@@ -24,6 +24,8 @@
         "@tabler/icons": "^1.116.1",
         "axios": "^0.26.1",
         "classnames": "^2.3.1",
+        "highcharts": "^11.1.0",
+        "highcharts-react-official": "^3.2.0",
         "ipfs-http-client": "^59.0.0",
         "joi": "^17.7.0",
         "moment": "^2.29.4",

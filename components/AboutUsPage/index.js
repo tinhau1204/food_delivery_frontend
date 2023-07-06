@@ -23,7 +23,8 @@ function AboutUsPage() {
       <Group grow>
         <div className={styles.imageFrontContainer}>
           <Image
-            loading="lazy"
+            priority
+            loader={({ src }) => src}
             src={active.image}
             fit="cover"
             width={400}
@@ -76,6 +77,8 @@ function AboutUsPage() {
               .filter((value) => value.id !== active.id)
               .map((value) => (
                 <Image
+                  priority
+                  loader={({ src }) => src}
                   key={value.id}
                   src={value.image}
                   width={150}

@@ -1,15 +1,13 @@
 import React from "react";
-// import { Alert, Button, Center } from "@mantine/core";
-// import MyStoreAllProductsPage from "components/MyStoreAllProductsPage";
-// import MyStoreAllProductsTypePage from "components/MyStoreAllProductsTypesPage";
-import { useEffect, useState } from "react";
+import { Paper } from "@mantine/core";
+import { useEffect, useState, useMemo } from "react";
 import AlertPopup from "../shards/AlertPopup";
-import Link from "next/link";
+import Highchart from "./Highchart";
 
 export default function MyStorePage() {
   const [isLogin, setIsLogin] = useState(false);
 
-  useEffect(() => {
+  useMemo(() => {
     if (document.cookie.indexOf("Sel") > -1) {
       setIsLogin(true);
     } else {
@@ -34,6 +32,17 @@ export default function MyStorePage() {
       />
     </div>
   ) : (
-    <div style={{ backgroundColor: "#1a1b1e", color: "white" }}></div>
+    <div style={{ backgroundColor: "#1a1b1e", color: "white" }}>
+      <Paper
+        style={{
+          background: "transparent",
+          width: "82vw",
+          height: "95.625vh",
+          margin: "1rem 1rem 1rem 17rem",
+        }}
+      >
+        <Highchart />
+      </Paper>
+    </div>
   );
 }

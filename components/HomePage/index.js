@@ -93,7 +93,6 @@ function HomePage() {
           <Grid style={{ flex: 1, marginLeft: "40px" }} columns={12}>
             {!loading ? (
               <>
-                {console.log("Load", loading)}
                 {filterProduct?.length === 0
                   ? dataProduct
                       .slice(
@@ -145,7 +144,6 @@ function HomePage() {
               </>
             ) : (
               <>
-                {console.log("Skeleton load", loading)}
                 {skeletonArray.map((item, index) => (
                   <Grid.Col key={item.pid} span={4}>
                     <CardItem loading={loading} image={""} />

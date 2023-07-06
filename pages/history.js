@@ -515,6 +515,8 @@ export default function Orders() {
                         size="xs"
                       >
                         <Image
+                          priority
+                          loader={({ src }) => src}
                           src={arrowleft}
                           width={10}
                           height={10}
@@ -546,6 +548,8 @@ export default function Orders() {
                         size="xs"
                       >
                         <Image
+                          priority
+                          loader={({ src }) => src}
                           src={arrowright}
                           width={10}
                           height={10}
@@ -623,6 +627,8 @@ export default function Orders() {
                         size="xs"
                       >
                         <Image
+                          priority
+                          loader={({ src }) => src}
                           src={arrowleft}
                           width={10}
                           height={10}
@@ -654,6 +660,8 @@ export default function Orders() {
                         size="xs"
                       >
                         <Image
+                          priority
+                          loader={({ src }) => src}
                           src={arrowright}
                           width={10}
                           height={10}

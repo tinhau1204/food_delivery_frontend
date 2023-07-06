@@ -18,7 +18,7 @@ import {
 } from "@mantine/core";
 import { IconEdit } from "@tabler/icons";
 import axios from "axios";
-import { client } from "../common";
+import { IpfsClient } from "@/lib/api/ipfsClient";
 import { getProductType, getAllProductsType, editProductType } from "@/lib";
 //import Image from "next/image";
 
@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
     borderTopRightRadius: "8px",
   },
   contentPaper: {
-    backgroundColor: "#121216",
+    backgroundColor: "#25262b",
     borderBottomLeftRadius: "8px",
     borderBottomRightRadius: "8px",
   },

@@ -151,8 +151,11 @@ function Header() {
           <Grid.Col span={2}>
             <Link href="/">
               <Image
+                priority
+                loader={({ src }) => src}
                 size="md"
                 width={50}
+                height={50}
                 fit="content"
                 src="/images/logo.png"
                 style={{ cursor: "pointer" }}
@@ -200,10 +203,12 @@ function Header() {
                           }}
                         >
                           <Image
+                            priority
+                            loader={({ src }) => src}
                             src={img_load + item.image}
                             alt="image"
-                            width="100%"
-                            height="100%"
+                            width={50}
+                            height={50}
                             styles={{
                               root: { height: "100%" },
                               figure: { width: "100%", height: "100%" },

@@ -13,7 +13,7 @@ import store from "@/redux";
 import Header from "@/components/shards/Header";
 //import Footer from "@/components/shards/Footer";
 const Footer = dynamic(() => import("@/components/shards/Footer"));
-import NavigationBar from "@/components/MyStorePage/NavigationBar";
+import NavigationBar from "@/components/shards/NavigationBar";
 import BreadCrumb from "@/components/shards/BreadCrumb";
 //
 
@@ -35,12 +35,12 @@ function MyApp({ Component, pageProps }) {
     if (path.includes("seller") || path.includes("mystore")) {
       if (isSeller !== true) {
         setIsSeller(true);
-        setPageLoader(false);
+        setPageLoader(true);
       }
     } else {
       if (isSeller !== false) {
         setIsSeller(false);
-        setPageLoader(false);
+        setPageLoader(true);
       }
     }
   }, [path]);

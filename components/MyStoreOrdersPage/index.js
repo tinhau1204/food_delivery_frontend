@@ -49,8 +49,8 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     padding: 5,
   },
-  enableButtom: {
-    color: "#0097FF",
+  enableButton: {
+    color: "#0f83e9",
   },
   tab: {
     width: 155,
@@ -69,7 +69,6 @@ const useStyles = createStyles((theme) => ({
 export default function MyStoreOrdersPage() {
   const { classes } = useStyles();
   const [orders, setOrders] = useState([]);
-  const [tab, setTab] = useState("not received");
   const [currentPage, setCurrentPage] = useState(1);
   const [size, setSize] = useState(20);
   const [totalPages, setTotalPages] = useState(1);
@@ -83,35 +82,48 @@ export default function MyStoreOrdersPage() {
   const [orderId, setOrderId] = useState("");
   const [productId, setProductId] = useState(0);
   const theme = useMantineTheme();
-  var savedCookie;
-  var store_id;
-  var user_id;
-
-  async function getAllOrders() {
-    try {
-      const [response, err] = await getAllOrdersWithParams(
-        store_id,
-        currentPage,
-        size,
-      );
-      setTotalOrders(response.items.length);
-      setTotalPages(response.pages);
-      setHasNext(response.hasNext);
-      setHasPrevious(response.hasPrevious);
-      setOrders(response.items);
-      setIsProceed(false);
-    } catch (err) {
-      console.log(err);
-    }
-    setIsFinish(true);
-  }
 
   useEffect(() => {
-    savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
-    store_id = savedCookie.storeId;
-    user_id = savedCookie.userId;
+    var savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
+    var store_id = savedCookie.storeId;
+    var user_id = savedCookie.userId;
+
+    async function getAllOrders() {
+      try {
+        const [response, err] = await getAllOrdersWithParams(
+          store_id,
+          currentPage,
+          size,
+        );
+        setTotalOrders(response.items.length);
+        setTotalPages(response.pages);
+        setHasNext(response.hasNext);
+        setHasPrevious(response.hasPrevious);
+        setOrders(response.items);
+        setIsProceed(false);
+      } catch (err) {
+        console.log(err);
+      }
+      setIsFinish(true);
+    }
     getAllOrders();
   }, []);
+
+  //Get orders with products which are not be seen yet
+  useEffect(() => {
+    if (orders.length > 0) {
+      const unSeenArray = orders
+        .map((item) => {
+          if (item.is_seen === 0) {
+            return { id: item.id, product_id: item.product_id };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      console.log(unSeenArray);
+    }
+  }, [orders]);
 
   async function ProceedOrder(order_id, product_id) {
     setLoading(true);
@@ -156,7 +168,7 @@ export default function MyStoreOrdersPage() {
           {row.product} ({row.quantity})
         </td>
         <td className={classes.tdcontent}>
-          {moment(row.created_date).format("MM/DD/YYYY h:mm a")}
+          {moment(row.created_date).format("DD/MM/YYYY h:mm a")}
           <Text size={12} c="dimmed">
             ({moment(row.created_date).fromNow()})
           </Text>
@@ -252,7 +264,13 @@ export default function MyStoreOrdersPage() {
   return (
     <div className={classes.root}>
       <Group position="center" w="max-content">
-        <Paper withBorder p="md" radius="md" w="82vw">
+        <Paper
+          withBorder
+          p="md"
+          radius="md"
+          w="82vw"
+          style={{ background: "#25262b" }}
+        >
           <Group position="apart" className={classes.pagination}>
             <span className={classes.totalText}>
               Total {totalOrders} orders
@@ -264,7 +282,7 @@ export default function MyStoreOrdersPage() {
                     <Button
                       variant="default"
                       disabled={!isFinish ? true : currentPage == 1}
-                      className={classes.enableButtom}
+                      className={classes.enableButton}
                       radius={5}
                       mr={2}
                       size="xs"
@@ -328,7 +346,7 @@ export default function MyStoreOrdersPage() {
                     <Button
                       variant="default"
                       disabled={!isFinish ? true : currentPage == totalPages}
-                      className={classes.enableButtom}
+                      className={classes.enableButton}
                       radius={5}
                       size="xs"
                     >
@@ -340,7 +358,10 @@ export default function MyStoreOrdersPage() {
             </Paper>
           </Group>
           <Paper withBorder>
-            <Table sx={{ minWidth: 800 }} verticalSpacing="xs">
+            <Table
+              sx={{ minWidth: 800, background: "#25262b" }}
+              verticalSpacing="xs"
+            >
               <thead className={classes.thead}>
                 <tr>
                   <th style={{ width: "15%" }}>ID</th>
@@ -373,9 +394,10 @@ export default function MyStoreOrdersPage() {
                     <Button
                       variant="default"
                       disabled={!isFinish ? true : currentPage == 1}
-                      className={classes.enableButtom}
+                      className={classes.enableButton}
                       radius={5}
                       mr={2}
+                      color="#0f83e9"
                       size="xs"
                     >
                       First
@@ -437,7 +459,7 @@ export default function MyStoreOrdersPage() {
                     <Button
                       variant="default"
                       disabled={!isFinish ? true : currentPage == totalPages}
-                      className={classes.enableButtom}
+                      className={classes.enableButton}
                       radius={5}
                       size="xs"
                     >
@@ -471,13 +493,7 @@ export default function MyStoreOrdersPage() {
             weight={700}
             style={{ fontFamily: "Greycliff CF, sans-serif" }}
           >
-            {tab == "not received"
-              ? "RECEIVE ORDER"
-              : tab == "received"
-              ? "CONFIRM ORDER FOR SHIPPING"
-              : tab == "shipping"
-              ? "CONFIRM SHIPPING"
-              : ""}
+            ACCEPT ORDER
           </Text>
         </Group>
         <Group position="center" mb={20}>
@@ -487,13 +503,7 @@ export default function MyStoreOrdersPage() {
             weight={500}
             style={{ fontFamily: "Greycliff CF, sans-serif" }}
           >
-            {tab == "not received"
-              ? "Are you sure to proceed this order's product?"
-              : tab == "received"
-              ? "Are you sure to delivery this order?"
-              : tab == "shipping"
-              ? "Are you sure want to confirm that this order is delivered successfully?"
-              : ""}
+            Are you sure to proceed this order's product?
           </Text>
         </Group>
         <Group position="center" mb={10}>

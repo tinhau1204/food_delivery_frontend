@@ -89,6 +89,8 @@ function StoreDetailPage() {
               }}
             >
               <Image
+                priority
+                loader={({ src }) => src}
                 radius="md"
                 src={img_load + storedetail.store[0].image}
                 alt="Store Image"

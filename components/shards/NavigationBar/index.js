@@ -3,34 +3,22 @@ import {
   createStyles,
   Navbar,
   Group,
-  Button,
   Box,
-  Avatar,
   Text,
-  Code,
   getStylesRef,
-  AppShell,
-  Alert,
   rem,
 } from "@mantine/core";
 import {
   IconLayoutGridAdd,
-  IconCalendarStats,
   IconBorderAll,
-  IconSettings,
-  Icon2fa,
   IconReceipt,
   IconDashboard,
-  IconLogout,
 } from "@tabler/icons";
-import { UserButton } from "../UserButton";
+import { UserButton } from "./UserButton";
 import styles from "./styles.module.scss";
 import Image from "next/image";
-//import { accountInfoGetWithId } from "@/lib";
-//import image from "../public/Mustifi.svg";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import MyStoreAllProductsPage from "@/components/MyStoreAllProductsPage";
+//import MyStoreAllProductsPage from "@/components/MyStoreAllProductsPage";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -192,16 +180,17 @@ export default function NavigationBar() {
   return (
     <Navbar
       style={{
+        maxWidth: "15.875rem",
         filter: isLogin ? "blur(0px)" : "blur(8px)",
-        backgroundColor: "#1a1b1e",
+        backgroundColor: "#1A1B1E",
         cursor: isLogin ? "auto" : "not-allowed",
         pointerEvents: isLogin ? "auto" : "none",
         borderColor: "#353a3c",
-        position: "absolute",
-        zIndex: 0,
-        left: 0,
+        position: "fixed",
+        zIndex: 1,
+        right: 0,
       }}
-      width={{ sm: 255 }}
+      width={{ sm: 254 }}
     >
       <Navbar.Section>
         <Group position="left" className={classes.header}>
