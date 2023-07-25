@@ -23,14 +23,6 @@ function MyApp({ Component, pageProps }) {
   const path = router.pathname;
   const [isSeller, setIsSeller] = useState(false);
 
-  useEffect(() => {
-    if (process.env.NODE_ENV == "development") {
-      setTimeout(() => {
-        setPageLoader(false);
-      }, 500);
-    }
-  }, []);
-
   useMemo(() => {
     if (path.includes("seller") || path.includes("mystore")) {
       if (isSeller !== true) {
@@ -43,6 +35,9 @@ function MyApp({ Component, pageProps }) {
         setPageLoader(true);
       }
     }
+    setTimeout(() => {
+      setPageLoader(false);
+    }, 100);
   }, [path]);
 
   return (

@@ -15,7 +15,7 @@ import {
   RingProgress,
   ThemeIcon,
 } from "@mantine/core";
-import { FaRegCalendarAlt } from "react-icons/fa/";
+import { FaDollarSign, FaRegCalendarAlt } from "react-icons/fa/";
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import {
   BsDatabaseFillX,
@@ -324,10 +324,9 @@ const Highchart = () => {
 
   return (
     <>
-      <Stack>
+      <Stack h={"100%"} spacing={0}>
         <Group
           position="apart"
-          //ml={10}
           mt={10}
           spacing={0}
           style={{
@@ -453,110 +452,107 @@ const Highchart = () => {
             <RealtimeClock />
           </Group>
         </Group>
-        <Group w={"100%"} position="apart" spacing={0}>
-          <Stack
-            pt={10}
-            spacing={5}
-            style={{
-              background: "#25262b",
-              borderRadius: "5px",
-              width: "68.5%",
-            }}
-          >
-            <div
+        <Group w={"100%"} h={"100%"} position="apart" spacing={0}>
+          <Stack w="68.5%" pt={10} spacing={10} justify="flex-start">
+            <Stack
               style={{
-                width: "100%",
-                position: "relative",
-                opacity: profitData.length > 0 ? 0 : 1,
+                background: "#25262b",
+                borderRadius: "5px",
               }}
             >
-              <Stack
-                align="center"
+              <div
                 style={{
-                  position: "absolute",
-                  left: "50%",
-                  top: "50%",
-                  transform: "translate(-50%, 120%)",
+                  width: "100%",
+                  position: "relative",
+                  opacity: profitData.length > 0 ? 0 : 1,
                 }}
               >
-                <BsDatabaseFillX size={"4.625rem"} />
-                <Text size={18}>No data found</Text>
-              </Stack>
-            </div>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={chartOptions}
-              constructorType="chart"
-              ref={chartRef}
-            />
+                <Stack
+                  align="center"
+                  style={{
+                    position: "absolute",
+                    left: "50%",
+                    top: "50%",
+                    transform: "translate(-50%, 120%)",
+                  }}
+                >
+                  <BsDatabaseFillX size={"4.625rem"} />
+                  <Text size={18}>No data found</Text>
+                </Stack>
+              </div>
+              <HighchartsReact
+                highcharts={Highcharts}
+                options={chartOptions}
+                constructorType="chart"
+                ref={chartRef}
+              />
+            </Stack>
+            <Group
+              style={{
+                background: "#25262b",
+                borderRadius: "5px",
+                height: "8.938rem",
+              }}
+            >
+              <Text className={styles.valueFont}>Test</Text>
+            </Group>
           </Stack>
           {/* Split right - below */}
-          <Stack
-            spacing={10}
-            style={{
-              height: "25.938rem",
-              maxHeight: "25.938rem",
-              width: "30.5%",
-            }}
-          >
-            <Group w={"100%"} h={"7.938rem"} spacing={10} position="apart">
-              <Group
-                w={"37%"}
-                h={"100%"}
-                style={{
-                  padding: "0.625rem 0.625rem 0 0.625rem",
-                  background: "#25262b",
-                  borderRadius: "5px",
-                }}
+          <Stack h="100%" pt={10} spacing={10} w="25rem">
+            <Group h={"7.938rem"} spacing={10} position="apart">
+              <Stack
+                className={styles.newSection}
+                position="apart"
+                spacing={10}
               >
-                <Stack w={"100%"} position="apart" spacing={10}>
-                  <Group spacing={10}>
-                    <ThemeIcon size="1.6rem" color="blue">
-                      <AiFillEye size="1.2rem" />
-                    </ThemeIcon>
+                <Group spacing={10}>
+                  <ThemeIcon size="1.6rem" color="blue">
+                    <AiFillEye size="1.2rem" />
+                  </ThemeIcon>
 
-                    <Text className={styles.labelFont}>New &nbsp;</Text>
-                  </Group>
-                  <Group spacing={5} position="right">
-                    {unseenOrdersData.length > 0 ? (
-                      <HiOutlineArrowNarrowUp color="white" size="1.5rem" />
-                    ) : (
-                      <></>
-                    )}
-                    <Text className={styles.valueFont}>
-                      {unseenOrdersData.length > 0
-                        ? unseenOrdersData.length
-                        : 0}
-                    </Text>
-                  </Group>
-                </Stack>
-              </Group>
-              <Group
-                w={"60%"}
-                h={"100%"}
-                style={{
-                  padding: "0.625rem 0.625rem 0 0.625rem",
-                  background: "#25262b",
-                  borderRadius: "5px",
-                }}
+                  <Text className={styles.labelFont}>New &nbsp;</Text>
+                </Group>
+                <Group spacing={5} position="right">
+                  {unseenOrdersData.length > 0 ? (
+                    <Group spacing={0} position="left" mb={5}>
+                      <HiOutlineArrowNarrowUp color="#c1c2c5" size="1.4rem" />
+                    </Group>
+                  ) : (
+                    <></>
+                  )}
+                  <Text className={styles.valueFont}>
+                    {unseenOrdersData.length > 0 ? unseenOrdersData.length : 0}
+                  </Text>
+                </Group>
+              </Stack>
+
+              <Stack
+                className={styles.balanceSection}
+                position="apart"
+                spacing={10}
               >
-                <Stack w={"100%"} position="apart" spacing={10}>
-                  <Group spacing={10}>
-                    <ThemeIcon size="1.6rem" color="blue">
-                      <MdAccountBalanceWallet size="1.2rem" />
-                    </ThemeIcon>
+                <Group spacing={10}>
+                  <ThemeIcon size="1.6rem" color="blue">
+                    <MdAccountBalanceWallet size="1.2rem" />
+                  </ThemeIcon>
 
-                    <Text className={styles.labelFont}>Balance &nbsp;</Text>
-                  </Group>
-                  <Group position="right">
-                    <Text className={styles.valueFont}>
-                      {Object.keys(totalProfit).length > 0
-                        ? "$ " + totalProfit["SUC"].tamount
-                        : 0}
-                    </Text>
-                  </Group>
-                </Stack>
-              </Group>
+                  <Text className={styles.labelFont}>Balance &nbsp;</Text>
+                </Group>
+                <Group spacing={5} position="right">
+                  {Object.keys(totalProfit).length > 0 ? (
+                    <Group spacing={0} position="left" mb={5}>
+                      <FaDollarSign color="#c1c2c5" size="1.4rem" />
+                    </Group>
+                  ) : (
+                    <></>
+                  )}
+                  <Text className={styles.valueFont}>
+                    {Object.keys(totalProfit).length > 0
+                      ? totalProfit["SUC"].tamount
+                      : 0}
+                  </Text>
+                </Group>
+              </Stack>
             </Group>
             <Group
               style={{
@@ -565,23 +561,10 @@ const Highchart = () => {
                 height: "8.938rem",
               }}
             >
-              <Text>Test</Text>
+              <Text className={styles.valueFont}>Test</Text>
             </Group>
-            <Group
-              position="center"
-              style={{
-                background: "#25262b",
-                borderRadius: "5px",
-                width: "100%",
-              }}
-            >
-              <Stack
-                spacing={0}
-                w={"100%"}
-                style={{
-                  padding: "0.625rem 0.625rem 0 0.625rem",
-                }}
-              >
+            <Group position="center" className={styles.ringChartSection}>
+              <Stack spacing={0} w={"100%"} h="100%">
                 <Group spacing={10}>
                   <ThemeIcon size="1.6rem" color="blue">
                     <RiInformationFill size="1.2rem" />
@@ -589,19 +572,29 @@ const Highchart = () => {
                   <Text className={styles.labelFont}>Orders Status</Text>
                 </Group>
                 {Object.keys(totalProfit).length > 0 ? (
-                  <Group position="center" pr={5}>
+                  <Group position="center" mt={20} spacing={20}>
                     <RingProgress
-                      size={165}
+                      size={250}
                       thickness={16}
                       label={
-                        <Text
-                          size={20}
-                          align="center"
-                          px="xs"
-                          sx={{ pointerEvents: "none" }}
-                        >
-                          {totalProfitPercentage}
-                        </Text>
+                        <Stack spacing={0}>
+                          <Text
+                            size={16}
+                            align="center"
+                            px="xs"
+                            sx={{ pointerEvents: "none" }}
+                          >
+                            Total products
+                          </Text>
+                          <Text
+                            size={18}
+                            align="center"
+                            px="xs"
+                            sx={{ pointerEvents: "none" }}
+                          >
+                            {totalProfitPercentage}
+                          </Text>
+                        </Stack>
                       }
                       rootColor="grey"
                       sections={[
@@ -634,14 +627,14 @@ const Highchart = () => {
                         },
                       ]}
                     />
-                    <Stack>
+                    <Group spacing={50}>
                       <Group position="apart" className={styles.redBorder}>
                         <ThemeIcon
                           className={styles.redPieChartSerie}
                           radius={30}
-                          size="2.3rem"
+                          size="1.8rem"
                         >
-                          <LuPackageMinus color="#ffffff94" size="1.5rem" />
+                          <LuPackageMinus color="#ffffff94" size="1.3rem" />
                         </ThemeIcon>
                         <Text className={styles.piechartSeriesFont}>
                           {totalProfit["NRY"].tquantity}
@@ -651,9 +644,9 @@ const Highchart = () => {
                         <ThemeIcon
                           className={styles.greenPieChartSerie}
                           radius={30}
-                          size="2.3rem"
+                          size="1.8rem"
                         >
-                          <LuPackageCheck color="#ffffff94" size="1.5rem" />
+                          <LuPackageCheck color="#ffffff94" size="1.3rem" />
                         </ThemeIcon>
                         <Text className={styles.piechartSeriesFont}>
                           {totalProfit["SUC"].tquantity}
@@ -663,15 +656,15 @@ const Highchart = () => {
                         <ThemeIcon
                           className={styles.purplePieChartSerie}
                           radius={30}
-                          size="2.3rem"
+                          size="1.8rem"
                         >
-                          <TbPackageExport color="#ffffff94" size="1.5rem" />
+                          <TbPackageExport color="#ffffff94" size="1.3rem" />
                         </ThemeIcon>
                         <Text className={styles.piechartSeriesFont}>
                           {totalProfit["SHP"].tquantity}
                         </Text>
                       </Group>
-                    </Stack>
+                    </Group>
                   </Group>
                 ) : (
                   <></>

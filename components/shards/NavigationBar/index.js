@@ -145,19 +145,19 @@ export default function NavigationBar() {
   }
 
   //check and confirm page refresh (F5)
-  useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    if (active === "") {
-      checkLinkStateAndSetNavItem();
-    }
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-    };
-  }, []);
-  const alertUser = (e) => {
-    e.preventDefault();
-    e.returnValue = "";
-  };
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   if (active === "") {
+  //     checkLinkStateAndSetNavItem();
+  //   }
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //   };
+  // }, []);
+  // const alertUser = (e) => {
+  //   e.preventDefault();
+  //   e.returnValue = "";
+  // };
 
   const links = data.map((item) => (
     <a

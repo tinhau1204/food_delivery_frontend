@@ -22,11 +22,17 @@ export default function AlertPopup({ Title, Content, LinkRef, ButtonName }) {
       >
         {Content}
         <Center style={{ paddingTop: 20 }}>
-          <Link href={LinkRef}>
+          {LinkRef != "none" ? (
+            <Link href={LinkRef}>
+              <Button variant="outline" color="teal" type="submit">
+                {ButtonName}
+              </Button>
+            </Link>
+          ) : (
             <Button variant="outline" color="teal" type="submit">
               {ButtonName}
             </Button>
-          </Link>
+          )}
         </Center>
       </Alert>
     </div>
