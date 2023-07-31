@@ -1,21 +1,8 @@
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock";
-import {
-  getStoreProfit,
-  getStoreTotalProfitAndQuantityByStatus,
-  getUnseenOrderFromStore,
-} from "@/lib";
-import {
-  Group,
-  Button,
-  Stack,
-  ActionIcon,
-  Text,
-  Tabs,
-  RingProgress,
-  ThemeIcon,
-} from "@mantine/core";
-import { FaDollarSign, FaRegCalendarAlt } from "react-icons/fa/";
+import { getStoreProductStatus } from "@/lib";
+import { Group, Button, Stack, Text, Tabs, ThemeIcon } from "@mantine/core";
+import { FaRegCalendarAlt } from "react-icons/fa/";
 import React, { useEffect, useState, useMemo, useRef } from "react";
 import {
   BsDatabaseFillX,
@@ -24,13 +11,6 @@ import {
   BsClock,
 } from "react-icons/bs";
 import RealtimeClock from "./RealtimeClock";
-import styles from "./styles.module.scss";
-import { AiFillEye } from "react-icons/ai";
-import { MdAccountBalanceWallet } from "react-icons/md";
-import { RiInformationFill } from "react-icons/ri";
-import { HiOutlineArrowNarrowUp } from "react-icons/hi";
-import { TbPackageExport } from "react-icons/tb";
-import { LuPackageCheck, LuPackageMinus } from "react-icons/lu";
 
 const Highchart = () => {
   const chartRef = useRef();
@@ -39,12 +19,9 @@ const Highchart = () => {
   const [isMonthsChange, setIsMonthsChange] = useState(false);
   const [monthTabValue, setMonthTabValue] = useState("");
   const [yearTabValue, setYearTabValue] = useState("");
-  const [unseenOrdersData, setUnseenOrdersData] = useState([]);
   const [profitData, setProfitData] = useState([]);
   const [chartOptions, setChartOptions] = useState({});
   const [buttonLoading, SetButtonLoading] = useState(false);
-  const [totalProfit, setTotalProfit] = useState({});
-  const [totalProfitPercentage, setTotalProfitPercentage] = useState(0);
 
   const monthsFirstArr = [
     { id: "1", value: "Jan" },
@@ -66,7 +43,7 @@ const Highchart = () => {
 
   const yearsArr = [{ id: "2022" }, { id: "2023" }];
 
-  //Set options for chart
+  //Set options for line chart
   useMemo(() => {
     setChartOptions({
       time: {
@@ -193,50 +170,9 @@ const Highchart = () => {
         enabled: false,
       },
     });
-
-    async function getStoreProfit() {
-      savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
-      const data = {
-        store_id: savedCookie.storeId,
-      };
-      const [response, error] = await getStoreTotalProfitAndQuantityByStatus(
-        data,
-      );
-      if (response) {
-        const totalQuantity = Object.values(response).reduce(
-          (sum, item) => sum + item.tquantity,
-          0,
-        );
-        setTotalProfitPercentage(totalQuantity);
-        setTotalProfit(response);
-      } else {
-        console.log(error);
-      }
-    }
-    getStoreProfit();
   }, []);
 
-  //Get new / unseen orders
-  useEffect(() => {
-    async function getUnseenOrders() {
-      savedCookie = JSON.parse(document.cookie.split("Sel=")[1]);
-      if (savedCookie !== null && savedCookie !== undefined) {
-        const data = {
-          store_id: savedCookie.storeId,
-        };
-        const [response, err] = await getUnseenOrderFromStore(data);
-        if (response) {
-          setUnseenOrdersData(response);
-        } else {
-          console.log(err);
-        }
-      }
-    }
-
-    getUnseenOrders();
-  }, []);
-
-  //Switch to upper or lower month index in table upon clicking
+  //Switch to upper or lower month index in table upon clicking & Button delay
   useMemo(() => {
     if (monthTabValue != "" && monthTabValue != undefined) {
       var monthIndexNumb;
@@ -262,6 +198,11 @@ const Highchart = () => {
         }
       }
     }
+
+    SetButtonLoading(true);
+    setTimeout(() => {
+      SetButtonLoading(false);
+    }, 500);
   }, [isMonthsChange]);
 
   //Filter data upon choosing
@@ -286,7 +227,7 @@ const Highchart = () => {
         store_id: savedCookie.storeId,
         year: yearTabValue,
       };
-      const [response, err] = await getStoreProfit(data);
+      const [response, err] = await getStoreProductStatus(data);
       if (response) {
         localStorage.setItem(
           yearTabValue + "_profit",
@@ -296,6 +237,7 @@ const Highchart = () => {
         //console.log(err);
       }
     }
+    getProfitData();
   }, [yearTabValue]);
 
   //Build chart with data
@@ -314,146 +256,130 @@ const Highchart = () => {
     });
   }, [profitData, yearTabValue]);
 
-  //Button delay
-  useMemo(() => {
-    SetButtonLoading(true);
-    setTimeout(() => {
-      SetButtonLoading(false);
-    }, 500);
-  }, [isMonthsChange]);
-
   return (
     <>
-      <Stack h={"100%"} spacing={0}>
+      <Stack h="100%" w="55.025rem" spacing={0}>
         <Group
-          position="apart"
-          mt={10}
           spacing={0}
+          position="left"
           style={{
             background: "#25262b",
             borderRadius: "5px",
+            padding: "15px 20px",
           }}
         >
-          <Group position="left" spacing={0} ml={20} mt={10} mb={10}>
-            <ActionIcon color="teal" variant="filled" size="2.25rem">
-              <FaRegCalendarAlt size={18} />
-            </ActionIcon>
-            <Tabs
-              ml={20}
-              variant="pills"
-              color="teal"
-              //defaultValue={yearsArr[0].id}
-              value={yearTabValue}
-              onTabChange={(value) => setYearTabValue(value)}
+          <ThemeIcon color="teal" variant="filled" size="2.25rem">
+            <FaRegCalendarAlt size={18} />
+          </ThemeIcon>
+          <Tabs
+            ml={20}
+            variant="pills"
+            color="teal"
+            //defaultValue={yearsArr[0].id}
+            value={yearTabValue}
+            onTabChange={(value) => setYearTabValue(value)}
+            style={{
+              border: "2px solid #20a86991",
+              borderRadius: "5px",
+            }}
+          >
+            <Tabs.List>
+              {yearsArr.map((item) => (
+                <Tabs.Tab key={item.id} value={item.id}>
+                  {item.id}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+          </Tabs>
+
+          <Group
+            spacing={0}
+            style={{
+              transition: "0.2s all ease-in-out",
+              opacity: yearTabValue != "" ? 1 : 0,
+            }}
+          >
+            <div
               style={{
-                border: "2px solid #20a86991",
+                width: "1.625rem",
+                border: "1px solid #22704f",
                 borderRadius: "5px",
               }}
+            />
+          </Group>
+          <Group
+            spacing={0}
+            style={{
+              transition: "0.2s all ease-in-out",
+              transitionDelay: "100ms",
+              opacity: yearTabValue != "" ? 1 : 0,
+            }}
+          >
+            <Tabs
+              variant="pills"
+              color="teal"
+              //defaultValue={monthsFirstArr[0].id}
+              value={monthTabValue}
+              onTabChange={(value) => setMonthTabValue(value)}
+              mr={20}
+              style={{
+                width: "21.625rem",
+                height: "2.375rem",
+                border: "2px solid #20a86991",
+                borderRadius: "5px",
+                overflow: "hidden",
+              }}
             >
-              <Tabs.List>
-                {yearsArr.map((item) => (
-                  <Tabs.Tab key={item.id} value={item.id}>
-                    {item.id}
+              <Tabs.List
+                style={{
+                  transition: "transform 0.5s ease",
+                  transform: !isMonthsChange
+                    ? "translateY(0%)"
+                    : "translateY(-54%)",
+                }}
+              >
+                {monthsFirstArr.map((item) => (
+                  <Tabs.Tab
+                    key={item.id}
+                    value={item.value}
+                    style={{
+                      width: "3.25rem",
+                    }}
+                  >
+                    {item.value}
+                  </Tabs.Tab>
+                ))}
+                {monthsSecondArr.map((item) => (
+                  <Tabs.Tab
+                    key={item.id}
+                    value={item.value}
+                    style={{
+                      width: "3.25rem",
+                    }}
+                  >
+                    {item.value}
                   </Tabs.Tab>
                 ))}
               </Tabs.List>
             </Tabs>
 
-            <Group
-              spacing={0}
-              style={{
-                transition: "0.25s all ease-in-out",
-                transform:
-                  yearTabValue != ""
-                    ? "translate3d(10px, 0, 0)"
-                    : "translate3d(0, 0, 0)",
-                opacity: yearTabValue != "" ? 1 : 0,
-              }}
+            <Button
+              leftIcon={
+                !isMonthsChange ? (
+                  <BsFillArrowDownCircleFill size={15} />
+                ) : (
+                  <BsFillArrowUpCircleFill size={15} />
+                )
+              }
+              loading={buttonLoading}
+              onClick={() => setIsMonthsChange(!isMonthsChange)}
             >
-              <div
-                style={{
-                  width: "1.625rem",
-                  border: "1px solid #1971c2",
-                  borderRadius: "5px",
-                }}
-              ></div>
-              <Tabs
-                variant="pills"
-                color="teal"
-                //defaultValue={monthsFirstArr[0].id}
-                value={monthTabValue}
-                onTabChange={(value) => setMonthTabValue(value)}
-                m={10}
-                style={{
-                  width: "21.625rem",
-                  height: "2.375rem",
-                  border: "2px solid #20a86991",
-                  borderRadius: "5px",
-                  overflow: "hidden",
-                }}
-              >
-                <Tabs.List
-                  style={{
-                    transition: "transform 0.5s ease",
-                    transform: !isMonthsChange
-                      ? "translateY(0%)"
-                      : "translateY(-54%)",
-                  }}
-                >
-                  {monthsFirstArr.map((item) => (
-                    <Tabs.Tab
-                      key={item.id}
-                      value={item.value}
-                      style={{
-                        width: "3.25rem",
-                      }}
-                    >
-                      {item.value}
-                    </Tabs.Tab>
-                  ))}
-                  {monthsSecondArr.map((item) => (
-                    <Tabs.Tab
-                      key={item.id}
-                      value={item.value}
-                      style={{
-                        width: "3.25rem",
-                      }}
-                    >
-                      {item.value}
-                    </Tabs.Tab>
-                  ))}
-                </Tabs.List>
-              </Tabs>
-
-              <Button
-                leftIcon={
-                  !isMonthsChange ? (
-                    <BsFillArrowDownCircleFill size={15} />
-                  ) : (
-                    <BsFillArrowUpCircleFill size={15} />
-                  )
-                }
-                loading={buttonLoading}
-                onClick={() => setIsMonthsChange(!isMonthsChange)}
-              >
-                {!isMonthsChange ? "Next" : "Back"}
-              </Button>
-            </Group>
-          </Group>
-          <Group mr={20}>
-            <ActionIcon
-              color="blue"
-              variant="filled"
-              size="2.25rem"
-              style={{ cursor: "default" }}
-            >
-              <BsClock size={18} />
-            </ActionIcon>
-            <RealtimeClock />
+              {!isMonthsChange ? "Next" : "Back"}
+            </Button>
           </Group>
         </Group>
         <Group w={"100%"} h={"100%"} position="apart" spacing={0}>
-          <Stack w="68.5%" pt={10} spacing={10} justify="flex-start">
+          <Stack w="100%" h="100%" pt={10} spacing={10} justify="flex-start">
             <Stack
               style={{
                 background: "#25262b",
@@ -488,188 +414,14 @@ const Highchart = () => {
               />
             </Stack>
             <Group
+              h="100%"
               style={{
                 background: "#25262b",
                 borderRadius: "5px",
                 height: "8.938rem",
               }}
             >
-              <Text className={styles.valueFont}>Test</Text>
-            </Group>
-          </Stack>
-          {/* Split right - below */}
-          <Stack h="100%" pt={10} spacing={10} w="25rem">
-            <Group h={"7.938rem"} spacing={10} position="apart">
-              <Stack
-                className={styles.newSection}
-                position="apart"
-                spacing={10}
-              >
-                <Group spacing={10}>
-                  <ThemeIcon size="1.6rem" color="blue">
-                    <AiFillEye size="1.2rem" />
-                  </ThemeIcon>
-
-                  <Text className={styles.labelFont}>New &nbsp;</Text>
-                </Group>
-                <Group spacing={5} position="right">
-                  {unseenOrdersData.length > 0 ? (
-                    <Group spacing={0} position="left" mb={5}>
-                      <HiOutlineArrowNarrowUp color="#c1c2c5" size="1.4rem" />
-                    </Group>
-                  ) : (
-                    <></>
-                  )}
-                  <Text className={styles.valueFont}>
-                    {unseenOrdersData.length > 0 ? unseenOrdersData.length : 0}
-                  </Text>
-                </Group>
-              </Stack>
-
-              <Stack
-                className={styles.balanceSection}
-                position="apart"
-                spacing={10}
-              >
-                <Group spacing={10}>
-                  <ThemeIcon size="1.6rem" color="blue">
-                    <MdAccountBalanceWallet size="1.2rem" />
-                  </ThemeIcon>
-
-                  <Text className={styles.labelFont}>Balance &nbsp;</Text>
-                </Group>
-                <Group spacing={5} position="right">
-                  {Object.keys(totalProfit).length > 0 ? (
-                    <Group spacing={0} position="left" mb={5}>
-                      <FaDollarSign color="#c1c2c5" size="1.4rem" />
-                    </Group>
-                  ) : (
-                    <></>
-                  )}
-                  <Text className={styles.valueFont}>
-                    {Object.keys(totalProfit).length > 0
-                      ? totalProfit["SUC"].tamount
-                      : 0}
-                  </Text>
-                </Group>
-              </Stack>
-            </Group>
-            <Group
-              style={{
-                background: "#25262b",
-                borderRadius: "5px",
-                height: "8.938rem",
-              }}
-            >
-              <Text className={styles.valueFont}>Test</Text>
-            </Group>
-            <Group position="center" className={styles.ringChartSection}>
-              <Stack spacing={0} w={"100%"} h="100%">
-                <Group spacing={10}>
-                  <ThemeIcon size="1.6rem" color="blue">
-                    <RiInformationFill size="1.2rem" />
-                  </ThemeIcon>
-                  <Text className={styles.labelFont}>Orders Status</Text>
-                </Group>
-                {Object.keys(totalProfit).length > 0 ? (
-                  <Group position="center" mt={20} spacing={20}>
-                    <RingProgress
-                      size={250}
-                      thickness={16}
-                      label={
-                        <Stack spacing={0}>
-                          <Text
-                            size={16}
-                            align="center"
-                            px="xs"
-                            sx={{ pointerEvents: "none" }}
-                          >
-                            Total products
-                          </Text>
-                          <Text
-                            size={18}
-                            align="center"
-                            px="xs"
-                            sx={{ pointerEvents: "none" }}
-                          >
-                            {totalProfitPercentage}
-                          </Text>
-                        </Stack>
-                      }
-                      rootColor="grey"
-                      sections={[
-                        {
-                          value: (
-                            (totalProfit["SUC"].tquantity /
-                              totalProfitPercentage) *
-                            100
-                          ).toFixed(0),
-                          color: "teal",
-                          tooltip: "Success",
-                        },
-                        {
-                          value: (
-                            (totalProfit["NRY"].tquantity /
-                              totalProfitPercentage) *
-                            100
-                          ).toFixed(0),
-                          color: "red",
-                          tooltip: "Not received yet",
-                        },
-                        {
-                          value: (
-                            (totalProfit["SHP"].tquantity /
-                              totalProfitPercentage) *
-                            100
-                          ).toFixed(0),
-                          color: "grape",
-                          tooltip: "Shipping",
-                        },
-                      ]}
-                    />
-                    <Group spacing={50}>
-                      <Group position="apart" className={styles.redBorder}>
-                        <ThemeIcon
-                          className={styles.redPieChartSerie}
-                          radius={30}
-                          size="1.8rem"
-                        >
-                          <LuPackageMinus color="#ffffff94" size="1.3rem" />
-                        </ThemeIcon>
-                        <Text className={styles.piechartSeriesFont}>
-                          {totalProfit["NRY"].tquantity}
-                        </Text>
-                      </Group>
-                      <Group position="apart" className={styles.greenBorder}>
-                        <ThemeIcon
-                          className={styles.greenPieChartSerie}
-                          radius={30}
-                          size="1.8rem"
-                        >
-                          <LuPackageCheck color="#ffffff94" size="1.3rem" />
-                        </ThemeIcon>
-                        <Text className={styles.piechartSeriesFont}>
-                          {totalProfit["SUC"].tquantity}
-                        </Text>
-                      </Group>
-                      <Group position="apart" className={styles.purpleBorder}>
-                        <ThemeIcon
-                          className={styles.purplePieChartSerie}
-                          radius={30}
-                          size="1.8rem"
-                        >
-                          <TbPackageExport color="#ffffff94" size="1.3rem" />
-                        </ThemeIcon>
-                        <Text className={styles.piechartSeriesFont}>
-                          {totalProfit["SHP"].tquantity}
-                        </Text>
-                      </Group>
-                    </Group>
-                  </Group>
-                ) : (
-                  <></>
-                )}
-              </Stack>
+              <Text>Test</Text>
             </Group>
           </Stack>
         </Group>

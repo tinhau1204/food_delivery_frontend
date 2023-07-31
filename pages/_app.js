@@ -7,7 +7,7 @@ import "../styles/reset.css";
 import { useRouter } from "next/router";
 import { Provider } from "react-redux";
 import { Notifications } from "@mantine/notifications";
-import { Loader } from "@mantine/core";
+import { AppShell, Loader } from "@mantine/core";
 import store from "@/redux";
 // Using lazy loading for components (optional)
 import Header from "@/components/shards/Header";
@@ -69,10 +69,16 @@ function MyApp({ Component, pageProps }) {
               withNormalizeCSS
             >
               <Notifications />
-              {!path.includes("/customer") && !path.includes("/seller") && (
-                <NavigationBar />
+              {path.includes("/mystore") ? (
+                <AppShell
+                  navbarOffsetBreakpoint="sm"
+                  navbar={<NavigationBar />}
+                >
+                  <Component {...pageProps} />
+                </AppShell>
+              ) : (
+                <Component {...pageProps} />
               )}
-              <Component {...pageProps} />
             </MantineProvider>
           ) : (
             //</Provider>
@@ -83,19 +89,22 @@ function MyApp({ Component, pageProps }) {
                 withNormalizeCSS
               >
                 <Notifications />
-                {!path.includes("/customer") &&
-                  !path.includes("/seller") &&
-                  path !== "/_error" &&
-                  path !== "/paymentsuccess" && <Header />}
-                {!path.includes("/customer") &&
-                  !path.includes("/seller") &&
-                  path !== "/_error" &&
-                  path !== "/paymentsuccess" && <BreadCrumb />}
-                <Component {...pageProps} />
-                {!path.includes("/customer") &&
-                  !path.includes("/seller") &&
-                  path !== "/_error" &&
-                  path !== "/paymentsuccess" && <Footer />}
+                {/* Hide shard components in these pages */}
+                {!path.includes(
+                  "/customer",
+                  "/seller",
+                  "/_error",
+                  "/paymentsuccess",
+                ) ? (
+                  <>
+                    <Header />
+                    <BreadCrumb />
+                    <Component {...pageProps} />
+                    <Footer />
+                  </>
+                ) : (
+                  <Component {...pageProps} />
+                )}
               </MantineProvider>
             </Provider>
           )}

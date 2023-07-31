@@ -23,24 +23,12 @@ const RealtimeClock = () => {
           borderRadius: "5px",
           padding: "0.375rem",
           alignItems: "center",
-          width: "7.125rem",
+          paddingLeft: "0.625rem",
+          paddingRight: "0.625rem",
         }}
       >
-        <Text sx={{ fontFamily: "Bahnschrift" }} ml={12}>
-          {currentTime.format("h:mm:ss a")}
-        </Text>
-      </div>
-      <div
-        style={{
-          border: "1px solid #1971c2",
-          borderRadius: "5px",
-          padding: "0.375rem",
-          alignItems: "center",
-          width: "8.525rem",
-        }}
-      >
-        <Text sx={{ fontFamily: "Bahnschrift" }} ml={12}>
-          {currentTime.format("MMMM Do YYYY")}
+        <Text sx={{ fontFamily: "Bahnschrift" }}>
+          {currentTime.format("h:mm A")}
         </Text>
       </div>
     </Group>

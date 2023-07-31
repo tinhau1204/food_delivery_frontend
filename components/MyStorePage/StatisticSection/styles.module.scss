@@ -1,6 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
-
-
 $green: rgb(9, 146, 104);
 $red: rgb(224, 49, 49);
 $purple: rgb(156, 54, 181);
@@ -11,7 +9,6 @@ $purple: rgb(156, 54, 181);
     font-weight: 600;
     line-height: 1;
     vertical-align: middle;
-    color: rgba(255, 255, 255, 0.700);
     //display: inline-block;
 
 }
@@ -39,6 +36,12 @@ $purple: rgb(156, 54, 181);
     @extend .balanceSection;
      min-width: 9.225rem;
      width: 9.225rem;
+}
+
+.recentOrdersSection
+{
+    @extend .balanceSection;
+    width: 100%;
 }
 
 .ringChartSection

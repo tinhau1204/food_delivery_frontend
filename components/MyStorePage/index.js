@@ -1,8 +1,9 @@
 import React from "react";
-import { Paper } from "@mantine/core";
+import { Paper, Group } from "@mantine/core";
 import { useEffect, useState, useMemo } from "react";
 import AlertPopup from "../shards/AlertPopup";
 import Highchart from "./Highchart";
+import StatisticSection from "./StatisticSection";
 
 export default function MyStorePage() {
   const [isLogin, setIsLogin] = useState(false);
@@ -23,7 +24,7 @@ export default function MyStorePage() {
           zIndex: 2,
           filter: "blur(8px)",
         }}
-      ></div>
+      />
       <AlertPopup
         Title={"Login required"}
         Content={"We need you to login before accessing this page!"}
@@ -32,17 +33,11 @@ export default function MyStorePage() {
       />
     </div>
   ) : (
-    <div style={{ backgroundColor: "#1a1b1e", color: "white" }}>
-      <Paper
-        style={{
-          background: "transparent",
-          width: "82vw",
-          height: "95.625vh",
-          margin: "1rem 1rem 1rem 17rem",
-        }}
-      >
+    <Paper>
+      <Group w="81.063rem" h="45.438rem">
         <Highchart />
-      </Paper>
-    </div>
+        <StatisticSection />
+      </Group>
+    </Paper>
   );
 }

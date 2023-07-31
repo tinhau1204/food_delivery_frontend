@@ -125,19 +125,19 @@ export default function Orders() {
     let status_id;
     switch (status) {
       case "not received":
-        status_id = "NRY";
+        status_id = "PENDING";
         break;
       case "received":
-        status_id = "RCD";
+        status_id = "CONFIRMED";
         break;
       case "shipping":
-        status_id = "SHP";
+        status_id = "SHIPPING";
         break;
       case "success":
-        status_id = "SUC";
+        status_id = "SUCCESS";
         break;
       case "failed":
-        status_id = "FAL";
+        status_id = "FAILED";
         break;
     }
 
@@ -220,7 +220,7 @@ export default function Orders() {
   async function cancelingOrder(order_id) {
     setLoading(true);
 
-    const status_id = "FAL";
+    const status_id = "FAILED";
 
     try {
       const dataCancel = {

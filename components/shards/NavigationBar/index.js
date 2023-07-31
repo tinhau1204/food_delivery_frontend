@@ -112,6 +112,7 @@ export default function NavigationBar() {
   const [active, setActive] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [opened, setOpened] = useState(false);
 
   async function fetchUserData() {
     if (document.cookie.indexOf("Sel") > -1) {
@@ -145,19 +146,11 @@ export default function NavigationBar() {
   }
 
   //check and confirm page refresh (F5)
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   if (active === "") {
-  //     checkLinkStateAndSetNavItem();
-  //   }
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //   };
-  // }, []);
-  // const alertUser = (e) => {
-  //   e.preventDefault();
-  //   e.returnValue = "";
-  // };
+  useEffect(() => {
+    if (active === "") {
+      checkLinkStateAndSetNavItem();
+    }
+  }, []);
 
   const links = data.map((item) => (
     <a
@@ -179,16 +172,16 @@ export default function NavigationBar() {
 
   return (
     <Navbar
+      hiddenBreakpoint="sm"
+      hidden={!opened}
       style={{
-        maxWidth: "15.875rem",
+        width: "16rem",
+        maxWidth: "16rem",
         filter: isLogin ? "blur(0px)" : "blur(8px)",
         backgroundColor: "#1A1B1E",
         cursor: isLogin ? "auto" : "not-allowed",
         pointerEvents: isLogin ? "auto" : "none",
         borderColor: "#353a3c",
-        position: "fixed",
-        zIndex: 1,
-        right: 0,
       }}
       width={{ sm: 254 }}
     >
