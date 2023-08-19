@@ -48,8 +48,7 @@ function MyApp({ Component, pageProps }) {
             display: "flex",
             justifyContent: "center",
             height: "100vh",
-          }}
-        >
+          }}>
           <Loader
             variant="dots"
             size={50}
@@ -62,18 +61,10 @@ function MyApp({ Component, pageProps }) {
         <>
           {isSeller ? (
             //<Provider store={store}>
-            // Alert: Mantine v6.0 only need 1 <Notification/> before <Component/> rendering //
-            <MantineProvider
-              theme={{ colorScheme: "dark" }}
-              withGlobalStyles
-              withNormalizeCSS
-            >
+            <MantineProvider theme={{ colorScheme: "dark" }} withGlobalStyles withNormalizeCSS>
               <Notifications />
               {path.includes("/mystore") ? (
-                <AppShell
-                  navbarOffsetBreakpoint="sm"
-                  navbar={<NavigationBar />}
-                >
+                <AppShell navbarOffsetBreakpoint="sm" navbar={<NavigationBar />}>
                   <Component {...pageProps} />
                 </AppShell>
               ) : (
@@ -83,19 +74,10 @@ function MyApp({ Component, pageProps }) {
           ) : (
             //</Provider>
             <Provider store={store}>
-              <MantineProvider
-                theme={{ colorScheme: "dark" }}
-                withGlobalStyles
-                withNormalizeCSS
-              >
+              <MantineProvider theme={{ colorScheme: "dark" }} withGlobalStyles withNormalizeCSS>
                 <Notifications />
                 {/* Hide shard components in these pages */}
-                {!path.includes(
-                  "/customer",
-                  "/seller",
-                  "/_error",
-                  "/paymentsuccess",
-                ) ? (
+                {!path.includes("/customer", "/seller", "/_error", "/paymentsuccess") ? (
                   <>
                     <Header />
                     <BreadCrumb />

@@ -1,25 +1,11 @@
 import { React, useState, useEffect } from "react";
 import CardItem from "../shards/CardItem";
-import {
-  ActionIcon,
-  Button,
-  Center,
-  Container,
-  Group,
-  Image,
-  List,
-  Select,
-  Stack,
-  Text,
-  Badge,
-  Title,
-  FileInput,
-} from "@mantine/core";
+import { ActionIcon, Button, Center, Container, Group, Image, List, Select, Stack, Text, Badge, Title, FileInput } from "@mantine/core";
 //import CardStore from "../shards/CardStore";
 import styles from "./styles.module.scss";
 import { Grid } from "@mantine/core";
 import moment from "moment/moment";
-import { getStoreAndProduct } from "@/lib/api/stores";
+import { getStoreAndProductFromStore } from "@/lib/api/stores";
 
 function StoreDetailPage() {
   const [loading, setLoading] = useState(true);
@@ -45,7 +31,7 @@ function StoreDetailPage() {
     param = get_param;
 
     const getStoreWithProduct = async () => {
-      const [data, error] = await getStoreAndProduct(param);
+      const [data, error] = await getStoreAndProductFromStore(param);
 
       if (data) {
         setStoreDetail(data);
@@ -71,40 +57,25 @@ function StoreDetailPage() {
             paddingRight: 20,
             paddingBottom: 10,
             width: "fit-content",
-          }}
-        >
+          }}>
           <Stack
             style={{
               maxWidth: 400,
               marginTop: 10,
               marginLeft: 20,
-            }}
-          >
+            }}>
             <div
               style={{
                 border: "1px solid #ccc",
                 borderRadius: 10,
                 marginRight: 20,
                 overflowWrap: "break-word",
-              }}
-            >
-              <Image
-                priority
-                loader={({ src }) => src}
-                radius="md"
-                src={img_load + storedetail.store[0].image}
-                alt="Store Image"
-              />
+              }}>
+              <Image priority loader={({ src }) => src} radius="md" src={img_load + storedetail.store[0].image} alt="Store Image" />
             </div>
           </Stack>
           <Group position="apart" style={{ position: "relative" }}>
-            <Stack
-              spacing={4}
-              align="flex-start"
-              justify="flex-start"
-              mt={10}
-              mr={20}
-            >
+            <Stack spacing={4} align="flex-start" justify="flex-start" mt={10} mr={20}>
               <Group
               // align="flex-end"
               // justify="flex-start"
@@ -114,9 +85,7 @@ function StoreDetailPage() {
                   {storedetail.store[0].name}
                 </Title>
                 <Text color="green" size={14}>
-                  {moment(storedetail.store[0].active_date).format(
-                    "MM/DD/YYYY",
-                  )}
+                  {moment(storedetail.store[0].active_date).format("MM/DD/YYYY")}
                 </Text>
               </Group>
               <Badge
@@ -125,8 +94,7 @@ function StoreDetailPage() {
                 variant="light"
                 style={{
                   fontSize: 10,
-                }}
-              >
+                }}>
                 {storedetail.store[0].type_name}
               </Badge>
               <Group mt={20}>
@@ -139,24 +107,14 @@ function StoreDetailPage() {
                   style={{
                     maxWidth: 240,
                     overflowWrap: "break-word",
-                  }}
-                >
+                  }}>
                   {storedetail.store[0].address}
                 </Text>
               </Group>
-              <Text
-                color="white"
-                size={18}
-                mt={20}
-                style={{ fontWeight: "bold" }}
-              >
+              <Text color="white" size={18} mt={20} style={{ fontWeight: "bold" }}>
                 Description
               </Text>
-              <Text
-                color="white"
-                size={14}
-                style={{ maxWidth: 340, overflowWrap: "break-word" }}
-              >
+              <Text color="white" size={14} style={{ maxWidth: 340, overflowWrap: "break-word" }}>
                 {storedetail.store[0].description}
               </Text>
             </Stack>
@@ -171,8 +129,7 @@ function StoreDetailPage() {
             borderRadius: 5,
             height: "0.2rem",
             width: "100%",
-          }}
-        ></Group>
+          }}></Group>
         <Grid pl={200} style={{ flex: 1, marginBottom: 50 }} columns={18}>
           {storedetail.products.map((item, index) => (
             <Grid.Col key={item.pid} span={4}>

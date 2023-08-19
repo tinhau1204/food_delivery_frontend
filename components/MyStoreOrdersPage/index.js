@@ -24,9 +24,7 @@ import { getAllOrdersWithParams, orderProceeding } from "@/lib";
 const useStyles = createStyles((theme) => ({
   progressBar: {
     "&:not(:first-of-type)": {
-      borderLeft: `3px solid ${
-        theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
-      }`,
+      borderLeft: `3px solid ${theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white}`,
     },
   },
   pagination: {
@@ -90,11 +88,7 @@ export default function MyStoreOrdersPage() {
 
     async function getAllOrders() {
       try {
-        const [response, err] = await getAllOrdersWithParams(
-          store_id,
-          currentPage,
-          size,
-        );
+        const [response, err] = await getAllOrdersWithParams(store_id, currentPage, size);
         setTotalOrders(response.items.length);
         setTotalPages(response.pages);
         setHasNext(response.hasNext);
@@ -174,9 +168,7 @@ export default function MyStoreOrdersPage() {
           </Text>
         </td>
         <td className={classes.tdcontent}>{row.payment_method}</td>
-        <td className={classes.tdcontent}>
-          {row.status != "failed" ? row.proceed : "Cancelled"}
-        </td>
+        <td className={classes.tdcontent}>{row.status != "failed" ? row.proceed : "Cancelled"}</td>
         <td className={classes.tdcontent}>
           {row.status != "failed" && row.proceed === 0 && (
             <Button
@@ -264,58 +256,24 @@ export default function MyStoreOrdersPage() {
   return (
     <div className={classes.root}>
       <Group position="center" w="max-content">
-        <Paper
-          withBorder
-          p="md"
-          radius="md"
-          w="82vw"
-          style={{ background: "#25262b" }}
-        >
+        <Paper withBorder p="md" radius="md" w="82vw" style={{ background: "#25262b" }}>
           <Group position="apart" className={classes.pagination}>
-            <span className={classes.totalText}>
-              Total {totalOrders} orders
-            </span>
+            <span className={classes.totalText}>Total {totalOrders} orders</span>
             <Paper>
               <nav>
                 <ul>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : currentPage == 1}
-                      className={classes.enableButton}
-                      radius={5}
-                      mr={2}
-                      size="xs"
-                    >
+                    <Button variant="default" disabled={!isFinish ? true : currentPage == 1} className={classes.enableButton} radius={5} mr={2} size="xs">
                       First
                     </Button>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : !hasPrevious}
-                      radius={5}
-                      mr={2}
-                      size="xs"
-                    >
-                      <Image
-                        priority
-                        loader={({ src }) => src}
-                        alt="/images/default-thumbnail.jpg"
-                        src={arrowleft}
-                        width={10}
-                        height={10}
-                      />
+                    <Button variant="default" disabled={!isFinish ? true : !hasPrevious} radius={5} mr={2} size="xs">
+                      <Image priority loader={({ src }) => src} alt="/images/default-thumbnail.jpg" src={arrowleft} width={10} height={10} />
                     </Button>
                   </li>
                   <li>
-                    <Paper
-                      withBorder
-                      className={classes.paginationText}
-                      fz="xs"
-                      radius={5}
-                      mr={2}
-                    >
+                    <Paper withBorder className={classes.paginationText} fz="xs" radius={5} mr={2}>
                       <span>
                         {" "}
                         Page <strong> 1 </strong>
@@ -325,31 +283,12 @@ export default function MyStoreOrdersPage() {
                     </Paper>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : !hasNext}
-                      radius={5}
-                      mr={2}
-                      size="xs"
-                    >
-                      <Image
-                        priority
-                        loader={({ src }) => src}
-                        alt="/images/default-thumbnail.jpg"
-                        src={arrowright}
-                        width={10}
-                        height={10}
-                      />
+                    <Button variant="default" disabled={!isFinish ? true : !hasNext} radius={5} mr={2} size="xs">
+                      <Image priority loader={({ src }) => src} alt="/images/default-thumbnail.jpg" src={arrowright} width={10} height={10} />
                     </Button>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : currentPage == totalPages}
-                      className={classes.enableButton}
-                      radius={5}
-                      size="xs"
-                    >
+                    <Button variant="default" disabled={!isFinish ? true : currentPage == totalPages} className={classes.enableButton} radius={5} size="xs">
                       Last
                     </Button>
                   </li>
@@ -358,10 +297,7 @@ export default function MyStoreOrdersPage() {
             </Paper>
           </Group>
           <Paper withBorder>
-            <Table
-              sx={{ minWidth: 800, background: "#25262b" }}
-              verticalSpacing="xs"
-            >
+            <Table sx={{ minWidth: 800, background: "#25262b" }} verticalSpacing="xs">
               <thead className={classes.thead}>
                 <tr>
                   <th style={{ width: "15%" }}>ID</th>
@@ -404,31 +340,12 @@ export default function MyStoreOrdersPage() {
                     </Button>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : !hasPrevious}
-                      radius={5}
-                      mr={2}
-                      size="xs"
-                    >
-                      <Image
-                        priority
-                        loader={({ src }) => src}
-                        alt="/images/default-thumbnail.jpg"
-                        src={arrowleft}
-                        width={10}
-                        height={10}
-                      />
+                    <Button variant="default" disabled={!isFinish ? true : !hasPrevious} radius={5} mr={2} size="xs">
+                      <Image priority loader={({ src }) => src} alt="/images/default-thumbnail.jpg" src={arrowleft} width={10} height={10} />
                     </Button>
                   </li>
                   <li>
-                    <Paper
-                      withBorder
-                      className={classes.paginationText}
-                      fz="xs"
-                      radius={5}
-                      mr={2}
-                    >
+                    <Paper withBorder className={classes.paginationText} fz="xs" radius={5} mr={2}>
                       <span>
                         {" "}
                         Page <strong> 1 </strong>
@@ -438,31 +355,12 @@ export default function MyStoreOrdersPage() {
                     </Paper>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : !hasNext}
-                      radius={5}
-                      mr={2}
-                      size="xs"
-                    >
-                      <Image
-                        priority
-                        loader={({ src }) => src}
-                        alt="/images/default-thumbnail.jpg"
-                        src={arrowright}
-                        width={10}
-                        height={10}
-                      />
+                    <Button variant="default" disabled={!isFinish ? true : !hasNext} radius={5} mr={2} size="xs">
+                      <Image priority loader={({ src }) => src} alt="/images/default-thumbnail.jpg" src={arrowright} width={10} height={10} />
                     </Button>
                   </li>
                   <li>
-                    <Button
-                      variant="default"
-                      disabled={!isFinish ? true : currentPage == totalPages}
-                      className={classes.enableButton}
-                      radius={5}
-                      size="xs"
-                    >
+                    <Button variant="default" disabled={!isFinish ? true : currentPage == totalPages} className={classes.enableButton} radius={5} size="xs">
                       Last
                     </Button>
                   </li>
@@ -473,11 +371,7 @@ export default function MyStoreOrdersPage() {
         </Paper>
       </Group>
       <Modal
-        overlayColor={
-          theme.colorScheme === "dark"
-            ? theme.colors.dark[9]
-            : theme.colors.gray[2]
-        }
+        overlayColor={theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[2]}
         overlayOpacity={0.55}
         overlayBlur={3}
         opened={opened}
@@ -497,12 +391,7 @@ export default function MyStoreOrdersPage() {
           </Text>
         </Group>
         <Group position="center" mb={20}>
-          <Text
-            component="span"
-            align="center"
-            weight={500}
-            style={{ fontFamily: "Greycliff CF, sans-serif" }}
-          >
+          <Text component="span" align="center" weight={500} style={{ fontFamily: "Greycliff CF, sans-serif" }}>
             Are you sure to proceed this order's product?
           </Text>
         </Group>

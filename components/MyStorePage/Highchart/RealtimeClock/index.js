@@ -19,6 +19,7 @@ const RealtimeClock = () => {
     <Group spacing={15}>
       <div
         style={{
+          maxHeight: "38px",
           border: "1px solid #1971c2",
           borderRadius: "5px",
           padding: "0.375rem",
@@ -27,9 +28,7 @@ const RealtimeClock = () => {
           paddingRight: "0.625rem",
         }}
       >
-        <Text sx={{ fontFamily: "Bahnschrift" }}>
-          {currentTime.format("h:mm A")}
-        </Text>
+        <Text sx={{ fontFamily: "Bahnschrift" }}>{currentTime.format("h:mm A")}</Text>
       </div>
     </Group>
   );

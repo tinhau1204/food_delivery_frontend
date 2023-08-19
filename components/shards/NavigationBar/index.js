@@ -1,19 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  createStyles,
-  Navbar,
-  Group,
-  Box,
-  Text,
-  getStylesRef,
-  rem,
-} from "@mantine/core";
-import {
-  IconLayoutGridAdd,
-  IconBorderAll,
-  IconReceipt,
-  IconDashboard,
-} from "@tabler/icons";
+import { createStyles, Navbar, Group, Box, Text, getStylesRef, rem } from "@mantine/core";
+import { IconLayoutGridAdd, IconBorderAll, IconReceipt, IconDashboard } from "@tabler/icons";
 import { UserButton } from "./UserButton";
 import styles from "./styles.module.scss";
 import Image from "next/image";
@@ -22,7 +9,7 @@ import { useRouter } from "next/router";
 
 const useStyles = createStyles((theme) => ({
   header: {
-    marginTop: "18px",
+    marginTop: `calc(${theme.spacing.md} * 1.5)`,
     paddingBottom: theme.spacing.md,
     marginBottom: `calc(${theme.spacing.md} * 1.5)`,
     borderBottom: `${rem(1)} solid ${"#353a3c"}`,
@@ -163,8 +150,7 @@ export default function NavigationBar() {
         event.preventDefault();
         setLinkActive(item.link);
         setActive(item.label);
-      }}
-    >
+      }}>
       <item.icon className={classes.linkIcon} stroke={1.5} />
       <span>{item.label}</span>
     </a>
@@ -175,33 +161,26 @@ export default function NavigationBar() {
       hiddenBreakpoint="sm"
       hidden={!opened}
       style={{
-        width: "16rem",
-        maxWidth: "16rem",
         filter: isLogin ? "blur(0px)" : "blur(8px)",
         backgroundColor: "#1A1B1E",
         cursor: isLogin ? "auto" : "not-allowed",
         pointerEvents: isLogin ? "auto" : "none",
         borderColor: "#353a3c",
       }}
-      width={{ sm: 254 }}
-    >
-      <Navbar.Section>
-        <Group position="left" className={classes.header}>
-          <Image
-            priority
-            loader={({ src }) => src}
-            src={"/images/logo.png"}
-            alt="/images/default-thumbnail.jpg"
-            height={30}
-            width={30}
-          />
-          <Text className={styles.headertitle} size={20} color="#27ca7d">
-            FD Store
-          </Text>
-        </Group>
-        <Box w="inherit" mr="10px" ml="10px" mt="10px" h="35.625rem">
+      height={"100%"}
+      width={{ base: 245 }}>
+      <Group position="left" className={classes.header}>
+        <Image priority loader={({ src }) => src} src={"/images/logo.png"} alt="/images/default-thumbnail.jpg" height={30} width={30} />
+        <Text className={styles.headertitle} size={20} color="#27ca7d">
+          FD Store
+        </Text>
+      </Group>
+      <Navbar.Section grow>
+        <Box w="inherit" mr="10px" ml="10px" mt="10px" h="35rem">
           {links}
         </Box>
+      </Navbar.Section>
+      <Navbar.Section>
         <div className={classes.footer}>
           <UserButton email={email} name={name} />
         </div>

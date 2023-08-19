@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+$green: rgb(9, 146, 104);
+$red: rgb(224, 49, 49);
+$purple: rgb(156, 54, 181);
+
+
+.labelFont {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+.valueFont {
+    font-size: 30px;
+    font-family: 'Varela Round', sans-serif;
+    letter-spacing: 1px;
+    margin-bottom: -0.425rem;
+
+}
+
+.borderRadius
+{
+    padding: 0.625rem 0.625rem 0 0.625rem;
+    background: #25262b;
+    border-radius: 5px;   
+}
+
+.calendarSection
+{
+    @extend .borderRadius;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 15px 20px;
+}
+
+.transactionsHitorySection
+{
+    @extend .borderRadius;
+    min-width: 15rem;
+    width: 15rem;
+    height: fit-content;            
+    min-width: fit-content;
+    width: fit-content;
+    
+}

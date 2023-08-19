@@ -1,16 +1,5 @@
-import {
-  getRecentUnseenOrdersFromStore,
-  getStoreTotalProfitAndQuantityByStatus,
-  getUnseenOrderFromStore,
-} from "@/lib";
-import {
-  Group,
-  Stack,
-  Text,
-  RingProgress,
-  ThemeIcon,
-  Table,
-} from "@mantine/core";
+import { getMostSoldProductsFromStore, getStoreTotalProfitAndQuantityByStatus, getUnseenOrderFromStore } from "@/lib";
+import { Group, Stack, Text, RingProgress, ThemeIcon, Grid, TextInput, ActionIcon, createStyles, Loader } from "@mantine/core";
 import { FaDollarSign } from "react-icons/fa/";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
@@ -18,21 +7,28 @@ import { AiFillEye } from "react-icons/ai";
 import { MdAccountBalanceWallet, MdOutlineFiberNew } from "react-icons/md";
 import { RiInformationFill } from "react-icons/ri";
 import { HiOutlineArrowNarrowUp } from "react-icons/hi";
-import { TbPackageExport } from "react-icons/tb";
-import { LuPackageCheck, LuPackageMinus } from "react-icons/lu";
 import { BsClock } from "react-icons/bs";
 import RealtimeClock from "../Highchart/RealtimeClock";
 import Link from "next/link";
-import moment from "moment";
+
+const useStyles = createStyles((theme) => ({
+  "buttonNgu::before": {
+    content: '""',
+    backgroundColor: theme.colorScheme === "dark" ? "transparent" : "transparent",
+    cursor: "not-allowed",
+  },
+}));
 
 const StatisticSection = () => {
   var savedCookie;
 
   const [unseenOrdersData, setUnseenOrdersData] = useState([]);
-  const [recentUnseenOrdersData, setRecentUnseenOrdersData] = useState([]);
+  const [mostSoldProductsData, setMostSoldProductsData] = useState([]);
   const [totalProfit, setTotalProfit] = useState({});
   const [totalProfitPercentage, setTotalProfitPercentage] = useState(0);
   const [ringChartSections, setRingChartSections] = useState([]);
+  const [ringChartSectionHovered, setRingChartSectionHovered] = useState(-1);
+  const reset = () => setRingChartSectionHovered(-1);
 
   const toolTipArr = [
     { statusID: "SUCCESS", tooltip: "Ship Success: " },
@@ -43,6 +39,8 @@ const StatisticSection = () => {
     { statusID: "FAILED", tooltip: "Ship Failed: " },
   ];
 
+  const { classes } = useStyles();
+
   //Get data for ring chart
   useEffect(() => {
     async function getStoreProductStatus() {
@@ -50,14 +48,9 @@ const StatisticSection = () => {
       const data = {
         store_id: savedCookie.storeId,
       };
-      const [response, error] = await getStoreTotalProfitAndQuantityByStatus(
-        data,
-      );
+      const [response, error] = await getStoreTotalProfitAndQuantityByStatus(data);
       if (response) {
-        const totalQuantity = Object.values(response).reduce(
-          (sum, item) => sum + item.tquantity,
-          0,
-        );
+        const totalQuantity = Object.values(response).reduce((sum, item) => sum + item.tquantity, 0);
         setTotalProfitPercentage(totalQuantity);
         setTotalProfit(response);
         //console.log(response);
@@ -75,23 +68,27 @@ const StatisticSection = () => {
 
       for (const statusID in totalProfit) {
         if (totalProfit.hasOwnProperty(statusID)) {
-          const tooltipValue = toolTipArr.find(
-            (item) => item.statusID === statusID,
-          )?.tooltip;
+          //If statusID from response exist in init array "toolTipArr" then turn it to section
+          const tooltipValue = toolTipArr.find((item) => item.statusID === statusID)?.tooltip;
           const colorValue = totalProfit[statusID]["color"];
 
+          //Chart's sections
           resultArray.push({
-            value: (
-              (totalProfit[statusID]?.tquantity / totalProfitPercentage) *
-              100
-            ).toFixed(0),
+            value: ((totalProfit[statusID]?.tquantity / totalProfitPercentage) * 100).toFixed(0) - 1,
             color: colorValue,
+            onMouseEnter: () => setRingChartSectionHovered(Object.keys(totalProfit).indexOf(statusID)),
+            onMouseLeave: reset,
             tooltip: tooltipValue + totalProfit[statusID]?.tquantity + " 📦",
+          });
+
+          //Space between sections
+          resultArray.push({
+            value: 1,
+            color: "#25262b",
           });
         }
       }
       setRingChartSections(resultArray);
-      console.log(resultArray);
     }
   }, [totalProfit]);
 
@@ -105,10 +102,10 @@ const StatisticSection = () => {
         console.log(err);
       }
     }
-    async function getRecentUnseenOrders(data) {
-      const [response, err] = await getRecentUnseenOrdersFromStore(data);
+    async function getmostSoldProducts(data) {
+      const [response, err] = await getMostSoldProductsFromStore(data);
       if (response) {
-        setRecentUnseenOrdersData(response);
+        setMostSoldProductsData(response);
       } else {
         console.log(err);
       }
@@ -119,35 +116,22 @@ const StatisticSection = () => {
         store_id: savedCookie.storeId,
       };
       getUnseenOrders(data);
-      getRecentUnseenOrders(data);
+      getmostSoldProducts(data);
     }
   }, []);
 
   return (
-    <>
-      <Stack h="100%" spacing={10} w="25rem">
-        <Group
-          position="right"
-          h="4.25rem"
-          spacing={20}
-          style={{
-            background: "#25262b",
-            borderRadius: "5px",
-            padding: "15px 20px",
-          }}
-        >
-          <ThemeIcon
-            color="blue"
-            variant="filled"
-            size="2.25rem"
-            style={{ cursor: "default" }}
-          >
-            <BsClock size={18} />
-          </ThemeIcon>
-          <RealtimeClock />
-        </Group>
-        <Group h={"7.938rem"} spacing={10} position="apart">
-          <Stack className={styles.newSection} position="apart" spacing={10}>
+    <Stack spacing={10}>
+      <Group position="right" spacing={20} className={styles.clockSection}>
+        <ThemeIcon color="blue" variant="filled" size="2.25rem">
+          <BsClock size={18} />
+        </ThemeIcon>
+        <RealtimeClock />
+      </Group>
+
+      <Grid gutter={10}>
+        <Grid.Col span={5}>
+          <Stack className={styles.newSection} spacing={20}>
             <Group spacing={10}>
               <ThemeIcon size="1.6rem" color="blue">
                 <AiFillEye size="1.2rem" />
@@ -157,167 +141,105 @@ const StatisticSection = () => {
             <Group spacing={5} position="right">
               {unseenOrdersData.length > 0 ? (
                 <Group spacing={0} position="left" mb={5}>
-                  <HiOutlineArrowNarrowUp color="#c1c2c5" size="1.4rem" />
+                  <HiOutlineArrowNarrowUp color="#c1c2c5" size="1.2rem" />
                 </Group>
               ) : (
                 <></>
               )}
-              <Text className={styles.valueFont}>
-                {unseenOrdersData.length > 0 ? unseenOrdersData.length : 0}
-              </Text>
+              <Text className={styles.valueFont}>{unseenOrdersData.length > 0 ? unseenOrdersData.length : 0}</Text>
             </Group>
           </Stack>
-          <Stack
-            className={styles.balanceSection}
-            position="apart"
-            spacing={10}
-          >
+        </Grid.Col>
+        <Grid.Col span={7}>
+          <Stack className={styles.balanceSection} spacing={20}>
             <Group spacing={10}>
               <ThemeIcon size="1.6rem" color="blue">
                 <MdAccountBalanceWallet size="1.2rem" />
               </ThemeIcon>
-
               <Text className={styles.labelFont}>Balance &nbsp;</Text>
             </Group>
             <Group spacing={5} position="right">
-              {Object.keys(totalProfit).length > 0 ? (
+              {Object.keys(totalProfit)?.length > 0 ? (
                 <Group spacing={0} position="left" mb={5}>
-                  <FaDollarSign color="#c1c2c5" size="1.4rem" />
+                  <FaDollarSign color="#c1c2c5" size="1.2rem" />
                 </Group>
               ) : (
                 <></>
               )}
-              <Text className={styles.valueFont}>
-                {Object.keys(totalProfit).length > 0
-                  ? totalProfit["SUCCESS"].tamount
-                  : 0}
-              </Text>
+              <Text className={styles.valueFont}>{Object.keys(totalProfit)?.length > 0 ? totalProfit["SUCCESS"].tamount : 0}</Text>
             </Group>
           </Stack>
-        </Group>
-        <Group
-          style={{
-            background: "#25262b",
-            borderRadius: "5px",
-            height: "20rem",
-          }}
-        >
-          <Stack
-            className={styles.recentOrdersSection}
-            position="apart"
-            spacing={10}
-          >
-            <Group spacing={10} w="100%">
+        </Grid.Col>
+      </Grid>
+      <Group className={styles.bestSoldProductsSection}>
+        <Stack w="100%" position="apart" spacing={10}>
+          <Group position="apart">
+            <Group spacing={10}>
               <ThemeIcon size="1.6rem" color="blue">
                 <MdOutlineFiberNew size="1.2rem" />
               </ThemeIcon>
 
-              <Text className={styles.labelFont}>Recent Orders</Text>
-              <Group ml={170}>
-                <Link href="/mystore/orders">
-                  <Text c="blue" className={styles.labelFont}>
-                    View All
-                  </Text>
-                </Link>
-              </Group>
+              <Text className={styles.labelFont}>Best Sold Products</Text>
             </Group>
-            <Group position="right">
-              <Table>
-                <tbody>
-                  {recentUnseenOrdersData.map((order) => (
-                    <tr key={order.id}>
-                      <td>{moment(order.created_date).format("DD/MM/YYYY")}</td>
-                      <td>{order.product_name}</td>
-                      <td>{order.quantity}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Group>
+            <Link href="/mystore/orders">
+              <Text c="blue" className={styles.labelFont}>
+                View All
+              </Text>
+            </Link>
+          </Group>
+          <Stack position="left" mt={10} w="80%" spacing={10}>
+            <Stack spacing={5}>
+              <Text className={styles.labelFont}>{mostSoldProductsData[0]?.product_name}</Text>
+              <div className={styles.firstRankColumn} />
+            </Stack>
+            <Stack spacing={5}>
+              <Text className={styles.labelFont}>{mostSoldProductsData[1]?.product_name}</Text>
+              <div className={styles.secondRankColumn} />
+            </Stack>
+            <Stack spacing={5}>
+              <Text className={styles.labelFont}>{mostSoldProductsData[2]?.product_name}</Text>
+              <div className={styles.thirdRankColumn} />
+            </Stack>
           </Stack>
-        </Group>
-        <Group position="center" className={styles.ringChartSection}>
-          <Stack spacing={0} w={"100%"} h="100%">
-            <Group spacing={10}>
-              <ThemeIcon size="1.6rem" color="blue">
-                <RiInformationFill size="1.2rem" />
-              </ThemeIcon>
-              <Text className={styles.labelFont}>Products Status</Text>
+        </Stack>
+      </Group>
+      <Group className={styles.ringChartSection}>
+        <Stack w="100%" spacing={0}>
+          <Group spacing={10}>
+            <ThemeIcon size="1.6rem" color="blue">
+              <RiInformationFill size="1.2rem" />
+            </ThemeIcon>
+            <Text className={styles.labelFont}>Products Status</Text>
+          </Group>
+          {Object.keys(totalProfit).length > 0 ? (
+            <Group spacing={20}>
+              <RingProgress
+                style={{ translate: "-20px" }}
+                onMouseLeave={() => setRingChartSectionHovered(-1)}
+                size={220}
+                thickness={14}
+                label={
+                  <Stack spacing={0}>
+                    <Text size={14} align="center" px="xs" className={styles.labelFont}>
+                      Total products
+                    </Text>
+                    <Text size={18} align="center" mt={5} px="xs" sx={{ pointerEvents: "none" }}>
+                      {totalProfitPercentage}
+                    </Text>
+                  </Stack>
+                }
+                rootColor="grey"
+                sections={ringChartSections}
+              />
+
+              <Text>Hovered section: {ringChartSectionHovered === -1 ? "0" : ringChartSectionHovered}</Text>
             </Group>
-            {Object.keys(totalProfit).length > 0 ? (
-              <Group position="center" mt={10} spacing={20}>
-                <RingProgress
-                  size={250}
-                  thickness={16}
-                  label={
-                    <Stack spacing={0}>
-                      <Text
-                        size={16}
-                        align="center"
-                        px="xs"
-                        sx={{ pointerEvents: "none" }}
-                      >
-                        Total products
-                      </Text>
-                      <Text
-                        size={18}
-                        align="center"
-                        px="xs"
-                        sx={{ pointerEvents: "none" }}
-                      >
-                        {totalProfitPercentage}
-                      </Text>
-                    </Stack>
-                  }
-                  rootColor="grey"
-                  sections={ringChartSections}
-                />
-                <Group spacing={50}>
-                  <Group position="apart" className={styles.redBorder}>
-                    <ThemeIcon
-                      className={styles.redPieChartSerie}
-                      radius={30}
-                      size="1.8rem"
-                    >
-                      <LuPackageMinus color="#ffffff94" size="1.3rem" />
-                    </ThemeIcon>
-                    <Text className={styles.piechartSeriesFont}>
-                      {totalProfit["PENDING"].tquantity}
-                    </Text>
-                  </Group>
-                  <Group position="apart" className={styles.greenBorder}>
-                    <ThemeIcon
-                      className={styles.greenPieChartSerie}
-                      radius={30}
-                      size="1.8rem"
-                    >
-                      <LuPackageCheck color="#ffffff94" size="1.3rem" />
-                    </ThemeIcon>
-                    <Text className={styles.piechartSeriesFont}>
-                      {totalProfit["SUCCESS"].tquantity}
-                    </Text>
-                  </Group>
-                  <Group position="apart" className={styles.purpleBorder}>
-                    <ThemeIcon
-                      className={styles.purplePieChartSerie}
-                      radius={30}
-                      size="1.8rem"
-                    >
-                      <TbPackageExport color="#ffffff94" size="1.3rem" />
-                    </ThemeIcon>
-                    <Text className={styles.piechartSeriesFont}>
-                      {totalProfit["SHIPPING"].tquantity}
-                    </Text>
-                  </Group>
-                </Group>
-              </Group>
-            ) : (
-              <></>
-            )}
-          </Stack>
-        </Group>
-      </Stack>
-    </>
+          ) : (
+            <></>
+          )}
+        </Stack>
+      </Group>
+    </Stack>
   );
 };
 

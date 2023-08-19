@@ -9,123 +9,90 @@ $purple: rgb(156, 54, 181);
     font-weight: 600;
     line-height: 1;
     vertical-align: middle;
-    //display: inline-block;
-
 }
 
 .valueFont {
-    font-size: 38px;
+    font-size: 30px;
+    height: 2rem;
     font-family: 'Varela Round', sans-serif;
     letter-spacing: 1px;
-    margin-bottom: -0.425rem;
-    //display: inline-block;
+}
+
+.smallValueFont {
+    font-size: 12px;
+    font-family: 'Varela Round', sans-serif;
+    font-weight: 400;
+}
+
+.borderRadius
+{
+    padding: 15px 15px 15px 15px;
+    background: #25262b;
+    border-radius: 5px;   
+}
+
+.clockSection{
+    @extend .borderRadius;
+    border-Top-Left-Radius: 0px;
+    border-Bottom-Left-Radius: 0px;
+    padding: 15px 15px;
 }
 
 .balanceSection
 {
-    min-width: 15rem;
-    width: 15rem;
-    height: 100%;            
-    padding: 0.625rem 0.625rem 0 0.625rem;
-    background: #25262b;
-    border-radius: 5px;        
+    @extend .borderRadius;      
 }
 
 .newSection
 {
-    @extend .balanceSection;
-     min-width: 9.225rem;
-     width: 9.225rem;
+    @extend .borderRadius;
 }
 
-.recentOrdersSection
+.transactionsHitorySection
 {
-    @extend .balanceSection;
+    @extend .borderRadius;
+    height: 100%;
+    width: 100%
+}
+
+.bestSoldProductsSection
+{
+    @extend .borderRadius;
     width: 100%;
+    height: 100%;
 }
 
 .ringChartSection
 {
-    @extend .balanceSection;
+    @extend .borderRadius;
+    width: 100%;
+    height: 100%;
+}
+
+.rankColumn
+{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;  
+    height: 0.625rem;
+}
+
+.firstRankColumn
+{
+    @extend .rankColumn;
+    background: #ce9700;
     width: 100%;
 }
 
-.redPieChartSerie
+.secondRankColumn
 {
-    background: $red;
+    @extend .rankColumn;
+    background: #c4c4c4;
+    width: 80%;
 }
 
-.greenPieChartSerie
+.thirdRankColumn
 {
-    background: $green;
-}
-
-.purplePieChartSerie
-{
-    background: $purple;
-}
-
-.greenBorder
-{
-    position: relative;
-}
-
-.redBorder
-{
-    @extend .greenBorder;
-}
-
-.purpleBorder
-{
-    @extend .greenBorder;
-}
-
-.greenBorder::before {
-    content : "";
-    position: absolute;
-    left    : 16px;
-    bottom  : 1;
-    height  : 1.8rem;
-    width   : 100%;  
-    border-top: 2px solid $green;
-    border-right: 2px solid $green;
-    border-bottom: 2px solid $green;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.redBorder::before {
-    content : "";
-    position: absolute;
-    left    : 16px;
-    bottom  : 1;
-    height  : 1.8rem;
-    width   : 100%;  
-    border-top: 2px solid $red;
-    border-right: 2px solid $red;
-    border-bottom: 2px solid $red;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.purpleBorder::before {
-    content : "";
-    position: absolute;
-    left    : 16px;
-    bottom  : 1;
-    height  : 1.8rem;
-    width   : 100%;  
-    border-top: 2px solid $purple;
-    border-right: 2px solid $purple;
-    border-bottom: 2px solid $purple;
-    border-bottom-right-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-.piechartSeriesFont
-{
-    padding-top: 0.225rem;
-    font-size: 16px;
-    font-family: 'Varela Round', sans-serif;
-    font-weight: 350;
+    @extend .rankColumn;
+    background: #75490f;
+    width: 60%;
 }

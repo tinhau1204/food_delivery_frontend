@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Group } from "@mantine/core";
+import { Paper, Group, Grid } from "@mantine/core";
 import { useEffect, useState, useMemo } from "react";
 import AlertPopup from "../shards/AlertPopup";
 import Highchart from "./Highchart";
@@ -33,11 +33,13 @@ export default function MyStorePage() {
       />
     </div>
   ) : (
-    <Paper>
-      <Group w="81.063rem" h="45.438rem">
+    <Grid gutter={0}>
+      <Grid.Col span={8}>
         <Highchart />
+      </Grid.Col>
+      <Grid.Col span={4}>
         <StatisticSection />
-      </Group>
-    </Paper>
+      </Grid.Col>
+    </Grid>
   );
 }
